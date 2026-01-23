@@ -37,11 +37,7 @@ $card-spacer-x:                 1.5rem;
 
 // Borders
 $border-color:                  rgba(255, 255, 255, 0.1);
-$border-radius:                 0.5rem;
-$border-radius-sm:              0.375rem;
-$border-radius-lg:              1rem;
-$border-radius-xl:              1.5rem;
-$border-radius-pill:            50rem;
+// Use Bootstrap default border-radius values for buttons
 
 // Buttons - use Bootstrap defaults for radius
 $btn-font-weight:               600;
@@ -129,7 +125,7 @@ $font-size-base:                1rem;
 $font-weight-base:              400;
 $font-weight-bold:              700;
 
-$headings-font-weight:          700;
+// Use Bootstrap default headings-font-weight (500)
 $headings-color:                #F8FAFC;
 
 $lead-font-size:                1.25rem;
