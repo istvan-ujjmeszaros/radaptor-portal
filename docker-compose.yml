@@ -1,0 +1,11 @@
+services:
+  portal:
+    build: .
+    ports:
+      - "8020:80"
+    volumes:
+      - .:/var/www/html
+      - ./data:/var/www/html/data
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data

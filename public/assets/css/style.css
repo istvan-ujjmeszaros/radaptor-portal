@@ -1,0 +1,405 @@
+/**
+ * Radaptor Portal - Custom Styles
+ * Neon / Glass morphism theme with purple/pink/blue palette
+ */
+
+/* ==========================================================================
+   CSS Custom Properties
+   ========================================================================== */
+
+:root {
+    /* Primary colors */
+    --color-primary: #8B5CF6;
+    --color-primary-light: #A78BFA;
+    --color-primary-dark: #7C3AED;
+
+    /* Secondary colors */
+    --color-secondary: #EC4899;
+    --color-secondary-light: #F472B6;
+    --color-secondary-dark: #DB2777;
+
+    /* Accent colors */
+    --color-accent: #3B82F6;
+    --color-accent-light: #60A5FA;
+    --color-accent-dark: #2563EB;
+
+    /* Background colors */
+    --bg-dark: #0F0F1A;
+    --bg-darker: #08080F;
+    --bg-card: rgba(15, 15, 30, 0.7);
+    --bg-glass: rgba(139, 92, 246, 0.05);
+
+    /* Text colors */
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    /* Effects */
+    --glow-primary: 0 0 20px rgba(139, 92, 246, 0.5);
+    --glow-secondary: 0 0 20px rgba(236, 72, 153, 0.5);
+    --glow-accent: 0 0 20px rgba(59, 130, 246, 0.5);
+
+    /* Glass effect */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: 10px;
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+body {
+    background: var(--bg-dark);
+    background-image:
+        radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Noise overlay */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+.navbar {
+    background: rgba(15, 15, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem 0;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+    box-shadow: var(--glow-primary);
+}
+
+.brand-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-primary);
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+
+.hero {
+    padding: 2rem 0;
+}
+
+.hero-badge {
+    display: inline-block;
+}
+
+.badge-glow {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    color: var(--color-primary-light);
+    backdrop-filter: blur(var(--glass-blur));
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   Glass Cards
+   ========================================================================== */
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+}
+
+/* ==========================================================================
+   Feature Cards
+   ========================================================================== */
+
+.feature-card {
+    height: 100%;
+    text-align: center;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: var(--glow-primary);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary-light));
+    transform: translateY(-2px);
+}
+
+.btn-glow {
+    box-shadow: var(--glow-primary);
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+}
+
+.btn-outline-light {
+    border-color: var(--glass-border);
+    color: var(--text-primary);
+}
+
+.btn-outline-light:hover {
+    background: var(--glass-bg);
+    border-color: var(--color-primary);
+    color: var(--text-primary);
+}
+
+.btn-outline-primary {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* ==========================================================================
+   Dashboard Styles
+   ========================================================================== */
+
+.dashboard h1 {
+    background: linear-gradient(135deg, var(--text-primary), var(--color-primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.badge-tier {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent)) !important;
+}
+
+/* License key box */
+.license-key-box {
+    position: relative;
+    background: var(--bg-darker);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 1rem;
+    padding-right: 60px;
+}
+
+.license-key-box code {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-primary-light);
+    word-break: break-all;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.copy-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Quick links */
+.quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--bg-darker);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.quick-link:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary-light);
+    transform: translateY(-2px);
+}
+
+.quick-link i {
+    font-size: 1.5rem;
+}
+
+/* ==========================================================================
+   Error Page
+   ========================================================================== */
+
+.error-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    box-shadow: var(--glow-secondary);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+footer {
+    border-top: 1px solid var(--glass-border);
+    background: rgba(15, 15, 26, 0.5);
+}
+
+/* ==========================================================================
+   Alerts
+   ========================================================================== */
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: var(--color-accent-light);
+}
+
+.alert-info code {
+    color: var(--color-primary-light);
+}
+
+.alert-info pre {
+    background: var(--bg-darker);
+    padding: 0.75rem;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.bg-primary {
+    background: var(--color-primary) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-light);
+}

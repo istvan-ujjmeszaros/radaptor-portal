@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($title ?? 'Radaptor') ?></title>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Noise overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <div class="brand-icon">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <span class="brand-text">Radaptor</span>
+            </a>
+
+            <?php if (isset($user)): ?>
+            <div class="d-flex align-items-center gap-3">
+                <?php if ($user['avatar_url']): ?>
+                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="Avatar" class="avatar-sm rounded-circle">
+                <?php endif; ?>
+                <span class="text-light"><?= htmlspecialchars($user['name'] ?? $user['email']) ?></span>
+                <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+            </div>
+            <?php endif; ?>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+        <?= $content ?>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 mt-auto">
+        <div class="container text-center">
+            <p class="text-muted mb-0">&copy; <?= date('Y') ?> Radaptor. Built with <i class="bi bi-heart-fill text-danger"></i> for developers.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
