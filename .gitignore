@@ -5,6 +5,9 @@
 data/*.db
 data/*.sqlite
 
+# Vendor dependencies (downloaded during Docker build)
+vendor/
+
 # IDE
 .idea/
 .vscode/
