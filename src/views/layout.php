@@ -22,15 +22,22 @@
                 <img src="/assets/images/radaptor-logo.svg" alt="Radaptor" class="brand-logo" height="32">
             </a>
 
-            <?php if (isset($user)): ?>
             <div class="d-flex align-items-center gap-3">
-                <?php if ($user['avatar_url']): ?>
-                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="Avatar" class="avatar-sm rounded-circle">
+                <?php if (isset($user)): ?>
+                    <?php if ($user['avatar_url']): ?>
+                    <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="Avatar" class="avatar-sm rounded-circle">
+                    <?php endif; ?>
+                    <span class="text-light"><?= htmlspecialchars($user['name'] ?? $user['email']) ?></span>
+                    <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+                <?php else: ?>
+                    <a href="https://github.com/radaptor" class="btn btn-outline-light btn-sm" target="_blank">
+                        <i class="bi bi-book me-2"></i>Documentation
+                    </a>
+                    <a href="/auth/github" class="btn btn-primary btn-sm btn-glow">
+                        <i class="bi bi-github me-2"></i>Login
+                    </a>
                 <?php endif; ?>
-                <span class="text-light"><?= htmlspecialchars($user['name'] ?? $user['email']) ?></span>
-                <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
             </div>
-            <?php endif; ?>
         </div>
     </nav>
 

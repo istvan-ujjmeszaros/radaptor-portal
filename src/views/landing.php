@@ -27,17 +27,6 @@ ob_start();
                     flexibility, performance, and elegant architecture.
                 </p>
 
-                <!-- CTA buttons -->
-                <div class="d-flex gap-3 justify-content-center flex-wrap mb-5">
-                    <a href="/auth/github" class="btn btn-primary btn-lg btn-glow">
-                        <i class="bi bi-github me-2"></i>
-                        Login with GitHub
-                    </a>
-                    <a href="https://github.com/radaptor" class="btn btn-outline-light btn-lg" target="_blank">
-                        <i class="bi bi-book me-2"></i>
-                        Documentation
-                    </a>
-                </div>
 
                 <!-- Feature cards -->
                 <div class="row g-4 mt-5">
