@@ -30,10 +30,10 @@
                     <span class="text-light"><?= htmlspecialchars($user['name'] ?? $user['email']) ?></span>
                     <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
                 <?php else: ?>
-                    <a href="https://github.com/radaptor" class="btn btn-outline-light btn-sm" target="_blank">
+                    <a href="https://github.com/radaptor" class="btn btn-outline-light" target="_blank">
                         <i class="bi bi-book me-2"></i>Documentation
                     </a>
-                    <a href="/auth/github" class="btn btn-primary btn-sm btn-glow">
+                    <a href="/auth/github" class="btn btn-primary btn-glow">
                         <i class="bi bi-github me-2"></i>Login
                     </a>
                 <?php endif; ?>
