@@ -27,6 +27,13 @@ ob_start();
                     flexibility, performance, and elegant architecture.
                 </p>
 
+                <!-- CTA button -->
+                <div class="mb-5">
+                    <a href="https://github.com/radaptor" class="btn btn-outline-light btn-lg" target="_blank">
+                        <i class="bi bi-book me-2"></i>
+                        Documentation
+                    </a>
+                </div>
 
                 <!-- Feature cards -->
                 <div class="row g-4 mt-5">
