@@ -76,6 +76,11 @@ body {
     background: rgba(15, 15, 26, 0.8);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--glass-border);
+    --bs-navbar-padding-x: 1rem;
+
+    .container {
+        max-width: 100%;
+    }
 }
 
 .navbar-brand {
