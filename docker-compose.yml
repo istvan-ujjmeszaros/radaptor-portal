@@ -10,6 +10,7 @@ services:
       - ./data:/var/www/html/data
       - ./public/index.php:/var/www/html/public/index.php
       - ./public/.htaccess:/var/www/html/public/.htaccess
+      - ./public/assets/images:/var/www/html/public/assets/images
     environment:
       - APACHE_RUN_USER=www-data
       - APACHE_RUN_GROUP=www-data

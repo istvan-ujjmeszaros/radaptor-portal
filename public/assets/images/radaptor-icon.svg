@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 174 186">
+  <g fill="#fff" stroke="#002137" stroke-linejoin="round" stroke-width="2">
+    <polygon points="41 183 41 137 1 113 1 159 41 183"/>
+    <polygon points="91 95 91 49 51 25 51 71 91 95"/>
+    <polygon points="81 113 41 89 1 113 41 137 81 113"/>
+    <polygon points="91 153 91 107 131 83 131 129 91 153"/>
+    <polygon points="131 25 91 1 51 25 91 49 131 25"/>
+    <polygon points="91 95 91 49 131 25 131 71 91 95"/>
+    <polygon points="91 153 131 129 171 153 131 177 91 153"/>
+    <polygon points="41 183 81 159 81 113 41 137 41 183"/>
+    <polygon points="171 153 171 107 131 83 131 129 171 153"/>
+    <polygon points="41 31 1 55 1 101 41 125 81 101 81 55 41 31"/>
+  </g>
+</svg>

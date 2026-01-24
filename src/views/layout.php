@@ -18,11 +18,8 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-                <div class="brand-icon">
-                    <i class="bi bi-lightning-charge-fill"></i>
-                </div>
-                <span class="brand-text">Radaptor</span>
+            <a class="navbar-brand" href="/">
+                <img src="/assets/images/radaptor-logo.svg" alt="Radaptor" class="brand-logo" height="32">
             </a>
 
             <?php if (isset($user)): ?>
