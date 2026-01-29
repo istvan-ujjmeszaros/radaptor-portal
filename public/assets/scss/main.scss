@@ -2,7 +2,7 @@
  * Radaptor Portal - Main SCSS Entry Point
  *
  * This file orchestrates the Bootstrap build with custom variables.
- * The _variables.scss file can be exported/imported via bootstrap-live-customizer.
+ * Shared styles are imported from workspace-level shared-scss directory.
  */
 
 // ==========================================================================
@@ -12,10 +12,10 @@
 @import "../../../vendor/bootstrap/scss/functions";
 
 // ==========================================================================
-// 2. Our Variable Overrides (BEFORE Bootstrap variables)
+// 2. Shared Variable Overrides (from workspace shared-scss)
 // ==========================================================================
 
-@import "variables";
+@import "../../../../../shared-scss/variables";
 
 // ==========================================================================
 // 3. Import Bootstrap Core
@@ -56,7 +56,25 @@
 @import "../../../vendor/bootstrap/scss/utilities/api";
 
 // ==========================================================================
-// 5. Custom CSS (effects that can't be achieved with variables alone)
+// 5. Shared Effects and Component Overrides
 // ==========================================================================
 
-@import "custom";
+@import "../../../../../shared-scss/effects";
+@import "../../../../../shared-scss/components/bs5/index";
+@import "../../../../../shared-scss/components/portal/index";
+
+// ==========================================================================
+// 6. Portal-specific overrides (local customizations)
+// ==========================================================================
+
+// Portal body flex layout for sticky footer
+body {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+// Keep text-muted override local
+.text-muted {
+    color: #64748B !important;
+}
