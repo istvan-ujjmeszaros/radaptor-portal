@@ -1,70 +1,31 @@
 /**
- * Radaptor Portal - Main SCSS Entry Point
+ * Radaptor Portal Theme-Specific Styles
  *
- * This file orchestrates the Bootstrap build with custom variables.
- * Shared styles are imported from workspace-level shared-scss directory.
+ * This file is loaded AFTER radaptor-base.css which provides:
+ * - Bootstrap components and utilities
+ * - Shared variables and design tokens
+ * - BS5 component overrides
+ * - Shared effects (animations, transitions)
+ *
+ * Only portal-specific styles belong here.
  */
 
 // ==========================================================================
-// 1. Import Bootstrap Functions (needed for variable manipulation)
+// Import Variables for Consistency
 // ==========================================================================
+// We need the variables for Sass functions/mixins, but NO Bootstrap imports
+// (Bootstrap is already compiled in radaptor-base.css)
 
-@import "../../../vendor/bootstrap/scss/functions";
-
-// ==========================================================================
-// 2. Shared Variable Overrides (from workspace shared-scss)
-// ==========================================================================
-
-@import "../../../../../shared-scss/variables";
+@import "../../../../shared-scss/variables";
 
 // ==========================================================================
-// 3. Import Bootstrap Core
+// Portal-Specific Components
 // ==========================================================================
 
-// Variables and configuration
-@import "../../../vendor/bootstrap/scss/variables";
-@import "../../../vendor/bootstrap/scss/variables-dark";
-@import "../../../vendor/bootstrap/scss/maps";
-@import "../../../vendor/bootstrap/scss/mixins";
-@import "../../../vendor/bootstrap/scss/root";
+@import "components/index";
 
 // ==========================================================================
-// 4. Import Bootstrap Components (selective for smaller bundle)
-// ==========================================================================
-
-// Layout
-@import "../../../vendor/bootstrap/scss/utilities";
-@import "../../../vendor/bootstrap/scss/reboot";
-@import "../../../vendor/bootstrap/scss/type";
-@import "../../../vendor/bootstrap/scss/containers";
-@import "../../../vendor/bootstrap/scss/grid";
-
-// Components
-@import "../../../vendor/bootstrap/scss/buttons";
-@import "../../../vendor/bootstrap/scss/forms";
-@import "../../../vendor/bootstrap/scss/card";
-@import "../../../vendor/bootstrap/scss/badge";
-@import "../../../vendor/bootstrap/scss/alert";
-@import "../../../vendor/bootstrap/scss/navbar";
-@import "../../../vendor/bootstrap/scss/nav";
-@import "../../../vendor/bootstrap/scss/dropdown";
-@import "../../../vendor/bootstrap/scss/modal";
-@import "../../../vendor/bootstrap/scss/close";
-@import "../../../vendor/bootstrap/scss/transitions";
-
-// Utilities API (must be last Bootstrap import)
-@import "../../../vendor/bootstrap/scss/utilities/api";
-
-// ==========================================================================
-// 5. Shared Effects and Component Overrides
-// ==========================================================================
-
-@import "../../../../../shared-scss/effects";
-@import "../../../../../shared-scss/components/bs5/index";
-@import "../../../../../shared-scss/components/portal/index";
-
-// ==========================================================================
-// 6. Portal-specific overrides (local customizations)
+// Portal-Specific Overrides
 // ==========================================================================
 
 // Portal body flex layout for sticky footer

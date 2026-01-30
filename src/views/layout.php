@@ -8,8 +8,9 @@
     <!-- Bootstrap Icons (CDN - lightweight, icon font only) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    <!-- Compiled Bootstrap + Theme (from SCSS) -->
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <!-- Compiled CSS (two-layer architecture) -->
+    <link href="/assets/css/radaptor-base.css" rel="stylesheet">
+    <link href="/assets/css/radaptor-portal.css" rel="stylesheet">
 </head>
 <body>
     <!-- Noise overlay -->
