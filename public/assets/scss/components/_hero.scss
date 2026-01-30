@@ -1,0 +1,41 @@
+/**
+ * Portal Hero Section
+ */
+
+.hero {
+    padding: 2rem 0;
+}
+
+.hero-badge {
+    display: inline-block;
+}
+
+.badge-glow {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    color: lighten($primary, 15%);
+    backdrop-filter: blur(var(--glass-blur));
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+
+    @media (max-width: 768px) {
+        font-size: 2.5rem;
+    }
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: #94A3B8;
+    max-width: 600px;
+    margin: 0 auto;
+}
