@@ -29,10 +29,16 @@ ob_start();
 
                 <!-- CTA button -->
                 <div class="mb-5">
-                    <a href="https://github.com/radaptor" class="btn btn-outline-light btn-lg" target="_blank">
-                        <i class="bi bi-book me-2"></i>
-                        Documentation
-                    </a>
+                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                        <a href="https://github.com/radaptor" class="btn btn-outline-light btn-lg" target="_blank">
+                            <i class="bi bi-book me-2"></i>
+                            Documentation
+                        </a>
+                        <a href="/comparison" class="btn btn-primary btn-glow btn-lg">
+                            <i class="bi bi-diagram-3 me-2"></i>
+                            Technical Comparison
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Feature cards -->

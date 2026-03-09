@@ -24,6 +24,7 @@ $path = rtrim($path, '/') ?: '/';
 try {
     match ($path) {
         '/' => handleLanding(),
+        '/comparison' => handleComparison(),
         '/auth/github' => handleGitHubAuth(),
         '/auth/callback' => handleGitHubCallback(),
         '/dashboard' => handleDashboard(),
@@ -46,6 +47,14 @@ function handleLanding(): void
     }
 
     include __DIR__ . '/../src/views/landing.php';
+}
+
+/**
+ * Public technical comparison page
+ */
+function handleComparison(): void
+{
+    include __DIR__ . '/../src/views/comparison.php';
 }
 
 /**

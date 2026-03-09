@@ -24,6 +24,9 @@
             </a>
 
             <div class="d-flex align-items-center gap-3">
+                <a href="/comparison" class="btn btn-outline-light btn-sm">
+                    Technical Comparison
+                </a>
                 <?php if (isset($user)): ?>
                     <?php if ($user['avatar_url']): ?>
                     <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="Avatar" class="avatar-sm rounded-circle">
