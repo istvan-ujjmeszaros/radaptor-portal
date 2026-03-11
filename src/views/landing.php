@@ -1,5 +1,5 @@
 <?php
-$title = 'Radaptor - Modern PHP Framework';
+$title = 'Radaptor - Widget-Driven PHP Platform';
 ob_start();
 ?>
 
@@ -11,20 +11,21 @@ ob_start();
                 <div class="hero-badge mb-4">
                     <span class="badge-glow">
                         <i class="bi bi-stars me-2"></i>
-                        Event-Driven PHP Framework
+                        Widget-Driven UI Composition Platform
                     </span>
                 </div>
 
                 <!-- Hero title -->
                 <h1 class="hero-title mb-4">
-                    Build <span class="gradient-text">Powerful</span> Applications<br>
+                    Build <span class="gradient-text">Widget-Driven</span> Applications<br>
                     with <span class="gradient-text">Radaptor</span>
                 </h1>
 
                 <!-- Hero description -->
                 <p class="hero-description mb-5">
-                    A modern, event-based PHP framework designed for developers who demand
-                    flexibility, performance, and elegant architecture.
+                    Radaptor combines explicit request handling with a renderer-agnostic composition model.
+                    Widgets own their render contract, while the CMS aggregates the tree, resolves routes,
+                    and renders HTML today.
                 </p>
 
                 <!-- CTA button -->
@@ -48,8 +49,8 @@ ob_start();
                             <div class="feature-icon mb-3">
                                 <i class="bi bi-lightning-charge"></i>
                             </div>
-                            <h3 class="h5 mb-2">Event-Driven</h3>
-                            <p class="text-muted mb-0">Every request maps to an event. Clean, predictable, testable.</p>
+                            <h3 class="h5 mb-2">Explicit Request Flow</h3>
+                            <p class="text-muted mb-0">Every request maps to one event handler. Authorization and execution stay visible.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -57,8 +58,8 @@ ob_start();
                             <div class="feature-icon mb-3">
                                 <i class="bi bi-puzzle"></i>
                             </div>
-                            <h3 class="h5 mb-2">Modular</h3>
-                            <p class="text-muted mb-0">Organize by domain. Events, entities, forms, widgets per module.</p>
+                            <h3 class="h5 mb-2">Widget-Owned Contract</h3>
+                            <p class="text-muted mb-0">Widgets return explicit tree nodes. The CMS composes pages without owning widget internals.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -66,8 +67,8 @@ ob_start();
                             <div class="feature-icon mb-3">
                                 <i class="bi bi-shield-check"></i>
                             </div>
-                            <h3 class="h5 mb-2">Type-Safe</h3>
-                            <p class="text-muted mb-0">PHPStan level 9. Full IDE support. Catch bugs before runtime.</p>
+                            <h3 class="h5 mb-2">Type-Safe Tooling</h3>
+                            <p class="text-muted mb-0">PHPStan level 9, full IDE support, and a composition model that stays understandable at scale.</p>
                         </div>
                     </div>
                 </div>

@@ -20,8 +20,8 @@ ob_start();
                 </h1>
 
                 <p class="hero-description mb-5">
-                    Radaptor treats the use case as a first-class object. One request resolves to one handler,
-                    authorization is explicit, and the execution path stays visible.
+                    Radaptor treats both the use case and the UI contract as first-class objects.
+                    One request resolves to one handler, and widgets return explicit tree nodes the CMS can compose and route.
                 </p>
 
                 <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
@@ -178,12 +178,13 @@ ob_start();
                 <div class="glass-card p-4 h-100">
                     <h2 class="h4 mb-3">Built for server-driven UI</h2>
                     <p class="text-muted mb-3">
-                        Radaptor's CMS is not just a page editor. It assembles pages as explicit tree data,
-                        then renders that tree to HTML today.
+                        Radaptor's CMS is not just a page editor. Each widget owns a simple render contract
+                        of <code>template</code>, <code>props</code>, <code>strings</code>, and <code>slots</code>,
+                        and the CMS assembles those widget trees into pages.
                     </p>
                     <p class="mb-0">
-                        That gives Radaptor a credible SDUI foundation: the composition model is already there,
-                        so additional renderers can be added without redesigning how content and layout are authored.
+                        HTML is the current renderer, but the composition model is already decoupled from that output.
+                        Additional renderers can be added without redesigning how content and layout are authored.
                     </p>
                 </div>
             </div>
