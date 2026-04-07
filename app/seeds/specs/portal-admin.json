@@ -1,0 +1,26 @@
+{
+  "webpages": [
+    {
+      "path": "/admin/",
+      "layout": "admin_default",
+      "attributes": {
+        "title": "Portal admin",
+        "description": "Portal administration dashboard."
+      },
+      "acl": {
+        "inherit": true,
+        "usergroups": []
+      },
+      "slots": {
+        "content": [
+          {
+            "widget": "PlainHtml",
+            "settings": {
+              "content": "<h2>Welcome to Radaptor Portal</h2><p>This demo ships with a polished public landing surface, a technical comparison page, and a placeholder request-access flow.</p><p>Use the side menu to manage users, roles, resources, and portal content.</p>"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

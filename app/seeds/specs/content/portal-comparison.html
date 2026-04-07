@@ -1,0 +1,141 @@
+<section class="hero py-5">
+	<div class="container py-4">
+		<div class="row justify-content-center">
+			<div class="col-lg-10 text-center">
+				<div class="hero-badge mb-4">
+					<span class="badge-glow">
+						<i class="bi bi-diagram-3 me-2"></i>
+						Technical Positioning
+					</span>
+				</div>
+				<h1 class="hero-title mb-4">Why <span class="gradient-text">Radaptor</span> feels different from typical MVC flow</h1>
+				<p class="hero-description mb-5">
+					Radaptor treats both the use case and the UI contract as first-class objects.
+					One request resolves to one handler, and widgets return explicit tree nodes the CMS can compose today.
+				</p>
+				<div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+					<a href="https://github.com/radaptor" class="btn btn-outline-light btn-lg" target="_blank" rel="noopener noreferrer">
+						<i class="bi bi-book me-2"></i>
+						Read the README
+					</a>
+					<a href="/request-access/" class="btn btn-primary btn-glow btn-lg">
+						<i class="bi bi-arrow-right-circle me-2"></i>
+						Request access
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="py-5">
+	<div class="container">
+		<div class="glass-card p-4 p-lg-5">
+			<div class="row mb-4">
+				<div class="col-lg-8">
+					<h2 class="mb-3">Comparison at a glance</h2>
+					<p class="text-muted mb-0">
+						The claim is not that Laravel or Symfony cannot be structured cleanly. The claim is that
+						Radaptor makes explicit request handling and composable UI trees the default path.
+					</p>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-dark table-bordered align-middle mb-0">
+					<thead>
+						<tr>
+							<th scope="col">Concern</th>
+							<th scope="col">Typical MVC Framework Flow</th>
+							<th scope="col">Radaptor Flow</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Request entry point</th>
+							<td>Route resolves to a controller method or callable.</td>
+							<td>URL resolves directly to one concrete Event handler.</td>
+						</tr>
+						<tr>
+							<th scope="row">Authorization</th>
+							<td>Often distributed across middleware, policies, voters, or helper methods.</td>
+							<td>Part of the Event contract, next to the use case itself.</td>
+						</tr>
+						<tr>
+							<th scope="row">Use-case boundary</th>
+							<td>Can drift into larger multi-action controllers.</td>
+							<td>Defaults toward one handler per actionable request.</td>
+						</tr>
+						<tr>
+							<th scope="row">Debugging path</th>
+							<td>Trace routing, middleware, auth layers, and controller conventions.</td>
+							<td>Open the handler and start there.</td>
+						</tr>
+						<tr>
+							<th scope="row">Architectural drift</th>
+							<td>Easy to accumulate non-local checks and fat entry points.</td>
+							<td>Local request handlers keep behavior easier to inspect.</td>
+						</tr>
+						<tr>
+							<th scope="row">CMS and UI composition</th>
+							<td>CMS is usually a separate product or an add-on layer on top of the framework.</td>
+							<td>CMS composition is part of the framework model and already builds a component tree.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="py-5">
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-lg-6">
+				<div class="glass-card p-4 h-100">
+					<h2 class="h4 mb-3">Built for server-driven UI</h2>
+					<p class="text-muted mb-3">
+						Radaptor's CMS is not just a page editor. Each widget owns a simple render contract of
+						<code>template</code>, <code>props</code>, <code>strings</code>, and <code>slots</code>.
+					</p>
+					<p class="mb-0">
+						HTML is the current renderer, but the composition model is already decoupled from that output.
+						Additional renderers can be added without redesigning how content and layout are authored.
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="glass-card p-4 h-100">
+					<h2 class="h4 mb-3">A fair comparison</h2>
+					<p class="text-muted mb-3">
+						Laravel and Symfony can both be structured around single-action handlers. Symfony in particular is flexible enough to support a very explicit architecture.
+					</p>
+					<p class="mb-0">
+						Radaptor's claim is narrower: it starts from that model, so you do not need to impose it against the framework's default gravity.
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="glass-card p-4 h-100">
+					<h2 class="h4 mb-3">Why the term “Event”?</h2>
+					<p class="text-muted mb-3">
+						In Radaptor, an Event is not a pub/sub event or a DDD domain event.
+					</p>
+					<p class="mb-0">
+						It is the concrete request handler for one use case. If you prefer ADR-style language, think of it as an action object with an explicit authorization contract.
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="glass-card p-4 h-100">
+					<h2 class="h4 mb-3">Practical outcome</h2>
+					<p class="text-muted mb-3">
+						Less hidden framework gravity. Less policy scavenger hunt. More direct correspondence between the request and the code that owns it.
+					</p>
+					<p class="mb-0">
+						The result is a framework that can expose product pages, internal tools, admin screens, and future renderer targets without splitting the mental model in half.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
