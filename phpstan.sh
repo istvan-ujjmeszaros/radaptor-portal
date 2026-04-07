@@ -1,7 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Default paths to analyze
-paths=(app radaptor config generated public)
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$PROJECT_ROOT"
+
+level=""
+config=""
+
+# Optional explicit paths to analyze. When none are provided, PHPStan uses
+# the paths declared in phpstan.neon.
+paths=()
 
 # Function to display help message
 show_help() {
@@ -14,7 +23,7 @@ Options:
   -h, --help              Display this help message.
 
 Paths:
-  Additional paths to analyze. If not provided, defaults to ${paths[*]}.
+  Additional paths to analyze. If not provided, uses paths from phpstan.neon.
 EOF
 }
 
@@ -44,18 +53,25 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Build the PHPStan command with options and paths
-command="tools/phpstan analyse"
+command=(vendor/bin/phpstan analyse)
 
 if [[ -n "$level" ]]; then
-    command+=" -l $level"  # Add the level option
+    command+=(-l "$level")
 fi
 
 if [[ -n "$config" ]]; then
-    command+=" -c $config"  # Add the configuration file option
+    command+=(-c "$config")
 fi
 
-command+=" ${paths[*]}"  # Add all the paths to analyze
+if [[ ${#paths[@]} -gt 0 ]]; then
+    command+=("${paths[@]}")
+fi
+
+exec_args=(exec)
+if [[ ! -t 0 || ! -t 1 ]]; then
+    exec_args+=(-T)
+fi
 
 # Execute the PHPStan command
-echo "Running PHPStan with command: $command"
-$command
+echo "Running PHPStan with command: ${command[*]}"
+exec docker compose -f docker-compose-dev.yml "${exec_args[@]}" php "${command[@]}"

@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
         git \
         mc \
         htop \
+        libfcgi-bin \
         libzip-dev \
         libicu-dev \
         libssl-dev \
@@ -103,6 +104,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
+RUN printf "ping.path = /ping\npm.status_path = /status\n" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
 # Copy Docker-specific configurations
 COPY ./99-radaptor-prod.ini "$PHP_INI_DIR/conf.d/99-radaptor-prod.ini"
 
@@ -112,4 +115,4 @@ RUN chmod +x /usr/local/bin/radaptor
 
 # Healthcheck (optional)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost/ || exit 1
+  CMD SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000 | grep -q "pong" || exit 1
