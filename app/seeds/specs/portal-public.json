@@ -1,0 +1,73 @@
+{
+  "webpages": [
+    {
+      "path": "/",
+      "layout": "portal_marketing",
+      "attributes": {
+        "title": "Widget-driven PHP platform for explicit applications",
+        "description": "Radaptor Portal demo homepage.",
+        "keywords": "Radaptor, widget-driven PHP, CMS, SDUI, portal demo"
+      },
+      "acl": {
+        "inherit": true,
+        "usergroups": []
+      },
+      "slots": {
+        "content": [
+          {
+            "widget": "PortalHero"
+          },
+          {
+            "widget": "PortalValueProps"
+          },
+          {
+            "widget": "PortalRequestAccessPlaceholder"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/comparison/",
+      "layout": "portal_marketing",
+      "attributes": {
+        "title": "Technical Comparison",
+        "description": "How Radaptor differs from the usual controller-centered MVC flow.",
+        "keywords": "Radaptor, technical comparison, PHP framework architecture"
+      },
+      "acl": {
+        "inherit": true,
+        "usergroups": []
+      },
+      "slots": {
+        "content": [
+          {
+            "widget": "PlainHtml",
+            "settings": {
+              "content_file": "seeds/specs/content/portal-comparison.html"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "/request-access/",
+      "layout": "portal_marketing",
+      "attributes": {
+        "title": "Request Access",
+        "description": "Placeholder early-access flow for the Radaptor Portal demo.",
+        "keywords": "Radaptor, request access, early access"
+      },
+      "acl": {
+        "inherit": true,
+        "usergroups": []
+      },
+      "slots": {
+        "content": [
+          {
+            "widget": "PortalRequestAccessPlaceholder"
+          }
+        ]
+      }
+    }
+  ]
+}

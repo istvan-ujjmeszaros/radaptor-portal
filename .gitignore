@@ -1,24 +1,98 @@
-# Environment file with secrets
+# Ignore log files
+.logs/errors.txt
+*.log
+
+# Ignore NetBeans project files
+nbproject/*
+
+# Ignore patch files
+*.patch
+
+# Ignore consoleWriter JSON files
+*.consoleWriter/*.json
+
+# Ignore Git-related directories
+.git
+.settings
+.idea
+
+# Ignore source map files
+*.map
+
+# Ignore Node.js modules
+node_modules
+*node_modules*
+
+# Ignore GitHub Pages branch
+*_gh_pages*
+
+# Ignore Bower components
+bower_components
+
+# Ignore temporary files
+~*
+.~*
+
+# Ignore backup files
+*.*\#
+
+# Ignore profiler files
+.profiler
+
+tools/vendor
+tools/bin
+
+.php-cs-fixer.cache
+
+tools/*
+coverage
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache
+
+# Playwright artifacts
+.playwright-cli/
+playwright-report/
+test-results/
+blob-report/
+
+vendor/*
+/public/www/_da/
+
+tmp
+.sessions/
+.radaptor-lock-*
+.radaptor-plugin-manifest-*
 .env
+.env.*
+!.env.example
+config/packages/*.local.php
+config/packages/*.php.example
+public/www/assets/packages/
+packages/dev/core/*
+!packages/dev/core/.gitkeep
+packages/dev/themes/*
+!packages/dev/themes/.gitkeep
+packages/registry/core/*
+!packages/registry/core/.gitkeep
+packages/registry/themes/*
+!packages/registry/themes/.gitkeep
+plugins/dev/*
+!plugins/dev/.gitkeep
+plugins/registry/*
+!plugins/registry/.gitkeep
 
-# SQLite database
-data/*.db
-data/*.sqlite
+# Database data (production)
+.data/
 
-# Vendor dependencies (downloaded during Docker build)
-vendor/
+# Template engine caches
+storage/framework/views/*
+storage/framework/twig/*
+storage/cli-home/*
+!storage/framework/views/.gitkeep
+!storage/framework/twig/.gitkeep
+!storage/cli-home/.gitkeep
 
-# IDE
-.idea/
-.vscode/
-*.swp
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Zone.Identifier files (WSL)
-*:Zone.Identifier
-
-# CSS source maps (generated during SCSS compilation)
-*.css.map
+# Claude Code
+.claude/

@@ -1,0 +1,103 @@
+services:
+  mariadb:
+    image: mariadb:11.8
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=radaptor_portal
+      - TZ=UTC
+    ports:
+      - "${APP_DB_PORT:-3320}:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ./docker/mariadb/initdb.d:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "--protocol=tcp", "-h", "127.0.0.1", "-P", "3306", "-pradaptor_portal"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  web:
+    build:
+      context: ./docker/h2o
+      dockerfile: Dockerfile
+    image: radaptor-portal-h2o:local
+    environment:
+      - ALLOW_OVERRIDE=true
+      - PUBLIC_FOLDER=/app/public/www
+    ports:
+      - "${APP_HTTP_PORT:-8020}:80"
+      - "${APP_HTTPS_PORT:-8460}:443"
+    volumes:
+      - ./:/app
+      - ./docker/h2o-no-redis.conf:/config/h2o.conf:ro
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker
+      dockerfile: php8.4/Dockerfile-runtime
+      target: dev
+      args:
+        RADAPTOR_PHP_PLATFORM_DEV_IMAGE: ${RADAPTOR_PHP_PLATFORM_DEV_IMAGE:-radaptor-portal-php-platform:8.4-dev-local}
+    image: radaptor-portal-phpfpm:8.4-dev
+    working_dir: /app
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - XDEBUG_FILE_LINK_FORMAT=javascript:var r = new XMLHttpRequest; r.open("get","http://localhost:63342/api/file/%f:%l".replace("/app/", "/"));r.send()
+      - ENVIRONMENT=development
+      - TZ=UTC
+      - RADAPTOR_REGISTRY_URL=${RADAPTOR_REGISTRY_URL:-}
+      - RADAPTOR_PACKAGE_REGISTRY_ROOT=${RADAPTOR_PACKAGE_REGISTRY_ROOT:-/workspace/radaptor_plugin_registry}
+      - DB_DEFAULT_DSN=${DB_DEFAULT_DSN:-mysql:host=mariadb;port=3306;user=root;password=radaptor_portal;dbname=radaptor_portal}
+      - SESSION_REDIS_HOST=${SESSION_REDIS_HOST:-redis-session}
+      - SESSION_REDIS_PORT=${SESSION_REDIS_PORT:-6379}
+      - SESSION_REDIS_TIMEOUT=${SESSION_REDIS_TIMEOUT:-2}
+      - SESSION_REDIS_TTL=${SESSION_REDIS_TTL:-3600}
+      - SESSION_REDIS_PREFIX=${SESSION_REDIS_PREFIX:-radaptor-portal:session:}
+      - CACHE_REDIS_HOST=${CACHE_REDIS_HOST:-redis-cache}
+      - CACHE_REDIS_PORT=${CACHE_REDIS_PORT:-6379}
+      - CACHE_REDIS_TIMEOUT=${CACHE_REDIS_TIMEOUT:-2}
+      - APP_PERSISTENT_CACHE_ENABLED=${APP_PERSISTENT_CACHE_ENABLED:-false}
+      - APP_BOOTSTRAP_ADMIN_USERNAME=${APP_BOOTSTRAP_ADMIN_USERNAME:-admin}
+      - APP_BOOTSTRAP_ADMIN_PASSWORD=${APP_BOOTSTRAP_ADMIN_PASSWORD:-admin123456}
+      - APP_BOOTSTRAP_ADMIN_LOCALE=${APP_BOOTSTRAP_ADMIN_LOCALE:-en_US}
+      - APP_BOOTSTRAP_ADMIN_TIMEZONE=${APP_BOOTSTRAP_ADMIN_TIMEZONE:-UTC}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${APP_SWOOLE_PORT:-9520}:9501"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - ../:/workspace
+      - ./docker/99-radaptor-dev.ini:/usr/local/etc/php/conf.d/99-radaptor-dev.ini:ro
+
+  redis-cache:
+    image: redis:7-alpine
+    command: redis-server --save "" --loglevel warning
+
+  redis-session:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --loglevel warning
+    volumes:
+      - redis-session-data:/data
+
+  redis-test:
+    image: redis:7-alpine
+    command: redis-server --save "" --loglevel warning
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${APP_MAILPIT_HTTP_PORT:-8036}:8025"
+      - "${APP_MAILPIT_SMTP_PORT:-1036}:1025"
+
+volumes:
+  mariadb-data:
+  redis-session-data:
