@@ -9,7 +9,7 @@ class SeedSkeletonBootstrap extends AbstractSeed
 
 	public function getVersion(): string
 	{
-		return '2.0.0';
+		return '2.2.0';
 	}
 
 	public function getDescription(): string
@@ -147,8 +147,11 @@ class SeedSkeletonBootstrap extends AbstractSeed
 					[
 						'widget' => WidgetList::PLAINHTML,
 						'settings' => [
-							'content' => '<h2>Welcome to Radaptor Portal</h2><p>This admin shell was bootstrapped from the mandatory skeleton seed.</p><p>Use the side menu to manage users, roles, resources, and content.</p>',
+							'content' => $this->getAdminWelcomeHtml(),
 						],
+					],
+					[
+						'widget' => WidgetList::EMAILQUEUESTATS,
 					],
 				],
 			],
@@ -202,6 +205,7 @@ class SeedSkeletonBootstrap extends AbstractSeed
 			WidgetList::ROLELIST,
 			WidgetList::RESOURCETREE,
 			WidgetList::ADMINMENU,
+			WidgetList::EMAILOUTBOX,
 			WidgetList::IMPORTEXPORT,
 			WidgetList::I18NWORKBENCH,
 			WidgetList::WIDGETPREVIEW,
@@ -227,6 +231,19 @@ class SeedSkeletonBootstrap extends AbstractSeed
 		}
 
 		return $default;
+	}
+
+	private function getAdminWelcomeHtml(): string
+	{
+		return <<<HTML
+			<div class="card card-hover email-admin-welcome">
+				<div class="card-body">
+					<h2 class="h3 mb-3">Welcome to Radaptor Portal</h2>
+					<p class="mb-2">This admin shell was bootstrapped from the mandatory skeleton seed.</p>
+					<p class="mb-0">Use the side menu to manage users, roles, resources, and content.</p>
+				</div>
+			</div>
+			HTML;
 	}
 
 	/**

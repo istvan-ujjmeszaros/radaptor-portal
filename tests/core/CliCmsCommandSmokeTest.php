@@ -8,6 +8,8 @@ final class CliCmsCommandSmokeTest extends TestCase
 {
 	public function testTreeCheckCommandReturnsHealthyTrees(): void
 	{
+		$this->bootstrapPortalCmsState();
+
 		$result = CLICommandWebRunner::execute(
 			'tree:check',
 			'',
@@ -24,6 +26,8 @@ final class CliCmsCommandSmokeTest extends TestCase
 
 	public function testWidgetListCommandShowsOnlyLoginFormOnLoginPage(): void
 	{
+		$this->bootstrapPortalCmsState();
+
 		$result = CLICommandWebRunner::execute(
 			'widget:list',
 			'/login.html',
@@ -41,6 +45,8 @@ final class CliCmsCommandSmokeTest extends TestCase
 
 	public function testWebpageExportSpecCommandReturnsComparisonSpec(): void
 	{
+		$this->bootstrapPortalCmsState();
+
 		$result = CLICommandWebRunner::execute(
 			'webpage:export-spec',
 			'/login.html',
@@ -57,6 +63,8 @@ final class CliCmsCommandSmokeTest extends TestCase
 
 	public function testResourceAclListCommandShowsAdminBoundary(): void
 	{
+		$this->bootstrapPortalCmsState();
+
 		$result = CLICommandWebRunner::execute(
 			'resource:acl-list',
 			'/admin/',
@@ -70,5 +78,21 @@ final class CliCmsCommandSmokeTest extends TestCase
 		$this->assertFalse($result['json_data']['inherit'] ?? true);
 		$this->assertTrue(($result['json_data']['local'][0]['allow_view'] ?? 0) === 1);
 		$this->assertTrue(($result['json_data']['local'][0]['allow_edit'] ?? 0) === 1);
+	}
+
+	private function bootstrapPortalCmsState(): void
+	{
+		RequestContextHolder::initializeRequest(server: [
+			'REQUEST_URI' => '/admin/index.html',
+			'HTTP_HOST' => 'localhost',
+			'SERVER_PORT' => '80',
+			'SERVER_PROTOCOL' => 'HTTP/1.1',
+			'HTTP_ACCEPT' => 'text/html',
+		]);
+		RequestContextHolder::disablePersistentCacheWrite();
+
+		$context = new SeedContext('app', 'mandatory', DEPLOY_ROOT . 'app', false);
+		(new SeedSkeletonBootstrap())->run($context);
+		(new SeedPortalAdminSurface())->run($context);
 	}
 }

@@ -16,8 +16,11 @@
           {
             "widget": "PlainHtml",
             "settings": {
-              "content": "<h2>Welcome to Radaptor Portal</h2><p>This demo ships with a polished public landing surface, a technical comparison page, and a placeholder request-access flow.</p><p>Use the side menu to manage users, roles, resources, and portal content.</p>"
+              "content": "<div class=\"card card-hover email-admin-welcome\"><div class=\"card-body\"><h2 class=\"h3 mb-3\">Welcome to Radaptor Portal</h2><p class=\"mb-2\">This demo ships with a polished public landing surface, a technical comparison page, and a placeholder request-access flow.</p><p class=\"mb-0\">Use the side menu to manage users, roles, resources, and portal content.</p></div></div>"
             }
+          },
+          {
+            "widget": "EmailQueueStats"
           }
         ]
       }

@@ -103,6 +103,20 @@ final class SkeletonBootstrapSeedTest extends TransactionedTestCase
 			$this->assertSame(1, (int) ($admin_acl['allow_list'] ?? 0));
 			$this->assertSame(1, (int) ($admin_acl['allow_create'] ?? 0));
 			$this->assertSame(1, (int) ($admin_acl['allow_edit'] ?? 0));
+
+			$admin_index_page = ResourceTreeHandler::getResourceTreeEntryData('/admin/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+			$this->assertIsArray($admin_index_page);
+			$this->assertSame(
+				['PlainHtml', 'EmailQueueStats'],
+				array_map(
+					static fn (WidgetConnection $connection): string => $connection->getWidgetName(),
+					WidgetConnection::getWidgetsForSlot((int) $admin_index_page['node_id'], ResourceTypeWebpage::DEFAULT_SLOT_NAME)
+				)
+			);
+			$admin_index_connection_id = Widget::getWidgetConnectionId((int) $admin_index_page['node_id'], 'content', WidgetList::PLAINHTML);
+			$this->assertIsInt($admin_index_connection_id);
+			$admin_index_settings = PlainHtml::getSettings($admin_index_connection_id);
+			$this->assertStringContainsString('Welcome to Radaptor Portal', (string) ($admin_index_settings['content'] ?? ''));
 		} finally {
 			TestHelperEnvironment::revertEnvironmentVariable('APP_BOOTSTRAP_ADMIN_TIMEZONE');
 			TestHelperEnvironment::revertEnvironmentVariable('APP_BOOTSTRAP_ADMIN_LOCALE');
