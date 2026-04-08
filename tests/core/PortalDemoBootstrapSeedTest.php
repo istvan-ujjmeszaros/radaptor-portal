@@ -85,6 +85,20 @@ final class PortalDemoBootstrapSeedTest extends TransactionedTestCase
 		$this->assertSame(1, (int) ($admin_acl['allow_create'] ?? 0));
 		$this->assertSame(1, (int) ($admin_acl['allow_edit'] ?? 0));
 
+		$admin_index_page = ResourceTreeHandler::getResourceTreeEntryData('/admin/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+		$this->assertIsArray($admin_index_page);
+		$this->assertSame(
+			['PlainHtml', 'EmailQueueStats'],
+			array_map(
+				static fn (WidgetConnection $connection): string => $connection->getWidgetName(),
+				WidgetConnection::getWidgetsForSlot((int) $admin_index_page['node_id'], ResourceTypeWebpage::DEFAULT_SLOT_NAME)
+			)
+		);
+
+		$email_outbox_page = ResourceTreeHandler::getResourceTreeEntryData('/admin/email-outbox/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+		$this->assertIsArray($email_outbox_page);
+		$this->assertIsInt(Widget::getWidgetConnectionId((int) $email_outbox_page['node_id'], 'content', 'EmailOutbox'));
+
 		$report = NestedSet::analyzeConsistency('resource_tree');
 		$this->assertTrue($report['ok'], json_encode($report['issues']));
 	}

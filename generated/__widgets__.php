@@ -4,6 +4,8 @@ class WidgetList
 {
 	public const string ADMINMENU = 'AdminMenu';
 	public const string CLIRUNNER = 'CLIRunner';
+	public const string EMAILOUTBOX = 'EmailOutbox';
+	public const string EMAILQUEUESTATS = 'EmailQueueStats';
 	public const string FILEUPLOAD = 'FileUpload';
 	public const string FORM = 'Form';
 	public const string GROUPBEGINNING = 'GroupBeginning';
@@ -32,6 +34,8 @@ class WidgetList
 	protected static array $_widgetNames = [
 		'AdminMenu',
 		'CLIRunner',
+		'EmailOutbox',
+		'EmailQueueStats',
 		'FileUpload',
 		'Form',
 		'GroupBeginning',
