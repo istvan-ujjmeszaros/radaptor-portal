@@ -28,4 +28,32 @@ test("bootstrap admin can log in and open the admin dashboard", async ({ page })
 	await page.goto("/");
 	await expect(page).toHaveURL(/\/$/);
 	await expect(page.getByText("Build widget-driven applications")).toBeVisible();
+	await expect(page.locator("body")).not.toContainText("Unknown library:");
+
+	await page.goto("/request-access/");
+	await expect(page).toHaveURL(/\/request-access\/$/);
+	await expect(page.getByText("Request early access")).toBeVisible();
+	await expect(page.locator("body")).not.toContainText("Unknown library:");
+
+	await enablePublicEditMode(page, "/");
+	await expect(page.locator(".admin-dropdown-container")).toHaveCount(1);
+	await page.locator(".admin-dropdown-container button").click();
+	await expect(page.locator(".admin-dropdown-container .dropdown-menu.show")).toHaveCount(1);
+	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("SEO");
+	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("Edit mode");
+	await expect(page.locator("body")).not.toContainText("Unknown library:");
+
+	await enablePublicEditMode(page, "/request-access/");
+	await expect(page.locator(".admin-dropdown-container")).toHaveCount(1);
+	await page.locator(".admin-dropdown-container button").click();
+	await expect(page.locator(".admin-dropdown-container .dropdown-menu.show")).toHaveCount(1);
+	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("SEO");
+	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("Edit mode");
+	await expect(page.locator("body")).not.toContainText("Unknown library:");
 });
+
+async function enablePublicEditMode(page, refererPath) {
+	const refererUrl = new URL(refererPath, process.env.E2E_BASE_URL || "http://localhost:8020").toString();
+	await page.goto(`/?context=page_editmode&event=switch&set=1&referer=${encodeURIComponent(refererUrl)}`);
+	await page.waitForLoadState("networkidle");
+}

@@ -2,7 +2,6 @@
 <?php
 $comparison_url = (string) ($this->props['comparisonUrl'] ?? '/comparison/');
 $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-access/');
-$login_url = (string) ($this->props['loginUrl'] ?? '/login.html');
 ?>
 <section class="hero min-vh-100 d-flex align-items-center">
 	<div class="container">
@@ -11,7 +10,7 @@ $login_url = (string) ($this->props['loginUrl'] ?? '/login.html');
 				<div class="hero-badge mb-4">
 					<span class="badge-glow">
 						<i class="bi bi-stars me-2"></i>
-						Widget-driven UI composition platform
+						Widget-driven platform with SDUI-ready composition
 					</span>
 				</div>
 
@@ -23,7 +22,7 @@ $login_url = (string) ($this->props['loginUrl'] ?? '/login.html');
 				<p class="hero-description mb-5">
 					Radaptor combines explicit request handling with a renderer-agnostic composition model.
 					Widgets own their render contract, while the CMS aggregates the component tree, resolves routes,
-					and renders HTML today.
+					and renders HTML today with the same foundation already lined up for SDUI output.
 				</p>
 
 				<div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mb-4">
@@ -38,8 +37,7 @@ $login_url = (string) ($this->props['loginUrl'] ?? '/login.html');
 				</div>
 
 				<p class="text-muted mb-0">
-					Already exploring internally?
-					<a href="<?= e($login_url) ?>">Sign in to the admin shell</a>.
+					Request access when you want to validate the platform with your own workflow and content model.
 				</p>
 			</div>
 		</div>

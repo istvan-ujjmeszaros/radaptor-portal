@@ -6,12 +6,12 @@ class WidgetPortalRequestAccessPlaceholder extends AbstractWidget
 
 	public static function getName(): string
 	{
-		return 'Portal request access placeholder';
+		return 'Portal early access request';
 	}
 
 	public static function getDescription(): string
 	{
-		return 'Placeholder access request form for the portal demo.';
+		return 'Public early access request form with email confirmation.';
 	}
 
 	public static function getListVisibility(): bool
@@ -22,7 +22,8 @@ class WidgetPortalRequestAccessPlaceholder extends AbstractWidget
 	protected function buildAuthorizedTree(iTreeBuildContext $tree_build_context, WidgetConnection $connection, array $build_context = []): array
 	{
 		return $this->createComponentTree('portalRequestAccessPlaceholder', [
-			'loginUrl' => '/login.html',
+			'submitUrl' => Url::getUrl('portalAccessRequest.submit'),
+			'requestState' => PortalAccessRequestService::consumeUiState(),
 		]);
 	}
 

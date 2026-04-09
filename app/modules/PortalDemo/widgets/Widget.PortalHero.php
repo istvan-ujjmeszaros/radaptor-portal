@@ -33,7 +33,6 @@ class WidgetPortalHero extends AbstractWidget
 		return $this->createComponentTree('portalHero', [
 			'comparisonUrl' => '/comparison/',
 			'requestAccessUrl' => '/request-access/',
-			'loginUrl' => '/login.html',
 		]);
 	}
 

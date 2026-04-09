@@ -5,15 +5,15 @@
 This repo is the lean Portal Demo slice:
 - public landing page at `/`
 - technical comparison page at `/comparison/`
-- placeholder request-access page at `/request-access/`
+- working request-access page with email confirmation at `/request-access/`
 - working admin login at `/login.html`
 - working admin shell at `/admin/index.html`
 
 What is intentionally **not** in this slice:
 - no real public signup
 - no magic-link flow
-- no working newsletter submission
-- no email sending behind the placeholder forms
+- no account provisioning behind the request-access confirmation flow
+- no standalone newsletter subscriber/admin surface
 
 ## Quick start
 
@@ -237,4 +237,5 @@ container:
 - Package assets are generated under `public/www/assets/packages/` and are git-ignored.
 - `framework`, `cms`, and `portal-admin` are expected to come from the registry, not from sibling working copies.
 - The public portal theme is app-owned in this repo under `app/themes/RadaptorPortal/`.
-- The request-access UI is a placeholder surface only in v1. Backend email delivery is a separate follow-up task.
+- The request-access flow stores one request per normalized email and requires confirmation through the emailed link.
+- The updates/newsletter checkbox is stored as consent on that same request record; there is no separate subscriber admin flow yet.
