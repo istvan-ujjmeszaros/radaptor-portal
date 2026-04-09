@@ -4,7 +4,10 @@ class SeedPortalAdminSurface extends AbstractSeed
 {
 	public function getVersion(): string
 	{
-		return '1.2.0';
+		$spec_path = DEPLOY_ROOT . 'app/seeds/specs/portal-admin.json';
+		$spec_contents = (string) file_get_contents($spec_path);
+
+		return '1.3.0+' . substr(hash('sha256', $spec_contents), 0, 12);
 	}
 
 	/**

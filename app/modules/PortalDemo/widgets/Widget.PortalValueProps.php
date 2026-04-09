@@ -35,8 +35,8 @@ class WidgetPortalValueProps extends AbstractWidget
 				],
 				[
 					'icon' => 'bi-diagram-3',
-					'title' => 'Server-driven UI ready',
-					'description' => 'HTML is the current renderer, but the composition model already works like a renderer-agnostic UI tree.',
+					'title' => 'SDUI built in',
+					'description' => 'HTML is the current renderer, but the same widget tree is already shaped for server-driven UI output as well.',
 				],
 				[
 					'icon' => 'bi-shield-check',

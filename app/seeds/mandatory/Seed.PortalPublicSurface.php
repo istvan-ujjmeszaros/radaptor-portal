@@ -4,7 +4,33 @@ class SeedPortalPublicSurface extends AbstractSeed
 {
 	public function getVersion(): string
 	{
-		return '1.0.0';
+		$hash_inputs = [];
+		$spec_path = DEPLOY_ROOT . 'app/seeds/specs/portal-public.json';
+		$hash_inputs[] = (string) file_get_contents($spec_path);
+
+		$spec = json_decode((string) $hash_inputs[0], true);
+
+		if (is_array($spec)) {
+			foreach ((array) ($spec['webpages'] ?? []) as $webpage_spec) {
+				foreach ((array) ($webpage_spec['slots'] ?? []) as $widget_specs) {
+					foreach ((array) $widget_specs as $widget_spec) {
+						$content_file = (string) ($widget_spec['settings']['content_file'] ?? '');
+
+						if ($content_file === '') {
+							continue;
+						}
+
+						$file_path = DEPLOY_ROOT . 'app/' . ltrim($content_file, '/');
+
+						if (is_file($file_path)) {
+							$hash_inputs[] = (string) file_get_contents($file_path);
+						}
+					}
+				}
+			}
+		}
+
+		return '1.1.0+' . substr(hash('sha256', implode("\n--spec-boundary--\n", $hash_inputs)), 0, 12);
 	}
 
 	/**

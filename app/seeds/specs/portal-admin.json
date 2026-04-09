@@ -16,7 +16,7 @@
           {
             "widget": "PlainHtml",
             "settings": {
-              "content": "<div class=\"card card-hover email-admin-welcome\"><div class=\"card-body\"><h2 class=\"h3 mb-3\">Welcome to Radaptor Portal</h2><p class=\"mb-2\">This demo ships with a polished public landing surface, a technical comparison page, and a placeholder request-access flow.</p><p class=\"mb-0\">Use the side menu to manage users, roles, resources, and portal content.</p></div></div>"
+              "content": "<div class=\"card card-hover email-admin-welcome\"><div class=\"card-body\"><h2 class=\"h3 mb-3\">Welcome to Radaptor Portal</h2><p class=\"mb-2\">This demo ships with a polished public landing surface, a technical comparison page, and a live request-access flow with email confirmation.</p><p class=\"mb-0\">Use the side menu to manage users, roles, resources, content, and outbound email state.</p></div></div>"
             }
           },
           {

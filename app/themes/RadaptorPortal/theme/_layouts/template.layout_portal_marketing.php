@@ -1,9 +1,13 @@
 <?php assert(isset($this) && $this instanceof Template); ?>
 <?php if (class_exists('LibrariesRadaptorPortal')): ?>
-	<?php $this->registerLibrary('__RADAPTOR_PORTAL_SITE'); ?>
+	<?php $this->registerLibrary(LibrariesRadaptorPortal::__RADAPTOR_PORTAL_SITE); ?>
 <?php endif; ?>
 <?php if ($this->isEditable() && class_exists('LibrariesRadaptorPortalAdmin')): ?>
-	<?php $this->registerLibrary('__RADAPTOR_PORTAL_ADMIN_SITE'); ?>
+	<?php $this->registerLibrary(LibrariesRadaptorPortalAdmin::__RADAPTOR_PORTAL_ADMIN_BASE); ?>
+	<?php $this->registerJs('https://unpkg.com/htmx.org@2.0.4'); ?>
+	<?php $this->registerModule('/assets/packages/radaptor-portal-admin/js/stimulus-loader.js'); ?>
+	<?php $this->registerJs('/assets/packages/radaptor-portal-admin/js/system-messages.js'); ?>
+	<?php $this->registerJs('/assets/packages/radaptor-portal-admin/js/htmx-config.js'); ?>
 <?php endif; ?>
 <?php
 $lang = (string)($this->props['lang'] ?? substr(Kernel::getLocale(), 0, 2));
@@ -50,9 +54,6 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 			<a href="/request-access/" class="btn <?= $is_request_access ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
 				Request Access
 			</a>
-			<a href="/login.html" class="btn btn-outline-light btn-sm">
-				Admin Login
-			</a>
 		</div>
 	</div>
 </nav>
@@ -72,6 +73,9 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 
 <?= $this->fetchSlot('page_chrome'); ?>
 <?= $this->getRenderer()->getJs(); ?>
+<?php if ($this->isEditable()): ?>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<?php endif; ?>
 <?= $this->getRenderer()->fetchClosingHtml(); ?>
 </body>
 </html>
