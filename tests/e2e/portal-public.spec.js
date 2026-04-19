@@ -5,6 +5,7 @@ test("public portal routes render the lean demo surface", async ({ page }) => {
 	await expect(page.getByText("Build widget-driven applications")).toBeVisible();
 	await expect(page.getByRole("heading", { name: "SDUI built in" })).toBeVisible();
 	await expect(page.locator('a[href="/comparison/"]').filter({ hasText: "Technical Comparison" }).first()).toBeVisible();
+	await expect(page.locator('a[href="/roadmap/"]').filter({ hasText: "Roadmap" }).first()).toBeVisible();
 	await expect(page.getByText("Admin Login")).toHaveCount(0);
 	await expect(page.getByText("Your portal skeleton is installed and ready.")).toHaveCount(0);
 	await expectNoLibraryErrors(page);
@@ -19,6 +20,12 @@ test("public portal routes render the lean demo surface", async ({ page }) => {
 	await expect(page.getByLabel("Email address")).toBeVisible();
 	await expect(page.getByText("Admin Login")).toHaveCount(0);
 	await expect(page.getByRole("button", { name: "Request access" })).toBeEnabled();
+	await expectNoLibraryErrors(page);
+
+	await page.goto("/roadmap/");
+	await expect(page.getByRole("heading", { name: "What already works, what is shipping now, and what comes next" })).toBeVisible();
+	await expect(page.getByText("Registry-first package flow is stable")).toBeVisible();
+	await expect(page.getByText("Drag and drop page editor")).toBeVisible();
 	await expectNoLibraryErrors(page);
 });
 

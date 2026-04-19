@@ -1,0 +1,111 @@
+<!--
+	Source of truth for the public Portal roadmap demo page.
+	Keep this file as the canonical roadmap content until a dedicated admin-editable roadmap feature exists.
+-->
+<section class="roadmap-page py-5">
+	<div class="container">
+		<div class="row justify-content-center mb-5">
+			<div class="col-xl-9 text-center">
+				<div class="hero-badge mb-4">
+					<span class="badge-glow">
+						<i class="bi bi-signpost-split me-2"></i>
+						Radaptor Roadmap
+					</span>
+				</div>
+				<h1 class="hero-title mb-4">What already works, what is shipping now, and what comes next</h1>
+				<p class="hero-description mb-0">
+					This page is intentionally concrete. It shows the current demo surface, the work happening right now,
+					and the next visible capabilities we want to put on top of the platform.
+				</p>
+			</div>
+		</div>
+
+		<div class="roadmap-timeline mx-auto">
+			<article class="roadmap-item roadmap-item--done">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Done</span>
+					</div>
+					<h2 class="h3 mb-3">Registry-first package flow is stable</h2>
+					<p class="text-muted mb-0">
+						The Portal and the main app now run on the cleaned-up dev versus registry split. The destructive
+						package update bug is fixed, the nested package repositories are restored, and the install/update
+						flow no longer destroys working checkouts.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--done">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Done</span>
+					</div>
+					<h2 class="h3 mb-3">Portal public surface is live</h2>
+					<p class="text-muted mb-0">
+						The homepage, comparison page, access-request flow, login, and admin entry points already show the
+						kind of product shell Radaptor can expose from one application model.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--publishing-now">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Publishing now</span>
+					</div>
+					<h2 class="h3 mb-3">Tech demo hardening and Portal showcase pass</h2>
+					<p class="text-muted mb-0">
+						We are tightening the repo baseline, moving the active apps to PHP 8.5, and keeping the current
+						demo surface stable enough to publish as a first public technical showcase.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--publishing-now">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Publishing now</span>
+					</div>
+					<h2 class="h3 mb-3">Image pipeline cleanup</h2>
+					<p class="text-muted mb-0">
+						The immediate goal is a behavior-preserving cleanup of the existing resize, crop, thumbnail, and
+						mask flow. This is about making the current image handling easier to trust, not replacing it with
+						a brand-new platform before the demo.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--planned">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Planned</span>
+					</div>
+					<h2 class="h3 mb-3">Drag and drop page editor</h2>
+					<p class="text-muted mb-0">
+						A visual editor with widget palette, canvas, and property editing is the next major usability step.
+						It is deliberately out of the first demo scope so the public release stays focused.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--planned">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Planned</span>
+					</div>
+					<h2 class="h3 mb-3">Deeper publish-readiness pass</h2>
+					<p class="text-muted mb-0">
+						After the tech demo is out, the next iteration covers the formal release work: security pass,
+						license audit, versioning discipline, and the more polished operational packaging story.
+					</p>
+				</div>
+			</article>
+		</div>
+	</div>
+</section>

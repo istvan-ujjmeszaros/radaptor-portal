@@ -1,6 +1,7 @@
 <?php assert(isset($this) && $this instanceof Template); ?>
 <?php
 $comparison_url = (string) ($this->props['comparisonUrl'] ?? '/comparison/');
+$roadmap_url = (string) ($this->props['roadmapUrl'] ?? '/roadmap/');
 $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-access/');
 ?>
 <section class="hero min-vh-100 d-flex align-items-center">
@@ -29,6 +30,10 @@ $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-ac
 					<a href="<?= e($comparison_url) ?>" class="btn btn-primary btn-glow btn-lg">
 						<i class="bi bi-diagram-3 me-2"></i>
 						Technical Comparison
+					</a>
+					<a href="<?= e($roadmap_url) ?>" class="btn btn-outline-light btn-lg">
+						<i class="bi bi-signpost-split me-2"></i>
+						Roadmap
 					</a>
 					<a href="<?= e($request_access_url) ?>" class="btn btn-outline-light btn-lg">
 						<i class="bi bi-arrow-right-circle me-2"></i>

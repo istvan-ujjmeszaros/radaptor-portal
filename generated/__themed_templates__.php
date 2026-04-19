@@ -36,6 +36,7 @@ class ThemedTemplateList
 		'editBar.common.RadaptorPortalAdmin' => 'packages/dev/themes/portal-admin/theme/Cms/template.editBar.common.php',
 		'editBar.common.SoAdmin' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.editBar.common.php',
 		'editor.placeholder.SoAdmin' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.editor.placeholder.php',
+		'fileUpload.RadaptorPortalAdmin' => 'packages/dev/themes/portal-admin/theme/Cms/template.fileUpload.php',
 		'fileUpload.SoAdmin' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.fileUpload.php',
 		'form.closer.RadaptorPortalAdmin' => 'packages/dev/themes/portal-admin/theme/Form/template.form.closer.php',
 		'form.closer.SoAdmin' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Form/template.form.closer.php',

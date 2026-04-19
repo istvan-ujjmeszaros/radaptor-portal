@@ -15,7 +15,7 @@ class TemplateList{
 	public const string EDITOR_PLACEHOLDER = 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.editor.placeholder.php';
 	public const string EMAILOUTBOX = 'packages/dev/core/cms/modules-common/Email/templates/template.emailOutbox.php';
 	public const string EMAILQUEUESTATS = 'packages/dev/core/cms/modules-common/Email/templates/template.emailQueueStats.php';
-	public const string FILEUPLOAD = 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.fileUpload.php';
+	public const string FILEUPLOAD = 'packages/dev/themes/portal-admin/theme/Cms/template.fileUpload.php';
 	public const string FORM_CLOSER = 'packages/dev/themes/portal-admin/theme/Form/template.form.closer.php';
 	public const string I18NWORKBENCH = 'packages/dev/core/cms/modules-common/I18n/templates/template.i18nWorkbench.php';
 	public const string IMPORTEXPORT = 'packages/dev/core/cms/modules-common/ImportExport/templates/template.importExport.php';
@@ -121,7 +121,7 @@ class TemplateList{
 		'PlainHtml' => 'packages/dev/core/cms/templates-common/default-SoAdmin/PlainHtml/template.PlainHtml.php',
 		'_admin_dropdown' => 'packages/dev/themes/portal-admin/theme/Cms/template._admin_dropdown.php',
 		'_missing' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template._missing.php',
-		'fileUpload' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.fileUpload.php',
+		'fileUpload' => 'packages/dev/themes/portal-admin/theme/Cms/template.fileUpload.php',
 		'widgetEditAfter' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.widgetEditAfter.php',
 		'widgetEditBefore' => 'packages/dev/core/cms/templates-common/default-SoAdmin/Cms/template.widgetEditBefore.php',
 		'widgetPreviewList' => 'packages/dev/themes/portal-admin/theme/Cms/template.widgetPreviewList.php',
