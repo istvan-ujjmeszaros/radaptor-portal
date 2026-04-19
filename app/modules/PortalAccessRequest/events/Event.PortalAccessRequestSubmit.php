@@ -34,10 +34,10 @@ class EventPortalAccessRequestSubmit extends AbstractEvent
 			);
 			PortalAccessRequestService::flashUiState(PortalAccessRequestService::UI_STATE_SUBMITTED);
 			Url::redirect(PortalAccessRequestService::buildRequestAccessUrl());
-		} catch (InvalidArgumentException $e) {
+		} catch (InvalidArgumentException) {
 			PortalAccessRequestService::flashUiState(PortalAccessRequestService::UI_STATE_INVALID_EMAIL);
 			Url::redirect(PortalAccessRequestService::buildRequestAccessUrl());
-		} catch (Throwable $e) {
+		} catch (Throwable) {
 			PortalAccessRequestService::flashUiState(PortalAccessRequestService::UI_STATE_ERROR);
 			Url::redirect(PortalAccessRequestService::buildRequestAccessUrl());
 		}

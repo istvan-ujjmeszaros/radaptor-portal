@@ -56,6 +56,16 @@ final class PortalDemoBootstrapSeedTest extends TransactionedTestCase
 			)
 		);
 
+		$roadmap_page = ResourceTreeHandler::getResourceTreeEntryData('/roadmap/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+		$this->assertIsArray($roadmap_page);
+		$this->assertSame(1, (int) ($roadmap_page['is_inheriting_acl'] ?? 0));
+		$this->assertSame('portal_marketing', (string) ResourceTypeWebpage::getExtradata((int) $roadmap_page['node_id'])['layout']);
+		$roadmap_connection_id = Widget::getWidgetConnectionId((int) $roadmap_page['node_id'], 'content', WidgetList::PLAINHTML);
+		$this->assertIsInt($roadmap_connection_id);
+		$roadmap_settings = PlainHtml::getSettings($roadmap_connection_id);
+		$this->assertStringContainsString('Radaptor Roadmap', (string) ($roadmap_settings['content'] ?? ''));
+		$this->assertStringContainsString('Drag and drop page editor', (string) ($roadmap_settings['content'] ?? ''));
+
 		$login_page = ResourceTreeHandler::getResourceTreeEntryData('/', 'login.html', Config::APP_DOMAIN_CONTEXT->value());
 		$this->assertIsArray($login_page);
 		$this->assertSame(
