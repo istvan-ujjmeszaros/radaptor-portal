@@ -8,6 +8,8 @@
   </php>
   <testsuites>
     <testsuite name="Project Test Suite">
+      <file>tests/core/AutoloaderFailsafePluginPriorityTest.php</file>
+      <file>tests/core/BootstrapPackageLocatorTest.php</file>
       <file>tests/core/ConfigTest.php</file>
       <file>tests/core/PackageConfigTest.php</file>
       <file>tests/core/PackageInstallServiceStorageTest.php</file>
