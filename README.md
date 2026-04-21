@@ -15,6 +15,10 @@ What is intentionally **not** in this slice:
 - no account provisioning behind the request-access confirmation flow
 - no standalone newsletter subscriber/admin surface
 
+For internal maintainer workspace topics such as `packages-dev/...`, `radaptor.local.json`, and
+the workspace package-dev Docker override, see the workspace-level
+[README.md](../README.md).
+
 ## Quick start
 
 1. Build the local PHP platform image:
@@ -128,7 +132,9 @@ The first-run DB bootstrap currently relies on the MariaDB init schema shipped i
 When this skeleton is validated in registry-first mode, first-party package changes must be
 released as new immutable versions before the consumer app is updated:
 
-- dev mode (`packages/dev/...`) does not need release/publish
+- committed `radaptor.json` stays registry-first
+- maintainer-local first-party overrides live only in gitignored `radaptor.local.json`
+- local dev mode does not need release/publish
 - registry-first validation does need an immutable package release after first-party package changes
 - the consumer app refresh stays the normal `./radaptor.sh update --json`, but only after the
   registry deploy completed
@@ -147,14 +153,38 @@ After that:
 - only then run `./radaptor.sh update --json` so `radaptor.lock.json` and `packages/registry/...`
   pick up the new version
 
-If you want to work on packages locally, place the checkout inside this app:
+If you want to work on first-party packages locally, use the shared workspace repos:
 
-- `packages/dev/core/framework/`
-- `packages/dev/core/cms/`
-- `packages/dev/themes/<theme-id>/`
-- `plugins/dev/<plugin-id>/`
+- `/apps/_RADAPTOR/packages-dev/core/framework/`
+- `/apps/_RADAPTOR/packages-dev/core/cms/`
+- `/apps/_RADAPTOR/packages-dev/themes/<theme-id>/`
 
-Then point `radaptor.json` to those local `source.path` values for dev mode.
+Standalone `docker-compose-dev.yml` stays registry-first. If you need first-party package dev mode,
+start the Portal through the workspace helper so `/workspace/packages-dev/...` is mounted:
+
+```bash
+cd /apps/_RADAPTOR
+./bin/docker-compose-packages-dev.sh radaptor-portal up -d --build
+```
+
+Keep committed `radaptor.json` registry-first. Put maintainer-local overrides into gitignored
+`radaptor.local.json`, for example with:
+
+```json
+{
+  "core": {
+    "framework": { "source": { "type": "dev", "location": "core/framework" } },
+    "cms": { "source": { "type": "dev", "location": "core/cms" } }
+  },
+  "themes": {
+    "portal-admin": { "source": { "type": "dev", "location": "themes/portal-admin" } }
+  }
+}
+```
+
+While local overrides are active, the app writes `radaptor.local.lock.json` instead of mutating the
+committed lockfile. Use `./radaptor.sh local-lock:refresh --json` to reseed the local lock from the
+committed registry-first lock plus the active local overrides.
 
 ## Docker CLI options
 
@@ -233,7 +263,7 @@ container:
 
 ## Notes
 
-- The committed manifest is registry-first. Local package development via `source.path` is supported, but it is an explicit opt-in dev mode.
+- The committed manifest is registry-first. Maintainer-local first-party package development is enabled through gitignored `radaptor.local.json`, but only when the workspace package-dev compose override is active.
 - Package assets are generated under `public/www/assets/packages/` and are git-ignored.
 - `framework`, `cms`, and `portal-admin` are expected to come from the registry, not from sibling working copies.
 - The public portal theme is app-owned in this repo under `app/themes/RadaptorPortal/`.
