@@ -76,10 +76,6 @@ generated/__themed_templates__.php
 config/packages/*.local.php
 config/packages/*.php.example
 public/www/assets/packages/
-packages/dev/core/*
-!packages/dev/core/.gitkeep
-packages/dev/themes/*
-!packages/dev/themes/.gitkeep
 packages/registry/core/*
 !packages/registry/core/.gitkeep
 packages/registry/themes/*
