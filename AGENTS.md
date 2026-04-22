@@ -32,6 +32,7 @@ Maintainer-local first-party package overrides are gitignored:
 - Maintainer-local dev mode is enabled only through `radaptor.local.json`, not by editing committed `radaptor.json`.
 - `packages/registry/...` and `packages-dev/...` must never be connected with symlinks.
 - `radaptor.local.json` without the package-dev compose override is an invalid runtime state and must fail hard.
+- Host-side workflow is Git-only. Hooks and helper scripts must dispatch every non-Git check into the supported container; never require host PHP, Composer, Python, php-cs-fixer, or Radaptor CLI.
 
 ## Repo Baseline Minimums
 
