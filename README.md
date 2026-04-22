@@ -186,6 +186,26 @@ While local overrides are active, the app writes `radaptor.local.lock.json` inst
 committed lockfile. Use `./radaptor.sh local-lock:refresh --json` to reseed the local lock from the
 committed registry-first lock plus the active local overrides.
 
+The workspace package-dev runtime makes dev mode explicit:
+
+- `RADAPTOR_WORKSPACE_DEV_MODE=1`
+- `RADAPTOR_DEV_ROOT=/workspace/packages-dev`
+- only the literal `RADAPTOR_WORKSPACE_DEV_MODE=1` value enables workspace dev mode
+
+If `radaptor.local.json` exists without that runtime mode, bootstrap and CLI now fail fast instead
+of guessing.
+
+`packages/registry/...` is install-owned runtime state. It is not the source of truth and should
+not be edited for first-party package development.
+
+Useful maintainer package commands:
+
+- `./radaptor.sh package:status --json`
+- `./radaptor.sh package:release <package-key> --json`
+- `./radaptor.sh package:prerelease <package-key> --channel alpha|beta|rc --json`
+- `cd /apps/_RADAPTOR && ./bin/check-workspace-package-state.sh --strict`
+- `cd /apps/_RADAPTOR && ./bin/refresh-workspace-consumer-locks.sh`
+
 ## Docker CLI options
 
 Use one of these supported approaches:

@@ -4,6 +4,7 @@ services:
     restart: unless-stopped
     environment:
       - MARIADB_ROOT_PASSWORD=radaptor_portal
+      - MARIADB_ROOT_HOST=%
       - TZ=UTC
     ports:
       - "${APP_DB_PORT:-3320}:3306"
