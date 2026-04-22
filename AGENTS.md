@@ -33,6 +33,7 @@ Maintainer-local first-party package overrides are gitignored:
 - `packages/registry/...` and `packages-dev/...` must never be connected with symlinks.
 - `radaptor.local.json` without the package-dev compose override is an invalid runtime state and must fail hard.
 - Host-side workflow is Git-only. Hooks and helper scripts must dispatch every non-Git check into the supported container; never require host PHP, Composer, Python, php-cs-fixer, or Radaptor CLI.
+- App-local transient QA outputs belong under `tmp/`. Do not leave `playwright-report/`, `test-results/`, proof clones, restore sandboxes, or scratch verification directories at repo root.
 
 ## Repo Baseline Minimums
 
@@ -64,6 +65,7 @@ Maintainer-local first-party package overrides are gitignored:
 ## Verification
 
 - `bin/check-repo-baseline.sh`
+- `../bin/cleanup-workspace-ephemera.sh --phase registry-first`
 - `docker compose -f docker-compose-dev.yml exec -T -e XDEBUG_MODE=off php phpunit`
 - `docker compose -f docker-compose-dev.yml exec -T -e XDEBUG_MODE=off php phpstan analyze`
 - Browser smoke: `/`, `/comparison/`, `/request-access/`, `/roadmap/`, `/login.html`, `/admin/index.html`
