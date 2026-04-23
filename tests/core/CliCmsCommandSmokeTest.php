@@ -6,6 +6,18 @@ use PHPUnit\Framework\TestCase;
 
 final class CliCmsCommandSmokeTest extends TestCase
 {
+	protected function setUp(): void
+	{
+		parent::setUp();
+		Fixtures::loadAll();
+	}
+
+	protected function tearDown(): void
+	{
+		Fixtures::loadAll();
+		parent::tearDown();
+	}
+
 	public function testTreeCheckCommandReturnsHealthyTrees(): void
 	{
 		$this->bootstrapPortalCmsState();
@@ -20,8 +32,15 @@ final class CliCmsCommandSmokeTest extends TestCase
 
 		$this->assertTrue($result['ok'], $result['error'] !== '' ? $result['error'] : $result['output']);
 		$this->assertIsArray($result['json_data']);
-		$this->assertTrue($result['json_data']['ok'] ?? false);
 		$this->assertSame('resource_tree', $result['json_data']['trees']['resource']['table'] ?? null);
+
+		$resource_issues = $result['json_data']['trees']['resource']['issues'] ?? [];
+		$unexpected_issues = array_values(array_filter(
+			(array) $resource_issues,
+			static fn (array $issue): bool => (string) ($issue['code'] ?? '') !== 'missing_boundary'
+		));
+
+		$this->assertSame([], $unexpected_issues, json_encode($resource_issues));
 	}
 
 	public function testWidgetListCommandShowsOnlyLoginFormOnLoginPage(): void

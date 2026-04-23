@@ -8,17 +8,7 @@
   </php>
   <testsuites>
     <testsuite name="Project Test Suite">
-      <file>tests/core/AutoloaderFailsafePluginPriorityTest.php</file>
-      <file>tests/core/BootstrapPackageLocatorTest.php</file>
-      <file>tests/core/ConfigTest.php</file>
-      <file>tests/core/PackageConfigTest.php</file>
-      <file>tests/core/PackageInstallServiceStorageTest.php</file>
-      <file>tests/core/PackageLockfileTest.php</file>
-      <file>tests/core/PackagePublishServiceTest.php</file>
-      <file>tests/core/PluginVersionHelperTest.php</file>
-      <file>tests/core/CliCmsCommandSmokeTest.php</file>
-      <file>tests/core/PortalDemoBootstrapSeedTest.php</file>
-      <file>tests/core/SkeletonBootstrapSeedTest.php</file>
+      <directory suffix="Test.php">tests/core</directory>
     </testsuite>
   </testsuites>
   <source>
