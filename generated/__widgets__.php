@@ -14,6 +14,7 @@ class WidgetList
 	public const string IMPORTEXPORT = 'ImportExport';
 	public const string JSTREE = 'JsTree';
 	public const string MAINMENU = 'MainMenu';
+	public const string MCPTOKENS = 'McpTokens';
 	public const string PLAINHTML = 'PlainHtml';
 	public const string PORTALHERO = 'PortalHero';
 	public const string PORTALREQUESTACCESSPLACEHOLDER = 'PortalRequestAccessPlaceholder';
@@ -44,6 +45,7 @@ class WidgetList
 		'ImportExport',
 		'JsTree',
 		'MainMenu',
+		'McpTokens',
 		'PlainHtml',
 		'PortalHero',
 		'PortalRequestAccessPlaceholder',

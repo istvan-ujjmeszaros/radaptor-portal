@@ -9,7 +9,6 @@ final class PackageInstallServiceStorageTest extends TestCase
 	public function testSanitizeLockfileForStorageRebasesTemplateNeutralRegistryUrls(): void
 	{
 		$method = new ReflectionMethod(PackageInstallService::class, 'sanitizeLockfileForStorage');
-		$method->setAccessible(true);
 
 		$placeholderRegistryUrl = 'https://packages.example.invalid/registry.json';
 		$sanitized = $method->invoke(

@@ -32,7 +32,7 @@ final class SkeletonBootstrapSeedTest extends TransactionedTestCase
 			$this->assertGreaterThan(0, $system_admin_role_id);
 			$this->assertTrue(Roles::checkUserIsAssigned($system_developer_role_id, (int) $user['user_id']));
 			$this->assertTrue(Roles::checkUserIsAssigned($system_admin_role_id, (int) $user['user_id']));
-			$everyone_id = (int) DbHelper::selectOneColumn('usergroups_tree', ['title' => 'Everyone'], '', 'node_id');
+			$everyone_id = Usergroups::SYSTEMUSERGROUP_EVERYBODY;
 			$administrators_id = (int) DbHelper::selectOneColumn('usergroups_tree', ['title' => 'Administrators'], '', 'node_id');
 			$this->assertGreaterThan(0, $everyone_id);
 			$this->assertGreaterThan(0, $administrators_id);
