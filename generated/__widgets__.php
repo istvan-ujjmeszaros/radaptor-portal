@@ -15,6 +15,7 @@ class WidgetList
 	public const string JSTREE = 'JsTree';
 	public const string MAINMENU = 'MainMenu';
 	public const string MCPTOKENS = 'McpTokens';
+	public const string PHPINFOFRAME = 'PhpInfoFrame';
 	public const string PLAINHTML = 'PlainHtml';
 	public const string PORTALHERO = 'PortalHero';
 	public const string PORTALREQUESTACCESSPLACEHOLDER = 'PortalRequestAccessPlaceholder';
@@ -26,6 +27,9 @@ class WidgetList
 	public const string ROLESELECTOR = 'RoleSelector';
 	public const string RUNTIMEDIAGNOSTICS = 'RuntimeDiagnostics';
 	public const string TAGLIST = 'TagList';
+	public const string TEMPLATEENGINEDEMOBLADE = 'TemplateEngineDemoBlade';
+	public const string TEMPLATEENGINEDEMOPHP = 'TemplateEngineDemoPhp';
+	public const string TEMPLATEENGINEDEMOTWIG = 'TemplateEngineDemoTwig';
 	public const string USERDESCRIPTION = 'UserDescription';
 	public const string USERGROUPLIST = 'UsergroupList';
 	public const string USERGROUPSELECTOR = 'UsergroupSelector';
@@ -47,6 +51,7 @@ class WidgetList
 		'JsTree',
 		'MainMenu',
 		'McpTokens',
+		'PhpInfoFrame',
 		'PlainHtml',
 		'PortalHero',
 		'PortalRequestAccessPlaceholder',
@@ -58,6 +63,9 @@ class WidgetList
 		'RoleSelector',
 		'RuntimeDiagnostics',
 		'TagList',
+		'TemplateEngineDemoBlade',
+		'TemplateEngineDemoPhp',
+		'TemplateEngineDemoTwig',
 		'UserDescription',
 		'UsergroupList',
 		'UsergroupSelector',
