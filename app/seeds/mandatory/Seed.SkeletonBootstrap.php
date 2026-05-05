@@ -9,7 +9,7 @@ class SeedSkeletonBootstrap extends AbstractSeed
 
 	public function getVersion(): string
 	{
-		return '2.2.0';
+		return '2.2.1';
 	}
 
 	public function getDescription(): string
@@ -19,15 +19,17 @@ class SeedSkeletonBootstrap extends AbstractSeed
 
 	public function run(SeedContext $context): void
 	{
-		Cache::flush();
-		$this->_cms = new CmsSeedHelper($context);
+		ResourceTreeHandler::withProtectedResourceMutationBypass(function () use ($context): void {
+			Cache::flush();
+			$this->_cms = new CmsSeedHelper($context);
 
-		$this->ensureSecurityBaseline();
-		$this->ensureBootstrapAdmin();
-		$this->ensureHomepage();
-		$this->ensureAdminIndex();
-		$this->ensureLoginPages();
-		$this->ensureAdminPages();
+			$this->ensureSecurityBaseline();
+			$this->ensureBootstrapAdmin();
+			$this->ensureHomepage();
+			$this->ensureAdminIndex();
+			$this->ensureLoginPages();
+			$this->ensureAdminPages();
+		});
 	}
 
 	private function ensureBootstrapAdmin(): void

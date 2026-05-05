@@ -7,7 +7,7 @@ class SeedPortalAdminSurface extends AbstractSeed
 		$spec_path = DEPLOY_ROOT . 'app/seeds/specs/portal-admin.json';
 		$spec_contents = (string) file_get_contents($spec_path);
 
-		return '1.3.0+' . substr(hash('sha256', $spec_contents), 0, 12);
+		return '1.3.1+' . substr(hash('sha256', $spec_contents), 0, 12);
 	}
 
 	/**
@@ -25,11 +25,13 @@ class SeedPortalAdminSurface extends AbstractSeed
 
 	public function run(SeedContext $context): void
 	{
-		$cms = new CmsSeedHelper($context);
-		$spec = $cms->loadJson('seeds/specs/portal-admin.json');
+		ResourceTreeHandler::withProtectedResourceMutationBypass(function () use ($context): void {
+			$cms = new CmsSeedHelper($context);
+			$spec = $cms->loadJson('seeds/specs/portal-admin.json');
 
-		foreach ((array) ($spec['webpages'] ?? []) as $webpage_spec) {
-			$cms->upsertWebpage($webpage_spec);
-		}
+			foreach ((array) ($spec['webpages'] ?? []) as $webpage_spec) {
+				$cms->upsertWebpage($webpage_spec);
+			}
+		});
 	}
 }
