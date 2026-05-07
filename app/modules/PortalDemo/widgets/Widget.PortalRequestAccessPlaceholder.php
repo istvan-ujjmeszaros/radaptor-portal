@@ -6,12 +6,12 @@ class WidgetPortalRequestAccessPlaceholder extends AbstractWidget
 
 	public static function getName(): string
 	{
-		return 'Portal early access request';
+		return t('widget.' . self::ID . '.name');
 	}
 
 	public static function getDescription(): string
 	{
-		return 'Public early access request form with email confirmation.';
+		return t('widget.' . self::ID . '.description');
 	}
 
 	public static function getListVisibility(): bool

@@ -6,12 +6,12 @@ class WidgetPortalValueProps extends AbstractWidget
 
 	public static function getName(): string
 	{
-		return 'Portal value props';
+		return t('widget.' . self::ID . '.name');
 	}
 
 	public static function getDescription(): string
 	{
-		return 'Feature grid that explains the Radaptor positioning.';
+		return t('widget.' . self::ID . '.description');
 	}
 
 	public static function getListVisibility(): bool
@@ -25,33 +25,33 @@ class WidgetPortalValueProps extends AbstractWidget
 			'items' => [
 				[
 					'icon' => 'bi-lightning-charge',
-					'title' => 'Explicit request flow',
-					'description' => 'Every actionable request resolves to one concrete handler, so authorization and execution stay visible.',
+					'title' => t('portal.value_props.item.explicit_request.title'),
+					'description' => t('portal.value_props.item.explicit_request.description'),
 				],
 				[
 					'icon' => 'bi-puzzle',
-					'title' => 'Widget-owned contract',
-					'description' => 'Widgets return explicit tree nodes. The CMS composes pages without taking over the widget internals.',
+					'title' => t('portal.value_props.item.widget_contract.title'),
+					'description' => t('portal.value_props.item.widget_contract.description'),
 				],
 				[
 					'icon' => 'bi-diagram-3',
-					'title' => 'SDUI built in',
-					'description' => 'HTML is the current renderer, but the same widget tree is already shaped for server-driven UI output as well.',
+					'title' => t('portal.value_props.item.sdui.title'),
+					'description' => t('portal.value_props.item.sdui.description'),
 				],
 				[
 					'icon' => 'bi-shield-check',
-					'title' => 'Authorization stays local',
-					'description' => 'Role checks live next to the use case instead of being scattered across middleware and helper layers.',
+					'title' => t('portal.value_props.item.authorization.title'),
+					'description' => t('portal.value_props.item.authorization.description'),
 				],
 				[
 					'icon' => 'bi-eye',
-					'title' => 'Less hidden control flow',
-					'description' => 'You do not have to trace routing conventions, policy helpers, and controller gravity before finding the actual behavior.',
+					'title' => t('portal.value_props.item.control_flow.title'),
+					'description' => t('portal.value_props.item.control_flow.description'),
 				],
 				[
 					'icon' => 'bi-feather',
-					'title' => 'Lean operational surface',
-					'description' => 'The same app can expose product pages, admin screens, browser-event docs, import/export tools, and internal widgets.',
+					'title' => t('portal.value_props.item.operational_surface.title'),
+					'description' => t('portal.value_props.item.operational_surface.description'),
 				],
 			],
 		]);

@@ -27,7 +27,7 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 	<title><?= e($document_title) ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="<?= e((string) ($this->getDescription() ?: 'Radaptor Portal demo')); ?>">
+	<meta name="description" content="<?= e((string) ($this->getDescription() ?: t('portal.meta.description'))); ?>">
 	<link rel="shortcut icon" href="/assets/themes/radaptor-portal/images/radaptor-icon.svg">
 	<link rel="icon" href="/assets/themes/radaptor-portal/images/radaptor-icon.svg" type="image/svg+xml">
 	<?= $this->getRenderer()->getLibraryDebugInfo(); ?>
@@ -46,13 +46,13 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 
 		<div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap justify-content-end">
 			<a href="/" class="btn <?= $is_home ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
-				Home
+				<?= e(t('portal.nav.home')) ?>
 			</a>
 			<a href="/comparison/" class="btn <?= $is_comparison ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
-				Technical Comparison
+				<?= e(t('portal.nav.comparison')) ?>
 			</a>
 			<a href="/request-access/" class="btn <?= $is_request_access ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
-				Request Access
+				<?= e(t('portal.nav.request_access')) ?>
 			</a>
 		</div>
 	</div>
@@ -66,7 +66,7 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 	<div class="container text-center">
 		<p class="text-muted mb-0">
 			&copy; <?= date('Y') ?> <?= e($site_name) ?>.
-			Preview build for product positioning, portal UX, and admin workflow demos.
+			<?= e(t('portal.footer.preview_build')) ?>
 		</p>
 	</div>
 </footer>

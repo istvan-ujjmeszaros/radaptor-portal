@@ -8,12 +8,12 @@ class ThemeDataRadaptorPortal extends AbstractThemeData
 
 	public static function getName(): string
 	{
-		return 'Radaptor Portal';
+		return t('theme.' . self::ID . '.name');
 	}
 
 	public static function getDescription(): string
 	{
-		return 'App-owned public marketing theme for the Radaptor Portal demo.';
+		return t('theme.' . self::ID . '.description');
 	}
 
 	public static function getSlug(): string

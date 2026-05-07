@@ -1,0 +1,63 @@
+domain,key,context,locale,source_text,expected_text,human_reviewed,text
+portal,brand.radaptor,,ja_JP,Radaptor,Radaptor,0,Radaptor
+portal,meta.description,,ja_JP,"Radaptor Portal demo","Radaptor Portalデモ",0,"Radaptor Portalデモ"
+portal,nav.home,,ja_JP,Home,ホーム,0,ホーム
+portal,nav.comparison,,ja_JP,"Technical Comparison",技術比較,0,技術比較
+portal,nav.request_access,,ja_JP,"Request Access",アクセスをリクエスト,0,アクセスをリクエスト
+portal,footer.preview_build,,ja_JP,"Preview build for product positioning, portal UX, and admin workflow demos.",製品ポジショニング、ポータルUX、管理ワークフローのデモ向けプレビュービルド。,0,製品ポジショニング、ポータルUX、管理ワークフローのデモ向けプレビュービルド。
+portal,hero.badge,,ja_JP,"Widget-driven platform with SDUI-ready composition",SDUI対応の構成を備えたウィジェット駆動プラットフォーム,0,SDUI対応の構成を備えたウィジェット駆動プラットフォーム
+portal,hero.title.build,,ja_JP,Build,構築する,0,構築する
+portal,hero.title.widget_driven,,ja_JP,widget-driven,ウィジェット駆動の,0,ウィジェット駆動の
+portal,hero.title.applications,,ja_JP,applications,アプリケーション,0,アプリケーション
+portal,hero.title.with,,ja_JP,with,使用:,0,使用:
+portal,hero.title.line1,,ja_JP,"Build {widgetDriven} applications",{widgetDriven}アプリケーションを構築する,0,{widgetDriven}アプリケーションを構築する
+portal,hero.title.line2,,ja_JP,"with {radaptor}",{radaptor}で,0,{radaptor}で
+portal,hero.description,,ja_JP,"Radaptor combines explicit request handling with a renderer-agnostic composition model. Widgets own their render contract, while the CMS aggregates the component tree, resolves routes, and renders HTML today with the same foundation already lined up for SDUI output.",Radaptorは明示的なリクエスト処理とレンダラー非依存の構成モデルを組み合わせます。ウィジェットがレンダー契約を所有し、CMSはコンポーネントツリーを集約し、ルートを解決し、SDUI出力にも備えた同じ基盤で現在HTMLをレンダリングします。,0,Radaptorは明示的なリクエスト処理とレンダラー非依存の構成モデルを組み合わせます。ウィジェットがレンダー契約を所有し、CMSはコンポーネントツリーを集約し、ルートを解決し、SDUI出力にも備えた同じ基盤で現在HTMLをレンダリングします。
+portal,hero.help,,ja_JP,"Request access when you want to validate the platform with your own workflow and content model.",独自のワークフローとコンテンツモデルでプラットフォームを検証したい場合はアクセスをリクエストしてください。,0,独自のワークフローとコンテンツモデルでプラットフォームを検証したい場合はアクセスをリクエストしてください。
+portal,value_props.title,,ja_JP,"Designed for explicit product and platform work",明示的なプロダクトとプラットフォーム作業向けに設計,0,明示的なプロダクトとプラットフォーム作業向けに設計
+portal,value_props.subtitle,,ja_JP,"The same application surface can power public pages, operational tools, admin workflows, and future non-HTML channels without splitting into unrelated stacks.",同じアプリケーションサーフェスで、公開ページ、運用ツール、管理ワークフロー、将来の非HTMLチャネルを、無関係なスタックに分割せずに支えられます。,0,同じアプリケーションサーフェスで、公開ページ、運用ツール、管理ワークフロー、将来の非HTMLチャネルを、無関係なスタックに分割せずに支えられます。
+portal,value_props.item.explicit_request.title,,ja_JP,"Explicit request flow",明示的なリクエストフロー,0,明示的なリクエストフロー
+portal,value_props.item.explicit_request.description,,ja_JP,"Every actionable request resolves to one concrete handler, so authorization and execution stay visible.",実行可能な各リクエストは1つの具体的なハンドラーに解決されるため、認可と実行が見える状態に保たれます。,0,実行可能な各リクエストは1つの具体的なハンドラーに解決されるため、認可と実行が見える状態に保たれます。
+portal,value_props.item.widget_contract.title,,ja_JP,"Widget-owned contract",ウィジェット所有の契約,0,ウィジェット所有の契約
+portal,value_props.item.widget_contract.description,,ja_JP,"Widgets return explicit tree nodes. The CMS composes pages without taking over the widget internals.",ウィジェットは明示的なツリーノードを返します。CMSはウィジェット内部を奪わずにページを構成します。,0,ウィジェットは明示的なツリーノードを返します。CMSはウィジェット内部を奪わずにページを構成します。
+portal,value_props.item.sdui.title,,ja_JP,"SDUI built in",SDUI内蔵,0,SDUI内蔵
+portal,value_props.item.sdui.description,,ja_JP,"HTML is the current renderer, but the same widget tree is already shaped for server-driven UI output as well.",現在のレンダラーはHTMLですが、同じウィジェットツリーはサーバー駆動UI出力にもすでに適した形です。,0,現在のレンダラーはHTMLですが、同じウィジェットツリーはサーバー駆動UI出力にもすでに適した形です。
+portal,value_props.item.authorization.title,,ja_JP,"Authorization stays local",認可はローカルに留まる,0,認可はローカルに留まる
+portal,value_props.item.authorization.description,,ja_JP,"Role checks live next to the use case instead of being scattered across middleware and helper layers.",ロールチェックはミドルウェアやヘルパーレイヤーに散らばらず、ユースケースの隣にあります。,0,ロールチェックはミドルウェアやヘルパーレイヤーに散らばらず、ユースケースの隣にあります。
+portal,value_props.item.control_flow.title,,ja_JP,"Less hidden control flow",隠れた制御フローを減らす,0,隠れた制御フローを減らす
+portal,value_props.item.control_flow.description,,ja_JP,"You do not have to trace routing conventions, policy helpers, and controller gravity before finding the actual behavior.",実際の振る舞いを見つける前に、ルーティング規約、ポリシーヘルパー、コントローラーの重力を追う必要はありません。,0,実際の振る舞いを見つける前に、ルーティング規約、ポリシーヘルパー、コントローラーの重力を追う必要はありません。
+portal,value_props.item.operational_surface.title,,ja_JP,"Lean operational surface",軽量な運用サーフェス,0,軽量な運用サーフェス
+portal,value_props.item.operational_surface.description,,ja_JP,"The same app can expose product pages, admin screens, browser-event docs, import/export tools, and internal widgets.",同じアプリで、製品ページ、管理画面、ブラウザーイベントドキュメント、インポート/エクスポートツール、内部ウィジェットを公開できます。,0,同じアプリで、製品ページ、管理画面、ブラウザーイベントドキュメント、インポート/エクスポートツール、内部ウィジェットを公開できます。
+portal,access.badge,,ja_JP,"Early access",早期アクセス,0,早期アクセス
+portal,access.form_title,,ja_JP,"Request early access",早期アクセスをリクエスト,0,早期アクセスをリクエスト
+portal,access.form_intro,,ja_JP,"Send us the email address you want to use for early access to the Radaptor Platform. We will ask you to confirm it before we treat the request as real.","Radaptor Platformの早期アクセスに使うメールアドレスを送信してください。実際のリクエストとして扱う前に確認を依頼します。",0,"Radaptor Platformの早期アクセスに使うメールアドレスを送信してください。実際のリクエストとして扱う前に確認を依頼します。"
+portal,access.form_scope,,ja_JP,"We use this page only for access requests and platform follow-up, not as a general product login entry point.",このページはアクセスリクエストとプラットフォームのフォローアップ専用で、一般的な製品ログイン入口ではありません。,0,このページはアクセスリクエストとプラットフォームのフォローアップ専用で、一般的な製品ログイン入口ではありません。
+portal,access.email_label,,ja_JP,"Email address",メールアドレス,0,メールアドレス
+portal,access.updates_label,,ja_JP,"Keep me posted about Radaptor Platform updates as well.","Radaptor Platformのアップデートについても知らせてください。",0,"Radaptor Platformのアップデートについても知らせてください。"
+portal,access.submit,,ja_JP,"Request access",アクセスをリクエスト,0,アクセスをリクエスト
+portal,access.confirm_note,,ja_JP,"We will only accept the request after you confirm the email address from the message we send you.",送信したメッセージからメールアドレスを確認した後にのみリクエストを受け付けます。,0,送信したメッセージからメールアドレスを確認した後にのみリクエストを受け付けます。
+portal,access.confirmed_heading,,ja_JP,"Confirmed for follow-up",フォローアップ用に確認済み,0,フォローアップ用に確認済み
+portal,access.waiting_heading,,ja_JP,"Waiting for confirmation",確認待ち,0,確認待ち
+portal,access.confirmed_note,,ja_JP,"There is nothing else you need to do right now. We will contact this address when we are ready to move you into the next platform-access step.",今は他に必要な操作はありません。次のプラットフォームアクセス手順の準備ができたら、このアドレスに連絡します。,0,今は他に必要な操作はありません。次のプラットフォームアクセス手順の準備ができたら、このアドレスに連絡します。
+portal,access.waiting_note,,ja_JP,"The request is waiting on the confirmation email. After you click that link, your address is marked as confirmed and the request is complete.",リクエストは確認メール待ちです。そのリンクをクリックすると、アドレスが確認済みとなりリクエストが完了します。,0,リクエストは確認メール待ちです。そのリンクをクリックすると、アドレスが確認済みとなりリクエストが完了します。
+portal,access.scope_note,,ja_JP,"This page is only for early-access requests and follow-up confirmation.",このページは早期アクセスリクエストとフォローアップ確認専用です。,0,このページは早期アクセスリクエストとフォローアップ確認専用です。
+portal,access.state.submitted.title,,ja_JP,"Check your inbox",受信箱を確認してください,0,受信箱を確認してください
+portal,access.state.submitted.body,,ja_JP,"If the address can receive early-access requests, we just sent a confirmation link. Once you confirm it, the request is complete.",そのアドレスが早期アクセスリクエストを受け取れる場合、確認リンクを送信しました。確認するとリクエストは完了です。,0,そのアドレスが早期アクセスリクエストを受け取れる場合、確認リンクを送信しました。確認するとリクエストは完了です。
+portal,access.state.confirmed.title,,ja_JP,"Your request is confirmed",リクエストが確認されました,0,リクエストが確認されました
+portal,access.state.confirmed.body,,ja_JP,"Thanks. Your email address is confirmed and your early-access request is now on file. We will reach out at this address when the next access step is ready.",ありがとうございます。メールアドレスが確認され、早期アクセスリクエストが記録されました。次のアクセス手順が準備できたらこのアドレスに連絡します。,0,ありがとうございます。メールアドレスが確認され、早期アクセスリクエストが記録されました。次のアクセス手順が準備できたらこのアドレスに連絡します。
+portal,access.state.expired.title,,ja_JP,"That confirmation link expired",確認リンクの有効期限が切れています,0,確認リンクの有効期限が切れています
+portal,access.state.expired.body,,ja_JP,"Submit the form again and we will send you a fresh confirmation email.",フォームを再送信すると新しい確認メールを送信します。,0,フォームを再送信すると新しい確認メールを送信します。
+portal,access.state.invalid.title,,ja_JP,"That confirmation link is not valid",確認リンクが無効です,0,確認リンクが無効です
+portal,access.state.invalid.body,,ja_JP,"Please submit the form again if you still want access.",引き続きアクセスを希望する場合はフォームを再送信してください。,0,引き続きアクセスを希望する場合はフォームを再送信してください。
+portal,access.state.invalid_email.title,,ja_JP,"Enter a valid email address",有効なメールアドレスを入力してください,0,有効なメールアドレスを入力してください
+portal,access.state.invalid_email.body,,ja_JP,"We could not create the request because the email address was invalid.",メールアドレスが無効だったため、リクエストを作成できませんでした。,0,メールアドレスが無効だったため、リクエストを作成できませんでした。
+portal,access.state.error.title,,ja_JP,"Something went wrong",問題が発生しました,0,問題が発生しました
+portal,access.state.error.body,,ja_JP,"Please try again in a moment.",しばらくしてからもう一度お試しください。,0,しばらくしてからもう一度お試しください。
+theme,radaptor_portal.name,,ja_JP,"Radaptor Portal","Radaptor Portal",0,"Radaptor Portal"
+theme,radaptor_portal.description,,ja_JP,"App-owned public marketing theme for the Radaptor Portal demo.","Radaptor Portalデモ用のアプリ所有パブリックマーケティングテーマ。",0,"Radaptor Portalデモ用のアプリ所有パブリックマーケティングテーマ。"
+widget,portal_hero.name,,ja_JP,"Portal hero",ポータルヒーロー,0,ポータルヒーロー
+widget,portal_hero.description,,ja_JP,"Landing hero for the Radaptor Portal demo.","Radaptor Portalデモ用のランディングヒーロー。",0,"Radaptor Portalデモ用のランディングヒーロー。"
+widget,portal_value_props.name,,ja_JP,"Portal value props",ポータル価値提案,0,ポータル価値提案
+widget,portal_value_props.description,,ja_JP,"Feature grid that explains the Radaptor positioning.",Radaptorのポジショニングを説明する機能グリッド。,0,Radaptorのポジショニングを説明する機能グリッド。
+widget,portal_request_access_placeholder.name,,ja_JP,"Portal early access request",ポータル早期アクセスリクエスト,0,ポータル早期アクセスリクエスト
+widget,portal_request_access_placeholder.description,,ja_JP,"Public early access request form with email confirmation.",メール確認付きの公開早期アクセスリクエストフォーム。,0,メール確認付きの公開早期アクセスリクエストフォーム。
