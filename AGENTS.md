@@ -34,6 +34,15 @@ Maintainer-local first-party package overrides are gitignored:
 - `radaptor.local.json` without the package-dev compose override is an invalid runtime state and must fail hard.
 - Host-side workflow is Git-only. Hooks and helper scripts must dispatch every non-Git check into the supported container; never require host PHP, Composer, Python, php-cs-fixer, or Radaptor CLI.
 - App-local transient QA outputs belong under `tmp/`. Do not leave `playwright-report/`, `test-results/`, proof clones, restore sandboxes, or scratch verification directories at repo root.
+- After opening or updating a GitHub PR, request Codex review with a PR comment containing exactly `@codex review`. Do not use GitHub's normal reviewer API for `codex`; an `eyes` reaction means the bot accepted the request, not that review is complete.
+
+## Runtime Response, I18n, And HTMX Rules
+
+- New or touched runtime/user-facing messages must use i18n keys through `t()`.
+- Use `./radaptor.sh i18n:scan-hardcoded --json` to find visible UI literals in supported templates (`.php`, `.blade.php`, `.twig`) that bypass i18n keys. These are warnings by default; `i18n:doctor` exposes them as `hardcoded_ui` and only fails on them with `--strict-hardcoded`.
+- API, JSON, HTMX, MCP, CLI-web, and other non-HTML flows must return structured response data or headers instead of session messages.
+- Use `Request::wantsNonHtmlResponse()` for response-family detection. Do not hand-read `HTTP_ACCEPT`, `HTTP_X_REQUESTED_WITH`, or `HTTP_HX_REQUEST`, and do not add query-parameter fallbacks such as `ajax=1`.
+- For HTMX admin flows, use header-detected server-rendered fragments and stable swap targets. If an OOB swap inserts new `hx-*` markup outside the original target, verify whether the current HTMX runtime processes it automatically; if not, explicitly process the inserted root and cover it with a browser smoke.
 
 ## Repo Baseline Minimums
 
