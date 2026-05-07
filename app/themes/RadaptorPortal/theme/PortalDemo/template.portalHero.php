@@ -9,35 +9,33 @@ $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-ac
 			<div class="col-lg-9 text-center">
 				<div class="hero-badge mb-4">
 					<span class="badge-glow">
-						<i class="bi bi-stars me-2"></i>
-						Widget-driven platform with SDUI-ready composition
+							<i class="bi bi-stars me-2"></i>
+							<?= e(t('portal.hero.badge')) ?>
 					</span>
 				</div>
 
 				<h1 class="hero-title mb-4">
-					Build <span class="gradient-text">widget-driven</span> applications<br>
-					with <span class="gradient-text">Radaptor</span>
+					<?= e(t('portal.hero.title.build')) ?> <span class="gradient-text"><?= e(t('portal.hero.title.widget_driven')) ?></span> <?= e(t('portal.hero.title.applications')) ?><br>
+					<?= e(t('portal.hero.title.with')) ?> <span class="gradient-text"><?= e(t('portal.brand.radaptor')) ?></span>
 				</h1>
 
 				<p class="hero-description mb-5">
-					Radaptor combines explicit request handling with a renderer-agnostic composition model.
-					Widgets own their render contract, while the CMS aggregates the component tree, resolves routes,
-					and renders HTML today with the same foundation already lined up for SDUI output.
+					<?= e(t('portal.hero.description')) ?>
 				</p>
 
 				<div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mb-4">
 					<a href="<?= e($comparison_url) ?>" class="btn btn-primary btn-glow btn-lg">
 						<i class="bi bi-diagram-3 me-2"></i>
-						Technical Comparison
+						<?= e(t('portal.nav.comparison')) ?>
 					</a>
 					<a href="<?= e($request_access_url) ?>" class="btn btn-outline-light btn-lg">
 						<i class="bi bi-arrow-right-circle me-2"></i>
-						Request Access
+						<?= e(t('portal.nav.request_access')) ?>
 					</a>
 				</div>
 
 				<p class="text-muted mb-0">
-					Request access when you want to validate the platform with your own workflow and content model.
+					<?= e(t('portal.hero.help')) ?>
 				</p>
 			</div>
 		</div>

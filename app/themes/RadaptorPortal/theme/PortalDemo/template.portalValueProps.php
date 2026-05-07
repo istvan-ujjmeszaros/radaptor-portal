@@ -4,9 +4,9 @@
 	<div class="container">
 		<div class="row justify-content-center mb-5">
 			<div class="col-lg-8 text-center">
-				<h2 class="mb-3">Designed for explicit product and platform work</h2>
+				<h2 class="mb-3"><?= e(t('portal.value_props.title')) ?></h2>
 				<p class="text-muted mb-0">
-					The same application surface can power public pages, operational tools, admin workflows, and future non-HTML channels without splitting into unrelated stacks.
+					<?= e(t('portal.value_props.subtitle')) ?>
 				</p>
 			</div>
 		</div>

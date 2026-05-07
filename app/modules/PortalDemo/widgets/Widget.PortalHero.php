@@ -6,12 +6,12 @@ class WidgetPortalHero extends AbstractWidget
 
 	public static function getName(): string
 	{
-		return 'Portal hero';
+		return t('widget.' . self::ID . '.name');
 	}
 
 	public static function getDescription(): string
 	{
-		return 'Landing hero for the Radaptor Portal demo.';
+		return t('widget.' . self::ID . '.description');
 	}
 
 	public static function getListVisibility(): bool
