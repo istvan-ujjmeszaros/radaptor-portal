@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => '자신의 워크플로와 콘텐츠 모델로 플랫폼을 검증하고 싶을 때 액세스를 요청하세요.',
   'portal.hero.title.applications' => '애플리케이션',
   'portal.hero.title.build' => '구축하세요',
+  'portal.hero.title.line1' => '{widgetDriven} 애플리케이션을 구축하세요',
+  'portal.hero.title.line2' => '{radaptor}로',
   'portal.hero.title.widget_driven' => '위젯 기반',
   'portal.hero.title.with' => '기반:',
   'portal.meta.description' => 'Radaptor Portal 데모',

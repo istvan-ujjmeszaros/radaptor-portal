@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => 'Request access when you want to validate the platform with your own workflow and content model.',
   'portal.hero.title.applications' => 'applications',
   'portal.hero.title.build' => 'Build',
+  'portal.hero.title.line1' => 'Build {widgetDriven} applications',
+  'portal.hero.title.line2' => 'with {radaptor}',
   'portal.hero.title.widget_driven' => 'widget-driven',
   'portal.hero.title.with' => 'with',
   'portal.meta.description' => 'Radaptor Portal demo',

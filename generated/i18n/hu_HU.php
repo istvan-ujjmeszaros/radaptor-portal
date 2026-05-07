@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => 'Kérj hozzáférést, ha a saját workflow-ddal és tartalommodelleddel validálnád a platformot.',
   'portal.hero.title.applications' => 'alkalmazásokat',
   'portal.hero.title.build' => 'Építs',
+  'portal.hero.title.line1' => 'Építs {widgetDriven} alkalmazásokat',
+  'portal.hero.title.line2' => '{radaptor} segítségével',
   'portal.hero.title.widget_driven' => 'widget-alapú',
   'portal.hero.title.with' => 'Radaptorral:',
   'portal.meta.description' => 'Radaptor Portal demó',

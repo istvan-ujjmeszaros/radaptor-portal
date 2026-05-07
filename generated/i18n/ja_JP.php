@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => '独自のワークフローとコンテンツモデルでプラットフォームを検証したい場合はアクセスをリクエストしてください。',
   'portal.hero.title.applications' => 'アプリケーション',
   'portal.hero.title.build' => '構築する',
+  'portal.hero.title.line1' => '{widgetDriven}アプリケーションを構築する',
+  'portal.hero.title.line2' => '{radaptor}で',
   'portal.hero.title.widget_driven' => 'ウィジェット駆動の',
   'portal.hero.title.with' => '使用:',
   'portal.meta.description' => 'Radaptor Portalデモ',

@@ -10,6 +10,8 @@ portal,hero.title.build,,ja_JP,Build,構築する,0,構築する
 portal,hero.title.widget_driven,,ja_JP,widget-driven,ウィジェット駆動の,0,ウィジェット駆動の
 portal,hero.title.applications,,ja_JP,applications,アプリケーション,0,アプリケーション
 portal,hero.title.with,,ja_JP,with,使用:,0,使用:
+portal,hero.title.line1,,ja_JP,"Build {widgetDriven} applications",{widgetDriven}アプリケーションを構築する,0,{widgetDriven}アプリケーションを構築する
+portal,hero.title.line2,,ja_JP,"with {radaptor}",{radaptor}で,0,{radaptor}で
 portal,hero.description,,ja_JP,"Radaptor combines explicit request handling with a renderer-agnostic composition model. Widgets own their render contract, while the CMS aggregates the component tree, resolves routes, and renders HTML today with the same foundation already lined up for SDUI output.",Radaptorは明示的なリクエスト処理とレンダラー非依存の構成モデルを組み合わせます。ウィジェットがレンダー契約を所有し、CMSはコンポーネントツリーを集約し、ルートを解決し、SDUI出力にも備えた同じ基盤で現在HTMLをレンダリングします。,0,Radaptorは明示的なリクエスト処理とレンダラー非依存の構成モデルを組み合わせます。ウィジェットがレンダー契約を所有し、CMSはコンポーネントツリーを集約し、ルートを解決し、SDUI出力にも備えた同じ基盤で現在HTMLをレンダリングします。
 portal,hero.help,,ja_JP,"Request access when you want to validate the platform with your own workflow and content model.",独自のワークフローとコンテンツモデルでプラットフォームを検証したい場合はアクセスをリクエストしてください。,0,独自のワークフローとコンテンツモデルでプラットフォームを検証したい場合はアクセスをリクエストしてください。
 portal,value_props.title,,ja_JP,"Designed for explicit product and platform work",明示的なプロダクトとプラットフォーム作業向けに設計,0,明示的なプロダクトとプラットフォーム作業向けに設計

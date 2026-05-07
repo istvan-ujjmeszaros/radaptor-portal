@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => 'Solicite acesso quando quiser validar a plataforma com seu próprio fluxo e modelo de conteúdo.',
   'portal.hero.title.applications' => 'aplicações',
   'portal.hero.title.build' => 'Crie',
+  'portal.hero.title.line1' => 'Crie aplicações {widgetDriven}',
+  'portal.hero.title.line2' => 'com {radaptor}',
   'portal.hero.title.widget_driven' => 'guiadas por widgets',
   'portal.hero.title.with' => 'com',
   'portal.meta.description' => 'Demo do Radaptor Portal',

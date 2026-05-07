@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => '当你想用自己的工作流和内容模型验证平台时，请请求访问。',
   'portal.hero.title.applications' => '应用',
   'portal.hero.title.build' => '构建',
+  'portal.hero.title.line1' => '构建{widgetDriven}应用',
+  'portal.hero.title.line2' => '使用 {radaptor}',
   'portal.hero.title.widget_driven' => '组件驱动的',
   'portal.hero.title.with' => '使用',
   'portal.meta.description' => 'Radaptor Portal 演示',

@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => 'Запросите доступ, если хотите проверить платформу на своем workflow и модели контента.',
   'portal.hero.title.applications' => 'приложения',
   'portal.hero.title.build' => 'Создавайте',
+  'portal.hero.title.line1' => 'Создавайте {widgetDriven} приложения',
+  'portal.hero.title.line2' => 'с {radaptor}',
   'portal.hero.title.widget_driven' => 'виджетные',
   'portal.hero.title.with' => 'с',
   'portal.meta.description' => 'Демо Radaptor Portal',

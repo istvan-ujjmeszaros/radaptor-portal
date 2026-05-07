@@ -654,6 +654,8 @@ return array (
   'portal.hero.help' => 'Fordern Sie Zugang an, wenn Sie die Plattform mit Ihrem eigenen Workflow und Inhaltsmodell validieren möchten.',
   'portal.hero.title.applications' => 'Anwendungen',
   'portal.hero.title.build' => 'Erstelle',
+  'portal.hero.title.line1' => 'Erstelle {widgetDriven} Anwendungen',
+  'portal.hero.title.line2' => 'mit {radaptor}',
   'portal.hero.title.widget_driven' => 'widget-getriebene',
   'portal.hero.title.with' => 'mit',
   'portal.meta.description' => 'Radaptor Portal Demo',

@@ -10,6 +10,8 @@ portal,hero.title.build,,zh_Hans_CN,Build,构建,0,构建
 portal,hero.title.widget_driven,,zh_Hans_CN,widget-driven,组件驱动的,0,组件驱动的
 portal,hero.title.applications,,zh_Hans_CN,applications,应用,0,应用
 portal,hero.title.with,,zh_Hans_CN,with,使用,0,使用
+portal,hero.title.line1,,zh_Hans_CN,"Build {widgetDriven} applications",构建{widgetDriven}应用,0,构建{widgetDriven}应用
+portal,hero.title.line2,,zh_Hans_CN,"with {radaptor}","使用 {radaptor}",0,"使用 {radaptor}"
 portal,hero.description,,zh_Hans_CN,"Radaptor combines explicit request handling with a renderer-agnostic composition model. Widgets own their render contract, while the CMS aggregates the component tree, resolves routes, and renders HTML today with the same foundation already lined up for SDUI output.","Radaptor 将显式请求处理与渲染器无关的组合模型结合起来。组件拥有自己的渲染契约，CMS 聚合组件树、解析路由，并在同一基础上渲染当下的 HTML，同时该基础已为 SDUI 输出做好准备。",0,"Radaptor 将显式请求处理与渲染器无关的组合模型结合起来。组件拥有自己的渲染契约，CMS 聚合组件树、解析路由，并在同一基础上渲染当下的 HTML，同时该基础已为 SDUI 输出做好准备。"
 portal,hero.help,,zh_Hans_CN,"Request access when you want to validate the platform with your own workflow and content model.",当你想用自己的工作流和内容模型验证平台时，请请求访问。,0,当你想用自己的工作流和内容模型验证平台时，请请求访问。
 portal,value_props.title,,zh_Hans_CN,"Designed for explicit product and platform work",为明确的产品和平台工作而设计,0,为明确的产品和平台工作而设计

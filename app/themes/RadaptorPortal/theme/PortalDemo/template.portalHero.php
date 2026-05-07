@@ -2,6 +2,20 @@
 <?php
 $comparison_url = (string) ($this->props['comparisonUrl'] ?? '/comparison/');
 $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-access/');
+$render_i18n_html = static function (string $key, array $html_params): string {
+	$params = [];
+	$replacements = [];
+
+	foreach ($html_params as $name => $html) {
+		$marker = '__RADAPTOR_PORTAL_I18N_HTML_' . strtoupper((string) $name) . '__';
+		$params[(string) $name] = $marker;
+		$replacements[$marker] = (string) $html;
+	}
+
+	return strtr(e(t($key, $params)), $replacements);
+};
+$widget_driven_html = '<span class="gradient-text">' . e(t('portal.hero.title.widget_driven')) . '</span>';
+$radaptor_html = '<span class="gradient-text">' . e(t('portal.brand.radaptor')) . '</span>';
 ?>
 <section class="hero min-vh-100 d-flex align-items-center">
 	<div class="container">
@@ -15,8 +29,8 @@ $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-ac
 				</div>
 
 				<h1 class="hero-title mb-4">
-					<?= e(t('portal.hero.title.build')) ?> <span class="gradient-text"><?= e(t('portal.hero.title.widget_driven')) ?></span> <?= e(t('portal.hero.title.applications')) ?><br>
-					<?= e(t('portal.hero.title.with')) ?> <span class="gradient-text"><?= e(t('portal.brand.radaptor')) ?></span>
+					<?= $render_i18n_html('portal.hero.title.line1', ['widgetDriven' => $widget_driven_html]) ?><br>
+					<?= $render_i18n_html('portal.hero.title.line2', ['radaptor' => $radaptor_html]) ?>
 				</h1>
 
 				<p class="hero-description mb-5">
