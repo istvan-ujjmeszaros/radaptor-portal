@@ -655,7 +655,7 @@ return array (
   'portal.hero.title.applications' => 'アプリケーション',
   'portal.hero.title.build' => '構築する',
   'portal.hero.title.widget_driven' => 'ウィジェット駆動の',
-  'portal.hero.title.with' => 'with',
+  'portal.hero.title.with' => '使用:',
   'portal.meta.description' => 'Radaptor Portalデモ',
   'portal.nav.comparison' => '技術比較',
   'portal.nav.home' => 'ホーム',

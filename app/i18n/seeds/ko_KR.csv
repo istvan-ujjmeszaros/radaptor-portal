@@ -9,7 +9,7 @@ portal,hero.badge,,ko_KR,"Widget-driven platform with SDUI-ready composition","S
 portal,hero.title.build,,ko_KR,Build,구축하세요,0,구축하세요
 portal,hero.title.widget_driven,,ko_KR,widget-driven,"위젯 기반",0,"위젯 기반"
 portal,hero.title.applications,,ko_KR,applications,애플리케이션,0,애플리케이션
-portal,hero.title.with,,ko_KR,with,with,0,with
+portal,hero.title.with,,ko_KR,with,기반:,0,기반:
 portal,hero.description,,ko_KR,"Radaptor combines explicit request handling with a renderer-agnostic composition model. Widgets own their render contract, while the CMS aggregates the component tree, resolves routes, and renders HTML today with the same foundation already lined up for SDUI output.","Radaptor는 명시적인 요청 처리와 렌더러 독립적인 구성 모델을 결합합니다. 위젯은 자체 렌더 계약을 소유하고, CMS는 컴포넌트 트리를 집계하고 라우트를 해석하며, SDUI 출력에도 맞춰진 동일한 기반에서 현재 HTML을 렌더링합니다.",0,"Radaptor는 명시적인 요청 처리와 렌더러 독립적인 구성 모델을 결합합니다. 위젯은 자체 렌더 계약을 소유하고, CMS는 컴포넌트 트리를 집계하고 라우트를 해석하며, SDUI 출력에도 맞춰진 동일한 기반에서 현재 HTML을 렌더링합니다."
 portal,hero.help,,ko_KR,"Request access when you want to validate the platform with your own workflow and content model.","자신의 워크플로와 콘텐츠 모델로 플랫폼을 검증하고 싶을 때 액세스를 요청하세요.",0,"자신의 워크플로와 콘텐츠 모델로 플랫폼을 검증하고 싶을 때 액세스를 요청하세요."
 portal,value_props.title,,ko_KR,"Designed for explicit product and platform work","명시적인 제품 및 플랫폼 작업을 위해 설계됨",0,"명시적인 제품 및 플랫폼 작업을 위해 설계됨"

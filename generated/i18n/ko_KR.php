@@ -655,7 +655,7 @@ return array (
   'portal.hero.title.applications' => '애플리케이션',
   'portal.hero.title.build' => '구축하세요',
   'portal.hero.title.widget_driven' => '위젯 기반',
-  'portal.hero.title.with' => 'with',
+  'portal.hero.title.with' => '기반:',
   'portal.meta.description' => 'Radaptor Portal 데모',
   'portal.nav.comparison' => '기술 비교',
   'portal.nav.home' => '홈',
