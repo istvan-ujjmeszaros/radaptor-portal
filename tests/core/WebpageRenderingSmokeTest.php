@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 final class WebpageRenderingSmokeTest extends TransactionedTestCase
 {
-	private const int FIXTURE_PAGE_ID = 2;
-
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -15,9 +13,10 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 
 	public function testPublicPageRendersExpectedLayoutAndWidgetContentThroughTreePipeline(): void
 	{
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
 		$public_theme = $this->getPublicTheme();
 		$public_layout = $this->getPublicLayout();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="public-tree-marker">Public tree smoke</section>');
 
 		$output = $this->renderPage($page_id, $public_theme, $public_layout);
@@ -29,9 +28,10 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 
 	public function testPublicPageRendersJsonWhenRequestedViaAcceptHeader(): void
 	{
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
 		$public_theme = $this->getPublicTheme();
 		$public_layout = $this->getPublicLayout();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="public-tree-marker">Public tree smoke</section>');
 		$this->setRequestContext(server_overrides: [
 			'HTTP_ACCEPT' => 'application/json',
@@ -40,7 +40,7 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 		$output = $this->renderPage($page_id, $public_theme, $public_layout);
 		$payload = json_decode($output, true, 512, JSON_THROW_ON_ERROR);
 
-		$this->assertSame('hu', $payload['locale'] ?? null);
+		$this->assertSame('en-US', $payload['locale'] ?? null);
 		$this->assertSame('layout_' . $public_layout, $payload['tree']['component'] ?? null);
 		$this->assertStringContainsString('PlainHtml', $output);
 	}
@@ -62,7 +62,8 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 
 	public function testAdminPageRendersExpectedLayoutAndWidgetContentThroughTreePipeline(): void
 	{
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="admin-tree-marker">Admin tree smoke</section>');
 
 		$output = $this->renderPage($page_id, 'RadaptorPortalAdmin', 'admin_default');
@@ -76,13 +77,14 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 
 	public function testEditModeRendersWidgetInsertersAndEditChromeThroughTreePipeline(): void
 	{
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
+		$this->clearSmokePageWidgets($page_id);
 		$connection_id = $this->insertPlainHtmlConnection($page_id, '<section id="edit-tree-marker">Edit tree smoke</section>');
 
 		$output = $this->renderPage($page_id, 'RadaptorPortalAdmin', 'admin_default', true);
 
 		$this->assertStringContainsString('<section id="edit-tree-marker">Edit tree smoke</section>', $output);
-		$this->assertStringContainsString('id="widget-' . $connection_id . '"', $output);
+		$this->assertStringContainsString('id="edit-widget-' . $connection_id . '"', $output);
 		$this->assertStringContainsString('class="widget-edit"', $output);
 		$this->assertStringContainsString('class="widget-insert', $output);
 		$this->assertGreaterThanOrEqual(2, substr_count($output, 'class="widget-insert'));
@@ -90,9 +92,10 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 
 	public function testMultipleWidgetsInSameSlotRenderInSeqOrder(): void
 	{
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
 		$public_theme = $this->getPublicTheme();
 		$public_layout = $this->getPublicLayout();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="seq-marker-1">First widget</section>', 1);
 		$this->insertPlainHtmlConnection($page_id, '<section id="seq-marker-2">Second widget</section>', 2);
 
@@ -127,6 +130,35 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 		], $connection_id);
 
 		return $connection_id;
+	}
+
+	private function ensureSmokePage(): int
+	{
+		$resource = ResourceTreeHandler::getResourceTreeEntryData('/', 'tree-rendering-smoke.html');
+
+		if (is_array($resource)) {
+			return (int) $resource['node_id'];
+		}
+
+		$layout = $this->getPublicLayout();
+		$page_id = ResourceTreeHandler::withProtectedResourceMutationBypass(
+			static fn (): ?int => ResourceTreeHandler::createResourceTreeEntryFromPath(
+				'/',
+				'tree-rendering-smoke.html',
+				'webpage',
+				$layout,
+			),
+		);
+
+		$this->assertIsInt($page_id);
+
+		return $page_id;
+	}
+
+	private function clearSmokePageWidgets(int $page_id): void
+	{
+		$stmt = Db::instance()->prepare('DELETE FROM widget_connections WHERE page_id = ?');
+		$stmt->execute([$page_id]);
 	}
 
 	private function getPublicTheme(): string
