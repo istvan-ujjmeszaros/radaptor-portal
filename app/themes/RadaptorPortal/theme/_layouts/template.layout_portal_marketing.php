@@ -18,6 +18,7 @@ $request_uri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
 $current_path = (string) (parse_url($request_uri, PHP_URL_PATH) ?? '/');
 $is_home = $current_path === '/' || $current_path === '/index.html';
 $is_comparison = str_starts_with($current_path, '/comparison');
+$is_roadmap = str_starts_with($current_path, '/roadmap');
 $is_request_access = str_starts_with($current_path, '/request-access');
 ?>
 <!DOCTYPE html>
@@ -51,6 +52,9 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 			<a href="/comparison/" class="btn <?= $is_comparison ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
 				<?= e(t('portal.nav.comparison')) ?>
 			</a>
+			<a href="/roadmap/" class="btn <?= $is_roadmap ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
+				<?= e(t('portal.nav.roadmap')) ?>
+			</a>
 			<a href="/request-access/" class="btn <?= $is_request_access ? 'btn-primary btn-glow' : 'btn-outline-light' ?> btn-sm">
 				<?= e(t('portal.nav.request_access')) ?>
 			</a>
@@ -59,7 +63,7 @@ $is_request_access = str_starts_with($current_path, '/request-access');
 </nav>
 
 <main>
-		<?= $this->fetchContent('content'); ?>
+	<?= $this->fetchContent('content'); ?>
 </main>
 
 <footer class="py-4 mt-auto">

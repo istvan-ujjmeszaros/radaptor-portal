@@ -1,6 +1,7 @@
 <?php assert(isset($this) && $this instanceof Template); ?>
 <?php
 $comparison_url = (string) ($this->props['comparisonUrl'] ?? '/comparison/');
+$roadmap_url = (string) ($this->props['roadmapUrl'] ?? '/roadmap/');
 $request_access_url = (string) ($this->props['requestAccessUrl'] ?? '/request-access/');
 $render_i18n_html = static function (string $key, array $html_params): string {
 	$params = [];
@@ -41,6 +42,10 @@ $radaptor_html = '<span class="gradient-text">' . e(t('portal.brand.radaptor')) 
 					<a href="<?= e($comparison_url) ?>" class="btn btn-primary btn-glow btn-lg">
 						<i class="bi bi-diagram-3 me-2"></i>
 						<?= e(t('portal.nav.comparison')) ?>
+					</a>
+					<a href="<?= e($roadmap_url) ?>" class="btn btn-outline-light btn-lg">
+						<i class="bi bi-signpost-split me-2"></i>
+						<?= e(t('portal.nav.roadmap')) ?>
 					</a>
 					<a href="<?= e($request_access_url) ?>" class="btn btn-outline-light btn-lg">
 						<i class="bi bi-arrow-right-circle me-2"></i>

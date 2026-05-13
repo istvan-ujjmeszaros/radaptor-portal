@@ -3,6 +3,7 @@ portal,brand.radaptor,,hu-HU,Radaptor,Radaptor,0,Radaptor
 portal,meta.description,,hu-HU,"Radaptor Portal demo","Radaptor Portal demó",0,"Radaptor Portal demó"
 portal,nav.home,,hu-HU,Home,Kezdőlap,0,Kezdőlap
 portal,nav.comparison,,hu-HU,"Technical Comparison","Technikai összehasonlítás",0,"Technikai összehasonlítás"
+portal,nav.roadmap,,hu-HU,Roadmap,Ütemterv,0,Ütemterv
 portal,nav.request_access,,hu-HU,"Request Access","Hozzáférés kérése",0,"Hozzáférés kérése"
 portal,footer.preview_build,,hu-HU,"Preview build for product positioning, portal UX, and admin workflow demos.","Előnézeti build termékpozicionáláshoz, portal UX-hez és admin workflow demókhoz.",0,"Előnézeti build termékpozicionáláshoz, portal UX-hez és admin workflow demókhoz."
 portal,hero.badge,,hu-HU,"Widget-driven platform with SDUI-ready composition","Widget-alapú platform SDUI-ready kompozícióval",0,"Widget-alapú platform SDUI-ready kompozícióval"

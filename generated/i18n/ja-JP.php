@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => '技術比較',
   'portal.nav.home' => 'ホーム',
   'portal.nav.request_access' => 'アクセスをリクエスト',
+  'portal.nav.roadmap' => 'ロードマップ',
   'portal.value_props.item.authorization.description' => 'ロールチェックはミドルウェアやヘルパーレイヤーに散らばらず、ユースケースの隣にあります。',
   'portal.value_props.item.authorization.title' => '認可はローカルに留まる',
   'portal.value_props.item.control_flow.description' => '実際の振る舞いを見つける前に、ルーティング規約、ポリシーヘルパー、コントローラーの重力を追う必要はありません。',

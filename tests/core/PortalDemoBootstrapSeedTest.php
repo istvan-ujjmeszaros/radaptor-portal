@@ -44,6 +44,15 @@ final class PortalDemoBootstrapSeedTest extends TransactionedTestCase
 		$comparison_settings = PlainHtml::getSettings($comparison_connection_id);
 		$this->assertStringContainsString('Comparison at a glance', (string) ($comparison_settings['content'] ?? ''));
 
+		$roadmap_page = ResourceTreeHandler::getResourceTreeEntryData('/roadmap/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+		$this->assertIsArray($roadmap_page);
+		$this->assertSame(1, (int) ($roadmap_page['is_inheriting_acl'] ?? 0));
+		$this->assertSame('portal_marketing', (string) ResourceTypeWebpage::getExtradata((int) $roadmap_page['node_id'])['layout']);
+		$roadmap_connection_id = Widget::getWidgetConnectionId((int) $roadmap_page['node_id'], 'content', WidgetList::PLAINHTML);
+		$this->assertIsInt($roadmap_connection_id);
+		$roadmap_settings = PlainHtml::getSettings($roadmap_connection_id);
+		$this->assertStringContainsString('What is stable, what is being hardened, and what comes next', (string) ($roadmap_settings['content'] ?? ''));
+
 		$request_page = ResourceTreeHandler::getResourceTreeEntryData('/request-access/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
 		$this->assertIsArray($request_page);
 		$this->assertSame(1, (int) ($request_page['is_inheriting_acl'] ?? 0));

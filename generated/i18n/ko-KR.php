@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => '기술 비교',
   'portal.nav.home' => '홈',
   'portal.nav.request_access' => '액세스 요청',
+  'portal.nav.roadmap' => '로드맵',
   'portal.value_props.item.authorization.description' => '역할 검사는 미들웨어와 헬퍼 레이어에 흩어지지 않고 유스케이스 옆에 있습니다.',
   'portal.value_props.item.authorization.title' => '권한 부여가 로컬에 머무름',
   'portal.value_props.item.control_flow.description' => '실제 동작을 찾기 전에 라우팅 규칙, 정책 헬퍼, 컨트롤러 관성을 추적할 필요가 없습니다.',

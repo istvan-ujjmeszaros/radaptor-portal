@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Technischer Vergleich',
   'portal.nav.home' => 'Start',
   'portal.nav.request_access' => 'Zugang anfragen',
+  'portal.nav.roadmap' => 'Roadmap',
   'portal.value_props.item.authorization.description' => 'Rollenprüfungen liegen neben dem Use Case, statt über Middleware und Helper-Schichten verstreut zu sein.',
   'portal.value_props.item.authorization.title' => 'Autorisierung bleibt lokal',
   'portal.value_props.item.control_flow.description' => 'Sie müssen keine Routing-Konventionen, Policy-Helper und Controller-Schwerkraft verfolgen, bevor Sie das tatsächliche Verhalten finden.',

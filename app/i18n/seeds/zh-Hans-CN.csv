@@ -3,6 +3,7 @@ portal,brand.radaptor,,zh-Hans-CN,Radaptor,Radaptor,0,Radaptor
 portal,meta.description,,zh-Hans-CN,"Radaptor Portal demo","Radaptor Portal 演示",0,"Radaptor Portal 演示"
 portal,nav.home,,zh-Hans-CN,Home,首页,0,首页
 portal,nav.comparison,,zh-Hans-CN,"Technical Comparison",技术比较,0,技术比较
+portal,nav.roadmap,,zh-Hans-CN,Roadmap,路线图,0,路线图
 portal,nav.request_access,,zh-Hans-CN,"Request Access",请求访问,0,请求访问
 portal,footer.preview_build,,zh-Hans-CN,"Preview build for product positioning, portal UX, and admin workflow demos.","用于产品定位、门户 UX 和管理工作流演示的预览构建。",0,"用于产品定位、门户 UX 和管理工作流演示的预览构建。"
 portal,hero.badge,,zh-Hans-CN,"Widget-driven platform with SDUI-ready composition","具备 SDUI 就绪组合能力的组件驱动平台",0,"具备 SDUI 就绪组合能力的组件驱动平台"

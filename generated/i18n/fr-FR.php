@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Comparaison technique',
   'portal.nav.home' => 'Accueil',
   'portal.nav.request_access' => 'Demander l’accès',
+  'portal.nav.roadmap' => 'Feuille de route',
   'portal.value_props.item.authorization.description' => 'Les vérifications de rôles vivent à côté du cas d’usage au lieu d’être dispersées dans le middleware et les helpers.',
   'portal.value_props.item.authorization.title' => 'L’autorisation reste locale',
   'portal.value_props.item.control_flow.description' => 'Vous n’avez pas à remonter les conventions de routing, les helpers de policy et la gravité des controllers avant de trouver le vrai comportement.',

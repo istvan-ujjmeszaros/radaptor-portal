@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Confronto tecnico',
   'portal.nav.home' => 'Home',
   'portal.nav.request_access' => 'Richiedi accesso',
+  'portal.nav.roadmap' => 'Roadmap',
   'portal.value_props.item.authorization.description' => 'I controlli di ruolo vivono accanto allo use case invece di essere sparsi tra middleware e layer helper.',
   'portal.value_props.item.authorization.title' => 'L’autorizzazione resta locale',
   'portal.value_props.item.control_flow.description' => 'Non devi seguire convenzioni di routing, helper di policy e gravità dei controller prima di trovare il comportamento reale.',

@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Comparação técnica',
   'portal.nav.home' => 'Início',
   'portal.nav.request_access' => 'Solicitar acesso',
+  'portal.nav.roadmap' => 'Roteiro',
   'portal.value_props.item.authorization.description' => 'Checks de papel ficam junto ao caso de uso, em vez de espalhados por middleware e camadas helper.',
   'portal.value_props.item.authorization.title' => 'Autorização fica local',
   'portal.value_props.item.control_flow.description' => 'Você não precisa rastrear convenções de roteamento, helpers de política e gravidade de controllers antes de achar o comportamento real.',

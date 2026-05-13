@@ -3,6 +3,7 @@ portal,brand.radaptor,,ru-RU,Radaptor,Radaptor,0,Radaptor
 portal,meta.description,,ru-RU,"Radaptor Portal demo","Демо Radaptor Portal",0,"Демо Radaptor Portal"
 portal,nav.home,,ru-RU,Home,Главная,0,Главная
 portal,nav.comparison,,ru-RU,"Technical Comparison","Техническое сравнение",0,"Техническое сравнение"
+portal,nav.roadmap,,ru-RU,Roadmap,"Дорожная карта",0,"Дорожная карта"
 portal,nav.request_access,,ru-RU,"Request Access","Запросить доступ",0,"Запросить доступ"
 portal,footer.preview_build,,ru-RU,"Preview build for product positioning, portal UX, and admin workflow demos.","Preview-сборка для позиционирования продукта, UX портала и демо административных процессов.",0,"Preview-сборка для позиционирования продукта, UX портала и демо административных процессов."
 portal,hero.badge,,ru-RU,"Widget-driven platform with SDUI-ready composition","Платформа на виджетах с композицией, готовой к SDUI",0,"Платформа на виджетах с композицией, готовой к SDUI"

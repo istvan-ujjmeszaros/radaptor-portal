@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Porównanie techniczne',
   'portal.nav.home' => 'Start',
   'portal.nav.request_access' => 'Poproś o dostęp',
+  'portal.nav.roadmap' => 'Mapa drogowa',
   'portal.value_props.item.authorization.description' => 'Kontrole ról są obok przypadku użycia, zamiast być rozrzucone po middleware i warstwach helperów.',
   'portal.value_props.item.authorization.title' => 'Autoryzacja zostaje lokalna',
   'portal.value_props.item.control_flow.description' => 'Nie musisz śledzić konwencji routingu, helperów polityk i grawitacji controllerów, zanim znajdziesz rzeczywiste zachowanie.',
