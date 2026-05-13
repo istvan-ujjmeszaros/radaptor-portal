@@ -4,79 +4,69 @@ declare(strict_types=1);
 
 final class SkeletonBootstrapSeedTest extends TransactionedTestCase
 {
-	public function testBootstrapSeedEnsuresAdminHomepageLoginAndCoreAdminPages(): void
-	{
-		$username = 'skeleton_seed_admin';
-		$password = 'skeleton_seed_password';
+	private const string BOOTSTRAP_OWNER_ATTRIBUTE = 'radaptor_bootstrap_owner';
+	private const string BOOTSTRAP_OWNER = 'skeleton';
 
+	public function testBootstrapSeedEnsuresAdminLoginAndCoreAdminPagesOnFreshSite(): void
+	{
+		$site_context = 'localhost';
+		$username = 'skeleton_seed_admin_' . bin2hex(random_bytes(3));
+
+		User::bootstrapTrustedCurrentUser([
+			'user_id' => 1,
+			'username' => 'admin_developer',
+		]);
 		TestHelperEnvironment::setEnvironmentVariable('APP_BOOTSTRAP_ADMIN_USERNAME', $username);
-		TestHelperEnvironment::setEnvironmentVariable('APP_BOOTSTRAP_ADMIN_PASSWORD', $password);
+		TestHelperEnvironment::setEnvironmentVariable('APP_BOOTSTRAP_ADMIN_PASSWORD', 'skeleton_seed_password');
 		TestHelperEnvironment::setEnvironmentVariable('APP_BOOTSTRAP_ADMIN_LOCALE', 'en_US');
 		TestHelperEnvironment::setEnvironmentVariable('APP_BOOTSTRAP_ADMIN_TIMEZONE', 'UTC');
+		TestHelperEnvironment::setEnvironmentVariable('RADAPTOR_SITE_CONTEXT', $site_context);
+		TestHelperEnvironment::setEnvironmentVariable('APP_DOMAIN_CONTEXT', $site_context);
 
 		try {
+			$this->deleteResourceIfExists('/', 'admin');
+			$this->deleteResourceIfExists('/', 'login.html');
+			$root_id = ResourceTreeHandler::getDomainRoot($site_context);
+			$this->assertIsInt($root_id);
+			$root_acl_before = $this->resourceAclSnapshot($root_id);
+
 			$seed = new SeedSkeletonBootstrap();
+			$this->assertSame(AbstractSeed::RUN_POLICY_BOOTSTRAP_ONCE, $seed->getRunPolicy());
 			$seed->run(new SeedContext('app', 'mandatory', DEPLOY_ROOT . 'app', false));
 
 			$user = User::getUserByName($username);
 			$this->assertIsArray($user);
 			$this->assertSame(1, (int) $user['is_active']);
 
-			$system_developer_role_id = (int) DbHelper::selectOneColumn('roles_tree', [
-				'role' => 'system_developer',
-			], '', 'node_id');
-			$system_admin_role_id = (int) DbHelper::selectOneColumn('roles_tree', [
-				'role' => 'system_administrator',
-			], '', 'node_id');
-			$this->assertGreaterThan(0, $system_developer_role_id);
-			$this->assertGreaterThan(0, $system_admin_role_id);
+			$system_developer_role_id = $this->getRoleId('system_developer');
+			$system_admin_role_id = $this->getRoleId('system_administrator');
 			$this->assertTrue(Roles::checkUserIsAssigned($system_developer_role_id, (int) $user['user_id']));
 			$this->assertTrue(Roles::checkUserIsAssigned($system_admin_role_id, (int) $user['user_id']));
-			$everyone_id = Usergroups::SYSTEMUSERGROUP_EVERYBODY;
-			$administrators_id = (int) DbHelper::selectOneColumn('usergroups_tree', ['title' => 'Administrators'], '', 'node_id');
-			$this->assertGreaterThan(0, $everyone_id);
-			$this->assertGreaterThan(0, $administrators_id);
-			$this->assertGreaterThan(0, (int) DbHelper::selectOneColumn('roles_tree', ['role' => 'acl_viewer'], '', 'node_id'));
+			$this->assertSame(Usergroups::SYSTEMUSERGROUP_EVERYBODY, $this->getUsergroupId('Everyone'));
+			$this->assertSame(Usergroups::SYSTEMUSERGROUP_LOGGEDIN, $this->getUsergroupId('Logged in users'));
+			$administrators_id = $this->getUsergroupId('Administrators');
+			$this->assertTrue(Usergroups::checkUserIsAssigned($administrators_id, (int) $user['user_id']));
+			$this->assertTrue(Usergroups::checkUserIsAssigned($this->getUsergroupId('Developers'), (int) $user['user_id']));
+			$this->assertGreaterThan(0, $this->getRoleId('acl_viewer'));
 
-			$homepage = ResourceTreeHandler::getResourceTreeEntryData('/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
-			$this->assertIsArray($homepage);
-			$root_id = ResourceTreeHandler::getDomainRoot(Config::APP_DOMAIN_CONTEXT->value());
-			$this->assertIsInt($root_id);
-			$this->assertGreaterThan(0, $root_id);
-			$root_everyone_acl = DbHelper::selectOne('resource_acl', [
-				'resource_id' => $root_id,
-				'subject_type' => 'usergroup',
-				'subject_id' => $everyone_id,
-			], '', 'allow_view,allow_list');
-			$this->assertSame(1, (int) ($root_everyone_acl['allow_view'] ?? 0));
-			$this->assertSame(1, (int) ($root_everyone_acl['allow_list'] ?? 0));
-			$root_admin_acl = DbHelper::selectOne('resource_acl', [
-				'resource_id' => $root_id,
-				'subject_type' => 'usergroup',
-				'subject_id' => $administrators_id,
-			], '', 'allow_edit');
-			$this->assertSame(1, (int) ($root_admin_acl['allow_edit'] ?? 0));
-			$homepage_connection_id = Widget::getWidgetConnectionId((int) $homepage['node_id'], 'content', WidgetList::PLAINHTML);
-			$this->assertIsInt($homepage_connection_id);
-			$homepage_settings = PlainHtml::getSettings($homepage_connection_id);
-			$this->assertStringContainsString('Radaptor Portal', (string) ($homepage_settings['content'] ?? ''));
+			$this->assertSame($root_acl_before, $this->resourceAclSnapshot($root_id));
 
-			$login_page = ResourceTreeHandler::getResourceTreeEntryData('/', 'login.html', Config::APP_DOMAIN_CONTEXT->value());
+			$login_page = ResourceTreeHandler::getResourceTreeEntryData('/', 'login.html', $site_context);
 			$this->assertIsArray($login_page);
-			$this->assertSame(1, (int) ($login_page['is_inheriting_acl'] ?? 0));
-			$login_acl = DbHelper::selectOne('resource_acl', [
-				'resource_id' => (int) $login_page['node_id'],
-				'subject_type' => 'usergroup',
-				'subject_id' => $everyone_id,
-			], '', 'acl_id');
-			$this->assertFalse(is_array($login_acl));
-			$form_connection_id = Widget::getWidgetConnectionId((int) $login_page['node_id'], 'content', WidgetList::FORM);
+			$login_page_id = (int) $login_page['node_id'];
+			$this->assertSame('admin_empty', ResourceTypeWebpage::getResourceData($login_page_id)['layout'] ?? null);
+			$this->assertSame(self::BOOTSTRAP_OWNER, $this->getResourceAttribute($login_page_id, self::BOOTSTRAP_OWNER_ATTRIBUTE));
+			$this->assertSame(0, (int) ($login_page['is_inheriting_acl'] ?? 1));
+			$this->assertUsergroupAcl($login_page_id, Usergroups::SYSTEMUSERGROUP_EVERYBODY, [
+				'allow_view' => 1,
+				'allow_list' => 1,
+			]);
+			$form_connection_id = Widget::getWidgetConnectionId($login_page_id, 'content', WidgetList::FORM);
 			$this->assertIsInt($form_connection_id);
 			$form_attributes = AttributeHandler::getAttributes(
 				new AttributeResourceIdentifier(ResourceNames::WIDGET_CONNECTION, (string) $form_connection_id)
 			);
 			$this->assertSame(FormList::USERLOGIN, $form_attributes['form_id'] ?? null);
-			$this->assertStringNotContainsString('/login/', (string) ($homepage_settings['content'] ?? ''));
 
 			foreach ([
 				'/admin/users/' => WidgetList::USERLIST,
@@ -85,43 +75,122 @@ final class SkeletonBootstrapSeedTest extends TransactionedTestCase
 				'/admin/resources/' => WidgetList::RESOURCETREE,
 				'/admin/components/adminmenu/' => WidgetList::ADMINMENU,
 			] as $path => $widget_name) {
-				$page = ResourceTreeHandler::getResourceTreeEntryData($path, 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+				$page = ResourceTreeHandler::getResourceTreeEntryData($path, 'index.html', $site_context);
 				$this->assertIsArray($page, "Expected autogenerated page for {$path}");
 				$this->assertIsInt(Widget::getWidgetConnectionId((int) $page['node_id'], 'content', $widget_name));
 			}
 
-			$admin_folder = ResourceTreeHandler::getResourceTreeEntryData('/', 'admin', Config::APP_DOMAIN_CONTEXT->value());
+			$admin_folder = ResourceTreeHandler::getResourceTreeEntryData('/', 'admin', $site_context);
 			$this->assertIsArray($admin_folder);
+			$admin_folder_id = (int) $admin_folder['node_id'];
 			$this->assertSame('folder', $admin_folder['node_type'] ?? null);
 			$this->assertSame(0, (int) ($admin_folder['is_inheriting_acl'] ?? 1));
-			$admin_acl = DbHelper::selectOne('resource_acl', [
-				'resource_id' => (int) $admin_folder['node_id'],
-				'subject_type' => 'usergroup',
-				'subject_id' => $administrators_id,
-			], '', 'allow_view,allow_list,allow_create,allow_edit');
-			$this->assertSame(1, (int) ($admin_acl['allow_view'] ?? 0));
-			$this->assertSame(1, (int) ($admin_acl['allow_list'] ?? 0));
-			$this->assertSame(1, (int) ($admin_acl['allow_create'] ?? 0));
-			$this->assertSame(1, (int) ($admin_acl['allow_edit'] ?? 0));
+			$this->assertSame(self::BOOTSTRAP_OWNER, $this->getResourceAttribute($admin_folder_id, self::BOOTSTRAP_OWNER_ATTRIBUTE));
+			$this->assertUsergroupAcl($admin_folder_id, $administrators_id, [
+				'allow_view' => 1,
+				'allow_list' => 1,
+				'allow_create' => 1,
+				'allow_edit' => 1,
+			]);
 
-			$admin_index_page = ResourceTreeHandler::getResourceTreeEntryData('/admin/', 'index.html', Config::APP_DOMAIN_CONTEXT->value());
+			$admin_index_page = ResourceTreeHandler::getResourceTreeEntryData('/admin/', 'index.html', $site_context);
 			$this->assertIsArray($admin_index_page);
+			$admin_index_page_id = (int) $admin_index_page['node_id'];
+			$this->assertSame(self::BOOTSTRAP_OWNER, $this->getResourceAttribute($admin_index_page_id, self::BOOTSTRAP_OWNER_ATTRIBUTE));
 			$this->assertSame(
 				['PlainHtml', 'EmailQueueStats'],
 				array_map(
 					static fn (WidgetConnection $connection): string => $connection->getWidgetName(),
-					WidgetConnection::getWidgetsForSlot((int) $admin_index_page['node_id'], ResourceTypeWebpage::DEFAULT_SLOT_NAME)
+					WidgetConnection::getWidgetsForSlot($admin_index_page_id, ResourceTypeWebpage::DEFAULT_SLOT_NAME)
 				)
 			);
-			$admin_index_connection_id = Widget::getWidgetConnectionId((int) $admin_index_page['node_id'], 'content', WidgetList::PLAINHTML);
+			$admin_index_connection_id = Widget::getWidgetConnectionId($admin_index_page_id, 'content', WidgetList::PLAINHTML);
 			$this->assertIsInt($admin_index_connection_id);
 			$admin_index_settings = PlainHtml::getSettings($admin_index_connection_id);
 			$this->assertStringContainsString('Welcome to Radaptor Portal', (string) ($admin_index_settings['content'] ?? ''));
 		} finally {
+			User::logout();
+			TestHelperEnvironment::revertEnvironmentVariable('APP_DOMAIN_CONTEXT');
+			TestHelperEnvironment::revertEnvironmentVariable('RADAPTOR_SITE_CONTEXT');
 			TestHelperEnvironment::revertEnvironmentVariable('APP_BOOTSTRAP_ADMIN_TIMEZONE');
 			TestHelperEnvironment::revertEnvironmentVariable('APP_BOOTSTRAP_ADMIN_LOCALE');
 			TestHelperEnvironment::revertEnvironmentVariable('APP_BOOTSTRAP_ADMIN_PASSWORD');
 			TestHelperEnvironment::revertEnvironmentVariable('APP_BOOTSTRAP_ADMIN_USERNAME');
 		}
+	}
+
+	private function getResourceAttribute(int $resource_id, string $attribute): ?string
+	{
+		$attributes = AttributeHandler::getAttributes(
+			new AttributeResourceIdentifier(ResourceNames::RESOURCE_DATA, (string) $resource_id)
+		);
+
+		return isset($attributes[$attribute]) ? (string) $attributes[$attribute] : null;
+	}
+
+	private function deleteResourceIfExists(string $path, string $resource_name): void
+	{
+		$resource = ResourceTreeHandler::getResourceTreeEntryData($path, $resource_name, Config::APP_DOMAIN_CONTEXT->value());
+
+		if (!is_array($resource)) {
+			return;
+		}
+
+		ResourceTreeHandler::withProtectedResourceMutationBypass(
+			function () use ($resource): void {
+				$result = ResourceTreeHandler::deleteResourceEntriesRecursive((int) $resource['node_id']);
+				$this->assertSame(0, (int) ($result['erroneous'] ?? 0));
+				$this->assertTrue((bool) ($result['success'] ?? false));
+			}
+		);
+	}
+
+	private function getRoleId(string $role): int
+	{
+		$role_id = (int) DbHelper::selectOneColumn('roles_tree', ['role' => $role], '', 'node_id');
+		$this->assertGreaterThan(0, $role_id);
+
+		return $role_id;
+	}
+
+	private function getUsergroupId(string $title): int
+	{
+		$usergroup_id = (int) DbHelper::selectOneColumn('usergroups_tree', ['title' => $title], '', 'node_id');
+		$this->assertGreaterThan(0, $usergroup_id);
+
+		return $usergroup_id;
+	}
+
+	/**
+	 * @param array<string, int> $expected
+	 */
+	private function assertUsergroupAcl(int $resource_id, int $usergroup_id, array $expected): void
+	{
+		$acl = DbHelper::selectOne('resource_acl', [
+			'resource_id' => $resource_id,
+			'subject_type' => 'usergroup',
+			'subject_id' => $usergroup_id,
+		], '', implode(',', array_keys($expected)));
+		$this->assertIsArray($acl);
+
+		foreach ($expected as $column => $value) {
+			$this->assertSame($value, (int) ($acl[$column] ?? 0), "Unexpected {$column} ACL value.");
+		}
+	}
+
+	/**
+	 * @return list<array<string, mixed>>
+	 */
+	private function resourceAclSnapshot(int $resource_id): array
+	{
+		$stmt = Db::instance()->prepare(
+			'SELECT subject_type, subject_id, allow_view, allow_list, allow_create, allow_edit, allow_delete
+			 FROM resource_acl
+			 WHERE resource_id = ?
+			 ORDER BY subject_type, subject_id'
+		);
+		$stmt->execute([$resource_id]);
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 }

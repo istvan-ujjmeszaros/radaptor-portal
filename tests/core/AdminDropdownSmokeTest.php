@@ -16,11 +16,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 final class AdminDropdownSmokeTest extends TransactionedTestCase
 {
-	private const int FIXTURE_PAGE_ID = 2;
-
 	protected function setUp(): void
 	{
 		parent::setUp();
+		LocaleAdminService::ensureDefaultLocaleRegistered();
 		$this->setRequestContext();
 	}
 
@@ -41,7 +40,7 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 	{
 		$available_themes = array_flip(Themes::getAllThemeNames());
 		$configured = [
-			'RadaptorPortalAdmin' => ['RadaptorPortalAdmin', 'admin-dropdown-container'],
+			'RadaptorPortalAdmin' => ['RadaptorPortalAdmin', 'radaptor-floating-admin'],
 			'SoAdmin' => ['SoAdmin', 'admin_dropdown_icon'],
 			'Tracker' => ['Tracker', 'admin_dropdown_icon'],
 		];
@@ -66,7 +65,8 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 		string $theme_name,
 		string $dropdown_marker,
 	): void {
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="smoke-content">Content</section>');
 		$this->impersonateDevOnlyUser();
 
@@ -85,7 +85,8 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 		string $theme_name,
 		string $dropdown_marker,
 	): void {
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="smoke-content">Content</section>');
 		$this->impersonate(null);
 
@@ -103,7 +104,8 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 		string $theme_name,
 		string $_dropdownMarker,
 	): void {
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
+		$this->clearSmokePageWidgets($page_id);
 		$connection_id = $this->insertPlainHtmlConnection($page_id, '<section id="edit-marker">Edit smoke</section>');
 		$this->impersonateDevOnlyUser();
 
@@ -115,7 +117,7 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 			"Widget content not found for theme {$theme_name}",
 		);
 		$this->assertStringContainsString(
-			'id="widget-' . $connection_id . '"',
+			'id="edit-widget-' . $connection_id . '"',
 			$output,
 			"Widget connection wrapper not found for theme {$theme_name}",
 		);
@@ -138,7 +140,8 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 
 	public function testSoAdminLogoutLinkDoesNotDoubleEscapeOrReuseBrokenLogoutReferer(): void
 	{
-		$page_id = self::FIXTURE_PAGE_ID;
+		$page_id = $this->ensureSmokePage();
+		$this->clearSmokePageWidgets($page_id);
 		$this->insertPlainHtmlConnection($page_id, '<section id="smoke-content">Content</section>');
 		$this->setRequestContext([
 			'REQUEST_URI' => '/admin/?context=user&amp;event=logout&amp;referer=http%3A%2F%2Flocalhost%2Fadmin%2F',
@@ -258,6 +261,34 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 		PlainHtml::saveSettings(['content' => $content], $connection_id);
 
 		return $connection_id;
+	}
+
+	private function ensureSmokePage(): int
+	{
+		$resource = ResourceTreeHandler::getResourceTreeEntryData('/', 'admin-dropdown-smoke.html');
+
+		if (is_array($resource)) {
+			return (int) $resource['node_id'];
+		}
+
+		$page_id = ResourceTreeHandler::withProtectedResourceMutationBypass(
+			static fn (): ?int => ResourceTreeHandler::createResourceTreeEntryFromPath(
+				'/',
+				'admin-dropdown-smoke.html',
+				'webpage',
+				'admin_default',
+			),
+		);
+
+		$this->assertIsInt($page_id);
+
+		return $page_id;
+	}
+
+	private function clearSmokePageWidgets(int $page_id): void
+	{
+		$stmt = Db::instance()->prepare('DELETE FROM widget_connections WHERE page_id = ?');
+		$stmt->execute([$page_id]);
 	}
 }
 

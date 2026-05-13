@@ -24,6 +24,25 @@
           }
         ]
       }
+    },
+    {
+      "path": "/admin/email-outbox/",
+      "layout": "admin_default",
+      "attributes": {
+        "title": "Email outbox",
+        "description": "Outbound email queue and delivery state."
+      },
+      "acl": {
+        "inherit": true,
+        "usergroups": []
+      },
+      "slots": {
+        "content": [
+          {
+            "widget": "EmailOutbox"
+          }
+        ]
+      }
     }
   ]
 }

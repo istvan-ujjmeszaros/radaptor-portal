@@ -36,19 +36,19 @@ test("bootstrap admin can log in and open the admin dashboard", async ({ page })
 	await expect(page.locator("body")).not.toContainText("Unknown library:");
 
 	await enablePublicEditMode(page, "/");
-	await expect(page.locator(".admin-dropdown-container")).toHaveCount(1);
-	await page.locator(".admin-dropdown-container button").click();
-	await expect(page.locator(".admin-dropdown-container .dropdown-menu.show")).toHaveCount(1);
-	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("SEO");
-	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("Edit mode");
+	await expect(page.locator(".radaptor-floating-admin")).toHaveCount(1);
+	await page.locator(".radaptor-floating-admin__trigger").click();
+	await expect(page.locator(".radaptor-floating-admin[data-open='true'] .radaptor-floating-admin__menu")).toHaveCount(1);
+	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("SEO");
+	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("Edit mode");
 	await expect(page.locator("body")).not.toContainText("Unknown library:");
 
 	await enablePublicEditMode(page, "/request-access/");
-	await expect(page.locator(".admin-dropdown-container")).toHaveCount(1);
-	await page.locator(".admin-dropdown-container button").click();
-	await expect(page.locator(".admin-dropdown-container .dropdown-menu.show")).toHaveCount(1);
-	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("SEO");
-	await expect(page.locator(".admin-dropdown-container .dropdown-menu")).toContainText("Edit mode");
+	await expect(page.locator(".radaptor-floating-admin")).toHaveCount(1);
+	await page.locator(".radaptor-floating-admin__trigger").click();
+	await expect(page.locator(".radaptor-floating-admin[data-open='true'] .radaptor-floating-admin__menu")).toHaveCount(1);
+	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("SEO");
+	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("Edit mode");
 	await expect(page.locator("body")).not.toContainText("Unknown library:");
 });
 
