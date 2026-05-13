@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Comparación técnica',
   'portal.nav.home' => 'Inicio',
   'portal.nav.request_access' => 'Solicitar acceso',
+  'portal.nav.roadmap' => 'Hoja de ruta',
   'portal.value_props.item.authorization.description' => 'Las comprobaciones de roles viven junto al caso de uso, no dispersas entre middleware y capas helper.',
   'portal.value_props.item.authorization.title' => 'La autorización queda local',
   'portal.value_props.item.control_flow.description' => 'No tienes que rastrear convenciones de routing, helpers de políticas y la gravedad del controller antes de encontrar el comportamiento real.',

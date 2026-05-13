@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Technical Comparison',
   'portal.nav.home' => 'Home',
   'portal.nav.request_access' => 'Request Access',
+  'portal.nav.roadmap' => 'Roadmap',
   'portal.value_props.item.authorization.description' => 'Role checks live next to the use case instead of being scattered across middleware and helper layers.',
   'portal.value_props.item.authorization.title' => 'Authorization stays local',
   'portal.value_props.item.control_flow.description' => 'You do not have to trace routing conventions, policy helpers, and controller gravity before finding the actual behavior.',

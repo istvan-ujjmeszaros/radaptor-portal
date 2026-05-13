@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Technikai összehasonlítás',
   'portal.nav.home' => 'Kezdőlap',
   'portal.nav.request_access' => 'Hozzáférés kérése',
+  'portal.nav.roadmap' => 'Ütemterv',
   'portal.value_props.item.authorization.description' => 'A role checkek a use case mellett élnek, nem middleware-ek és helper rétegek között szétszórva.',
   'portal.value_props.item.authorization.title' => 'Az authorizáció lokális marad',
   'portal.value_props.item.control_flow.description' => 'Nem kell routing konvenciókat, policy helpereket és controller-gravitációt végigkövetni, mielőtt megtalálod a tényleges viselkedést.',

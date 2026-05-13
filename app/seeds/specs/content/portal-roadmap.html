@@ -1,0 +1,110 @@
+<!--
+	Source of truth for the public Portal roadmap demo page.
+	Keep this file-backed content until the roadmap has a dedicated editable content model.
+-->
+<section class="roadmap-page py-5">
+	<div class="container">
+		<div class="row justify-content-center mb-5">
+			<div class="col-xl-9 text-center">
+				<div class="hero-badge mb-4">
+					<span class="badge-glow">
+						<i class="bi bi-signpost-split me-2"></i>
+						Radaptor Roadmap
+					</span>
+				</div>
+				<h1 class="hero-title mb-4">What is stable, what is being hardened, and what comes next</h1>
+				<p class="hero-description mb-0">
+					This roadmap keeps the public demo honest: it separates platform foundations that already work,
+					active hardening work, and the next product-facing capabilities planned for Radaptor.
+				</p>
+			</div>
+		</div>
+
+		<div class="roadmap-timeline mx-auto">
+			<article class="roadmap-item roadmap-item--done">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Stable</span>
+					</div>
+					<h2 class="h3 mb-3">Registry-first package flow</h2>
+					<p class="text-muted mb-0">
+						Consumer apps run from immutable registry packages by default, while maintainer-only package
+						development stays isolated in local overrides. The split is explicit, testable, and safe for app
+						repositories.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--done">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Stable</span>
+					</div>
+					<h2 class="h3 mb-3">Widget-composed public and admin pages</h2>
+					<p class="text-muted mb-0">
+						The portal homepage, comparison page, request-access flow, login, and admin entry points are built
+						from page specs, layouts, widgets, and explicit resource ACLs instead of ad-hoc controller output.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--active">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Hardening now</span>
+					</div>
+					<h2 class="h3 mb-3">Migration, export, and cutover safety</h2>
+					<p class="text-muted mb-0">
+						The current hardening pass focuses on reliable site snapshots, safer restore flows, worker cutover
+						controls, and explicit guards that prevent content loss during package and application upgrades.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--active">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Hardening now</span>
+					</div>
+					<h2 class="h3 mb-3">Editable static-site migration workflow</h2>
+					<p class="text-muted mb-0">
+						New site implementations start by matching the supplied static design with app-owned layouts,
+						themes, file-backed media, and static widgets before dynamic content models are introduced.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--planned">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Planned</span>
+					</div>
+					<h2 class="h3 mb-3">Media-aware content widgets</h2>
+					<p class="text-muted mb-0">
+						The next app-facing layer is a cleaner pattern for galleries, VFS-backed media folders, image
+						presets, and admin-editable content entities that can still render through app-specific templates.
+					</p>
+				</div>
+			</article>
+
+			<article class="roadmap-item roadmap-item--planned">
+				<div class="roadmap-item__rail-dot" aria-hidden="true"></div>
+				<div class="roadmap-item__panel glass-card p-4 p-lg-5">
+					<div class="roadmap-item__meta mb-3">
+						<span class="roadmap-item__status-badge">Planned</span>
+					</div>
+					<h2 class="h3 mb-3">Visual editing on top of the same model</h2>
+					<p class="text-muted mb-0">
+						A drag-and-drop page editor is the natural usability layer, but it should sit on the existing
+						resource, layout, widget, and ACL model instead of bypassing it with a separate builder stack.
+					</p>
+				</div>
+			</article>
+		</div>
+	</div>
+</section>

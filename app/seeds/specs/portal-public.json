@@ -68,6 +68,29 @@
           }
         ]
       }
+    },
+    {
+      "path": "/roadmap/",
+      "layout": "portal_marketing",
+      "attributes": {
+        "title": "Roadmap",
+        "description": "What is stable, what is being hardened, and what comes next for the Radaptor Portal demo.",
+        "keywords": "Radaptor, roadmap, tech demo, portal showcase"
+      },
+      "acl": {
+        "inherit": true,
+        "usergroups": []
+      },
+      "slots": {
+        "content": [
+          {
+            "widget": "PlainHtml",
+            "settings": {
+              "content_file": "seeds/specs/content/portal-roadmap.html"
+            }
+          }
+        ]
+      }
     }
   ]
 }

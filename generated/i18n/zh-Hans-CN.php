@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => '技术比较',
   'portal.nav.home' => '首页',
   'portal.nav.request_access' => '请求访问',
+  'portal.nav.roadmap' => '路线图',
   'portal.value_props.item.authorization.description' => '角色检查位于用例旁边，而不是分散在中间件和辅助层中。',
   'portal.value_props.item.authorization.title' => '授权保持本地',
   'portal.value_props.item.control_flow.description' => '在找到实际行为之前，你无需追踪路由约定、策略辅助函数和控制器惯性。',

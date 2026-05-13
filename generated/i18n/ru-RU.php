@@ -824,6 +824,7 @@ return array (
   'portal.nav.comparison' => 'Техническое сравнение',
   'portal.nav.home' => 'Главная',
   'portal.nav.request_access' => 'Запросить доступ',
+  'portal.nav.roadmap' => 'Дорожная карта',
   'portal.value_props.item.authorization.description' => 'Проверки ролей находятся рядом с use case, а не разбросаны по middleware и helper-слоям.',
   'portal.value_props.item.authorization.title' => 'Авторизация остается локальной',
   'portal.value_props.item.control_flow.description' => 'Не нужно отслеживать соглашения маршрутизации, policy helper и гравитацию контроллеров, чтобы найти реальное поведение.',
