@@ -167,8 +167,8 @@ The supported maintainer path is:
 After that:
 
 - commit the bumped `.registry-package.json` in the package repo
-- commit + push the `radaptor_plugin_registry` repo
-- pushes to `radaptor_plugin_registry/main` auto-deploy to `https://packages.radaptor.com/`
+- commit + push the `radaptor_package_registry` repo
+- pushes to `radaptor_package_registry/main` auto-deploy to `https://packages.radaptor.com/`
 - only then run `./radaptor.sh update --ignore-local-overrides --json` so `radaptor.lock.json` and `packages/registry/...`
   pick up the new version
 
@@ -228,7 +228,7 @@ Useful maintainer package commands:
 For package work that must be published, use the same review/release sequence as `radaptor-app`:
 package PR, `@codex review`, clean repo checks, squash merge, `package:release`, package metadata
 commit, registry commit/deploy, then consumer `update`. Run release commands from the
-package-dev runtime so `/workspace/packages-dev/...` and `/workspace/radaptor_plugin_registry` are
+package-dev runtime so `/workspace/packages-dev/...` and `/workspace/radaptor_package_registry` are
 mounted.
 
 ## Docker CLI options
