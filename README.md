@@ -15,9 +15,7 @@ What is intentionally **not** in this slice:
 - no account provisioning behind the request-access confirmation flow
 - no standalone newsletter subscriber/admin surface
 
-For internal maintainer workspace topics such as `packages-dev/...`, `radaptor.local.json`, and
-the workspace package-dev Docker override, see the workspace-level
-[README.md](../README.md).
+For maintainer-local package work, see the editable first-party package repo workflow below.
 
 ## Quick start
 
@@ -172,17 +170,16 @@ After that:
 - only then run `./radaptor.sh update --ignore-local-overrides --json` so `radaptor.lock.json` and `packages/registry/...`
   pick up the new version
 
-If you want to work on first-party packages locally, use the shared workspace repos:
+If you want to work on first-party packages locally, use the app-local editable repos:
 
-- `/apps/_RADAPTOR/packages-dev/core/framework/`
-- `/apps/_RADAPTOR/packages-dev/core/cms/`
-- `/apps/_RADAPTOR/packages-dev/themes/<theme-id>/`
+- `packages-dev/core/framework/`
+- `packages-dev/core/cms/`
+- `packages-dev/themes/<theme-id>/`
 
 Standalone `docker-compose-dev.yml` stays registry-first. If you need first-party package dev mode,
-start the Portal through the workspace helper so `/workspace/packages-dev/...` is mounted:
+start the Portal through the package-dev helper so `/workspace/packages-dev/...` is mounted:
 
 ```bash
-cd /apps/_RADAPTOR
 ./bin/docker-compose-packages-dev.sh radaptor-portal up -d --build
 ```
 
@@ -205,11 +202,11 @@ While local overrides are active, the app writes `radaptor.local.lock.json` inst
 committed lockfile. Use `./radaptor.sh local-lock:refresh --json` to reseed the local lock from the
 committed registry-first lock plus the active local overrides.
 
-The workspace package-dev runtime makes dev mode explicit:
+The package-dev runtime makes dev mode explicit:
 
 - `RADAPTOR_WORKSPACE_DEV_MODE=1`
 - `RADAPTOR_DEV_ROOT=/workspace/packages-dev`
-- only the literal `RADAPTOR_WORKSPACE_DEV_MODE=1` value enables workspace dev mode
+- only the literal `RADAPTOR_WORKSPACE_DEV_MODE=1` value enables package-dev mode
 
 If `radaptor.local.json` exists without that runtime mode, bootstrap and CLI now fail fast instead
 of guessing.
@@ -222,8 +219,6 @@ Useful maintainer package commands:
 - `./radaptor.sh package:status --json`
 - `./radaptor.sh package:release <package-key> --json`
 - `./radaptor.sh package:prerelease <package-key> --channel alpha|beta|rc --json`
-- `cd /apps/_RADAPTOR && ./bin/check-workspace-package-state.sh --strict`
-- `cd /apps/_RADAPTOR && ./bin/refresh-workspace-consumer-locks.sh`
 
 For package work that must be published, use the same review/release sequence as `radaptor-app`:
 package PR, `@codex review`, clean repo checks, squash merge, `package:release`, package metadata
@@ -331,7 +326,7 @@ sync, translation-memory rebuild, `build:all` including `build:assets`, and cach
 
 ## Notes
 
-- The committed manifest is registry-first. Maintainer-local first-party package development is enabled through gitignored `radaptor.local.json`, but only when the workspace package-dev compose override is active.
+- The committed manifest is registry-first. Maintainer-local first-party package development is enabled through gitignored `radaptor.local.json`, but only when the package-dev compose override is active.
 - Package assets are generated under `public/www/assets/packages/` and are git-ignored.
 - `framework`, `cms`, and `portal-admin` are expected to come from the registry, not from sibling working copies.
 - The public portal theme is app-owned in this repo under `app/themes/RadaptorPortal/`.

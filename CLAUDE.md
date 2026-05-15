@@ -22,18 +22,19 @@ under `app/seeds/specs/content/`. If a page uses `settings.content_file`, that f
 - Maintainer-local first-party package development uses gitignored:
   - `radaptor.local.json`
   - `radaptor.local.lock.json`
-  - Runtime: `../bin/docker-compose-packages-dev.sh radaptor-portal ...`
+  - Runtime: `./bin/docker-compose-packages-dev.sh radaptor-portal ...`
 - `packages/registry/...` and `packages-dev/...` must never be connected with symlinks.
 - `radaptor.local.json` without the package-dev compose override is an invalid runtime state and
   must fail hard.
 
 ## Editable Package Repos
 
-First-party editable repos live at workspace root, mounted into the package-dev runtime:
-- `/apps/_RADAPTOR/packages-dev/core/framework` → `/workspace/packages-dev/core/framework`
-- `/apps/_RADAPTOR/packages-dev/core/cms` → `/workspace/packages-dev/core/cms`
-- `/apps/_RADAPTOR/packages-dev/themes/portal-admin` → `/workspace/packages-dev/themes/portal-admin`
-- `/apps/_RADAPTOR/packages-dev/themes/so-admin` → `/workspace/packages-dev/themes/so-admin`
+First-party editable repos live in the app-local, gitignored package-dev root and are mounted into
+the package-dev runtime:
+- `packages-dev/core/framework` → `/workspace/packages-dev/core/framework`
+- `packages-dev/core/cms` → `/workspace/packages-dev/core/cms`
+- `packages-dev/themes/portal-admin` → `/workspace/packages-dev/themes/portal-admin`
+- `packages-dev/themes/so-admin` → `/workspace/packages-dev/themes/so-admin`
 
 ## Supported Runtime Rule
 
