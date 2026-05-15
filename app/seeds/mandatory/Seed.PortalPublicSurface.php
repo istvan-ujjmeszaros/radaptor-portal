@@ -6,9 +6,11 @@ class SeedPortalPublicSurface extends AbstractSeed
 	{
 		$hash_inputs = [];
 		$spec_path = DEPLOY_ROOT . 'app/seeds/specs/portal-public.json';
-		$hash_inputs[] = (string) file_get_contents($spec_path);
+		$spec_json = (string) file_get_contents($spec_path);
+		$hash_inputs[] = 'public-root-acl-v1';
+		$hash_inputs[] = $spec_json;
 
-		$spec = json_decode((string) $hash_inputs[0], true);
+		$spec = json_decode($spec_json, true);
 
 		if (is_array($spec)) {
 			foreach ((array) ($spec['webpages'] ?? []) as $webpage_spec) {
@@ -50,10 +52,78 @@ class SeedPortalPublicSurface extends AbstractSeed
 	{
 		$cms = new CmsSeedHelper($context);
 		$spec = $cms->loadJson('seeds/specs/portal-public.json');
+		$this->ensurePublicRootAcl();
 
 		foreach ((array) ($spec['webpages'] ?? []) as $webpage_spec) {
 			$cms->upsertWebpage($this->hydrateContentFiles($context, $webpage_spec));
 		}
+	}
+
+	private function ensurePublicRootAcl(): void
+	{
+		$root_resource_id = (int) DbHelper::selectOneColumn('resource_tree', ['parent_id' => 0], '', 'node_id');
+
+		if ($root_resource_id <= 0) {
+			throw new RuntimeException('Root resource not found.');
+		}
+
+		ResourceAcl::setInheritance($root_resource_id, false);
+		$this->ensureUsergroupAcl($root_resource_id, 'Everyone', [
+			'view' => true,
+			'list' => true,
+			'create' => false,
+			'edit' => false,
+			'delete' => false,
+			'publish' => false,
+		]);
+		$this->ensureUsergroupAcl($root_resource_id, 'Administrators', [
+			'view' => true,
+			'list' => true,
+			'create' => true,
+			'edit' => true,
+			'delete' => true,
+			'publish' => true,
+		]);
+		$this->ensureUsergroupAcl($root_resource_id, 'Developers', [
+			'view' => true,
+			'list' => true,
+			'create' => true,
+			'edit' => true,
+			'delete' => true,
+			'publish' => true,
+		]);
+	}
+
+	/**
+	 * @param array{view: bool, list: bool, create: bool, edit: bool, delete: bool, publish: bool} $acl
+	 */
+	private function ensureUsergroupAcl(int $resource_id, string $description, array $acl): void
+	{
+		$usergroup_id = (int) DbHelper::selectOneColumn('usergroups_tree', ['description' => $description], '', 'node_id');
+
+		if ($usergroup_id <= 0) {
+			throw new RuntimeException("Usergroup not found: {$description}");
+		}
+
+		ResourceAcl::assignToUsergroup($usergroup_id, $resource_id);
+		$acl_id = (int) DbHelper::selectOneColumn('resource_acl', [
+			'resource_id' => $resource_id,
+			'subject_type' => 'usergroup',
+			'subject_id' => $usergroup_id,
+		], '', 'acl_id');
+
+		if ($acl_id <= 0) {
+			throw new RuntimeException("Unable to load ACL for usergroup: {$description}");
+		}
+
+		ResourceAcl::updateAcl($acl_id, [
+			'allow_view' => $acl['view'] ? 1 : 0,
+			'allow_list' => $acl['list'] ? 1 : 0,
+			'allow_create' => $acl['create'] ? 1 : 0,
+			'allow_edit' => $acl['edit'] ? 1 : 0,
+			'allow_delete' => $acl['delete'] ? 1 : 0,
+			'allow_publish' => $acl['publish'] ? 1 : 0,
+		]);
 	}
 
 	/**
