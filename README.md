@@ -200,8 +200,13 @@ Keep committed `radaptor.json` registry-first. Put maintainer-local overrides in
 ```
 
 While local overrides are active, the app writes `radaptor.local.lock.json` instead of mutating the
-committed lockfile. Use `./radaptor.sh local-lock:refresh --json` to reseed the local lock from the
-committed registry-first lock plus the active local overrides.
+committed lockfile. Use the package-dev runtime to reseed the local lock from the committed
+registry-first lock plus the active local overrides:
+
+```bash
+./bin/docker-compose-packages-dev.sh radaptor-portal exec -T php bash -lc \
+  'cd /app && php radaptor.php local-lock:refresh --json'
+```
 
 The package-dev runtime makes dev mode explicit:
 
@@ -218,9 +223,14 @@ not be edited for first-party package development.
 
 Useful maintainer package commands:
 
-- `./radaptor.sh package:status --json`
-- `./radaptor.sh package:release <package-key> --json`
-- `./radaptor.sh package:prerelease <package-key> --channel alpha|beta|rc --json`
+```bash
+./bin/docker-compose-packages-dev.sh radaptor-portal exec -T php bash -lc \
+  'cd /app && php radaptor.php package:status --json'
+./bin/docker-compose-packages-dev.sh radaptor-portal exec -T php bash -lc \
+  'cd /app && php radaptor.php package:release <package-key> --json'
+./bin/docker-compose-packages-dev.sh radaptor-portal exec -T php bash -lc \
+  'cd /app && php radaptor.php package:prerelease <package-key> --channel alpha|beta|rc --json'
+```
 
 For package work that must be published, use the same review/release sequence as `radaptor-app`:
 package PR, `@codex review`, clean repo checks, squash merge, `package:release`, package metadata
