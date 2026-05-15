@@ -29,7 +29,7 @@ final class PackageInstallServiceStorageTest extends TestCase
 							'type' => 'registry',
 							'registry' => 'default',
 							'registry_url' => 'http://host.docker.internal:8091/registry.json',
-							'dist_url' => 'http://host.docker.internal:8091/packages/radaptor-core-framework/0.1.0/package.zip',
+							'dist_url' => 'http://host.docker.internal:8091/packages/radaptor-core-framework/0.1.0/plugin.zip',
 							'dist_sha256' => 'abc123',
 							'path' => 'packages/registry/core/framework',
 							'version' => '0.1.0',
@@ -55,7 +55,7 @@ final class PackageInstallServiceStorageTest extends TestCase
 			$sanitized['packages']['core:framework']['resolved']['registry_url']
 		);
 		$this->assertSame(
-			'https://packages.example.invalid/packages/radaptor-core-framework/0.1.0/package.zip',
+			'https://packages.example.invalid/packages/radaptor-core-framework/0.1.0/plugin.zip',
 			$sanitized['packages']['core:framework']['resolved']['dist_url']
 		);
 	}
