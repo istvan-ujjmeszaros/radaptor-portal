@@ -26,8 +26,13 @@ Maintainer-local first-party package overrides are gitignored:
 
 ## First-Party Package Workflow
 
-- Editable first-party repos live under `/apps/_RADAPTOR/packages-dev/...`.
-- Inside Docker they are available under `/workspace/packages-dev/...`, but only when the workspace package-dev compose override is active.
+- Editable first-party repos live in the app-local, gitignored `packages-dev/` directory.
+- Clone first-party repos from their GitHub SSH origins:
+  - `packages-dev/core/framework`: `git@github.com:istvan-ujjmeszaros/radaptor-framework.git`
+  - `packages-dev/core/cms`: `git@github.com:istvan-ujjmeszaros/radaptor-cms.git`
+  - `packages-dev/themes/portal-admin`: `git@github.com:istvan-ujjmeszaros/radaptor-portal-admin.git`
+  - `packages-dev/themes/so-admin`: `git@github.com:istvan-ujjmeszaros/radaptor-so-admin.git`
+- Inside Docker they are available under `/workspace/packages-dev/...`, but only when the package-dev compose override is active.
 - The committed Portal manifest must stay registry-first.
 - Maintainer-local dev mode is enabled only through `radaptor.local.json`, not by editing committed `radaptor.json`.
 - `packages/registry/...` and `packages-dev/...` must never be connected with symlinks.
