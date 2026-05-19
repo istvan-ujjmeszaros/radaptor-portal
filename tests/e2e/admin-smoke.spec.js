@@ -6,6 +6,10 @@ test("bootstrap admin can log in and open the admin dashboard", async ({ page })
 
 	await page.goto("/login.html");
 	await expect(page).toHaveURL(/\/login\.html$/);
+	await expect(page.locator('input[name="form_id"]')).toHaveValue("UserLogin");
+	await expect(page.locator('input[name="form_instance_id"]')).toHaveCount(1);
+	await expect(page.locator('input[name="form_build_id"]')).toHaveCount(1);
+	await expect(page.locator('input[name="csrf_token"]')).toHaveCount(1);
 
 	await page.getByLabel(/username/i).fill(username);
 	await page.getByLabel(/password/i).fill(password);
@@ -40,7 +44,7 @@ test("bootstrap admin can log in and open the admin dashboard", async ({ page })
 	await page.locator(".radaptor-floating-admin__trigger").click();
 	await expect(page.locator(".radaptor-floating-admin[data-open='true'] .radaptor-floating-admin__menu")).toHaveCount(1);
 	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("SEO");
-	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("Edit mode");
+	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText(/edit mode/i);
 	await expect(page.locator("body")).not.toContainText("Unknown library:");
 
 	await enablePublicEditMode(page, "/request-access/");
@@ -48,7 +52,7 @@ test("bootstrap admin can log in and open the admin dashboard", async ({ page })
 	await page.locator(".radaptor-floating-admin__trigger").click();
 	await expect(page.locator(".radaptor-floating-admin[data-open='true'] .radaptor-floating-admin__menu")).toHaveCount(1);
 	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("SEO");
-	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText("Edit mode");
+	await expect(page.locator(".radaptor-floating-admin__menu")).toContainText(/edit mode/i);
 	await expect(page.locator("body")).not.toContainText("Unknown library:");
 });
 
