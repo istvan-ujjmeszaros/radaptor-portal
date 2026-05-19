@@ -48,6 +48,7 @@ final class LocalPackageRegistryBuilderTest extends TestCase
 					'public' => [],
 				],
 				'dist_exclude' => [],
+				'tag_contexts' => [],
 			],
 			[
 				'.registry-package.json',

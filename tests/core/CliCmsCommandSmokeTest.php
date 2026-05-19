@@ -9,12 +9,12 @@ final class CliCmsCommandSmokeTest extends TestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-		Fixtures::loadAll();
+		Fixtures::loadAll($this->getTestDsn());
 	}
 
 	protected function tearDown(): void
 	{
-		Fixtures::loadAll();
+		Fixtures::loadAll($this->getTestDsn());
 		parent::tearDown();
 	}
 
@@ -113,5 +113,10 @@ final class CliCmsCommandSmokeTest extends TestCase
 		$context = new SeedContext('app', 'mandatory', DEPLOY_ROOT . 'app', false);
 		(new SeedSkeletonBootstrap())->run($context);
 		(new SeedPortalAdminSurface())->run($context);
+	}
+
+	private function getTestDsn(): string
+	{
+		return Db::rewriteDsnToTesting(Config::DB_DEFAULT_DSN->value());
 	}
 }

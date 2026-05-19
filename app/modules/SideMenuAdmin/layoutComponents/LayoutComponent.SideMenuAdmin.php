@@ -28,6 +28,7 @@ class LayoutComponentSideMenuAdmin extends AbstractLayoutComponent
 			'admin.menu.translations' => t('admin.menu.translations'),
 			'admin.menu.import_export' => t('admin.menu.import_export'),
 			'admin.menu.email_outbox' => self::translateWithFallback('admin.menu.email_outbox', 'Email outbox'),
+			'admin.menu.locales' => t('admin.menu.locales'),
 			'admin.menu.admin_menu' => t('admin.menu.admin_menu'),
 			'admin.menu.theme_selector' => t('admin.menu.theme_selector'),
 			'admin.menu.section.developer_tools' => t('admin.menu.section.developer_tools'),
