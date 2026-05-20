@@ -12,13 +12,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "6e7086742f1e6ecb0c0daab980a53d294540011ab04e8b4a0f5c080aaea65af6",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-cms/0.1.36/package.zip",
+                "dist_sha256": "812fb9572d5ec54ff1b28663872274dcc4297aa530f556b03db6b9c56ad84832",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-cms/0.1.37/package.zip",
                 "path": "packages/registry/core/cms",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.36"
+                "version": "0.1.37"
             },
             "dependencies": {
                 "radaptor/core/framework": "^0.1.36"
