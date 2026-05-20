@@ -219,7 +219,7 @@ return [
 						'source' => 'post',
 						'type' => 'string',
 						'required' => true,
-						'description' => 'Class-backed form descriptor id.',
+						'description' => 'Class-backed system form id or published capture definition_slug.',
 					],
 					1 => [
 						'name' => 'form_instance_id',
