@@ -83,6 +83,10 @@ Maintainer-local first-party package overrides are gitignored:
 
 ## Container Bring-up Rule
 
+- Before implementation, commits, hooks, CLI work, browser smoke, Playwright, or package-dev verification, start every Docker Compose stack that is relevant to the repos/worktrees you will touch.
+- Clean proof/tmp app worktrees, PR-sync clones, and other app checkouts are separate Docker Compose projects because Docker labels include the worktree path. A running `php` container from another checkout does not satisfy this worktree's hooks.
+- Bring up this worktree's own stack with `docker compose -f docker-compose-dev.yml up -d --build` before relying on its hooks or tests. Set non-conflicting ports in `.env` when multiple app stacks run at once.
+- Do not bypass Git hooks only because the expected Docker Compose project is not running. Start the relevant stack first; if a hook still cannot run, state the reason and the equivalent checks that were run before committing.
 - After a reboot and before general verification, start the full dev stack with `docker compose -f docker-compose-dev.yml up -d --build`.
 - Do not bring this app up with a handpicked service subset unless the task explicitly needs a narrower diagnostic setup.
 - The queue worker service name is `swoole-queue-worker`; Swoole itself is built into the `php` image.
