@@ -229,6 +229,20 @@ return [
 						'description' => 'Stable placement id for this rendered form instance.',
 					],
 					2 => [
+						'name' => 'form_definition_version_id',
+						'source' => 'post',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Exact capture definition version rendered with the form.',
+					],
+					3 => [
+						'name' => 'form_render_state_id',
+						'source' => 'post',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Server-issued render state binding for versioned capture submits.',
+					],
+					4 => [
 						'name' => 'csrf_token',
 						'source' => 'post',
 						'type' => 'string',
@@ -261,6 +275,301 @@ return [
 			'notes' => [
 			],
 			'side_effects' => [
+			],
+		],
+		'form_builder:create' => [
+			'event_name' => 'form_builder.create',
+			'group' => 'CMS Authoring',
+			'name' => 'Create capture form draft',
+			'summary' => 'Creates a DB-authored capture form definition and its initial draft version.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'New capture definition slug.',
+					],
+					1 => [
+						'name' => 'title',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Initial form title.',
+					],
+					2 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Creates form_definitions and form_definition_versions draft rows.',
+			],
+			'class' => 'EventFormBuilderCreate',
+			'slug' => 'form_builder:create',
+			'route' => [
+				'event_name' => 'form_builder.create',
+				'context' => 'form_builder',
+				'event' => 'create',
+				'query' => '?context=form_builder&event=create',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.create\')',
+				'template_helper' => 'event_url(\'form_builder.create\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.create\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.create\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_builder:editor_fragment' => [
+			'event_name' => 'form_builder.editor_fragment',
+			'group' => 'CMS Authoring',
+			'name' => 'Render capture form builder editor fragment',
+			'summary' => 'Renders the capture form builder chrome for insertion into the admin forms modal.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'panel',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Initial editor panel.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'html',
+				'content_type' => 'text/html; charset=UTF-8',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventFormBuilderEditorFragment',
+			'slug' => 'form_builder:editor_fragment',
+			'route' => [
+				'event_name' => 'form_builder.editor_fragment',
+				'context' => 'form_builder',
+				'event' => 'editor_fragment',
+				'query' => '?context=form_builder&event=editor_fragment',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.editor_fragment\')',
+				'template_helper' => 'event_url(\'form_builder.editor_fragment\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.editor_fragment\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.editor_fragment\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_builder:preview_render' => [
+			'event_name' => 'form_builder.preview_render',
+			'group' => 'CMS Authoring',
+			'name' => 'Render capture form builder preview',
+			'summary' => 'Validates a capture descriptor and renders a non-persistent preview fragment for the builder iframe.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'descriptor_json',
+						'source' => 'body',
+						'type' => 'json-object',
+						'required' => true,
+						'description' => 'Capture descriptor JSON.',
+					],
+					2 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventFormBuilderPreviewRender',
+			'slug' => 'form_builder:preview_render',
+			'route' => [
+				'event_name' => 'form_builder.preview_render',
+				'context' => 'form_builder',
+				'event' => 'preview_render',
+				'query' => '?context=form_builder&event=preview_render',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.preview_render\')',
+				'template_helper' => 'event_url(\'form_builder.preview_render\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.preview_render\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.preview_render\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_builder:publish' => [
+			'event_name' => 'form_builder.publish',
+			'group' => 'CMS Authoring',
+			'name' => 'Publish capture form draft',
+			'summary' => 'Promotes a DB-authored capture form draft version to the live published version.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'version_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Draft version id to publish. Defaults to active draft.',
+					],
+					2 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Updates form_definition_versions and moves form_definitions.published_version_id.',
+			],
+			'class' => 'EventFormBuilderPublish',
+			'slug' => 'form_builder:publish',
+			'route' => [
+				'event_name' => 'form_builder.publish',
+				'context' => 'form_builder',
+				'event' => 'publish',
+				'query' => '?context=form_builder&event=publish',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.publish\')',
+				'template_helper' => 'event_url(\'form_builder.publish\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.publish\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.publish\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_builder:save_draft' => [
+			'event_name' => 'form_builder.save_draft',
+			'group' => 'CMS Authoring',
+			'name' => 'Save capture form draft',
+			'summary' => 'Validates and saves one active DB-authored capture form draft version.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'descriptor_json',
+						'source' => 'body',
+						'type' => 'json-object',
+						'required' => true,
+						'description' => 'Capture descriptor JSON.',
+					],
+					2 => [
+						'name' => 'base_server_hash',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Hash of the server state the editor loaded.',
+					],
+					3 => [
+						'name' => 'overwrite',
+						'source' => 'body',
+						'type' => 'bool',
+						'required' => false,
+						'description' => 'Explicit conflict override flag.',
+					],
+					4 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Abandons previous active draft rows and saves one active draft row.',
+			],
+			'class' => 'EventFormBuilderSaveDraft',
+			'slug' => 'form_builder:save_draft',
+			'route' => [
+				'event_name' => 'form_builder.save_draft',
+				'context' => 'form_builder',
+				'event' => 'save_draft',
+				'query' => '?context=form_builder&event=save_draft',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.save_draft\')',
+				'template_helper' => 'event_url(\'form_builder.save_draft\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.save_draft\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.save_draft\')',
+			],
+			'notes' => [
 			],
 		],
 		'fragment:render' => [

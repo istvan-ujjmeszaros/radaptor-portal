@@ -3,6 +3,9 @@
 class WidgetList
 {
 	public const string ADMINMENU = 'AdminMenu';
+	public const string CAPTUREFORM = 'CaptureForm';
+	public const string CAPTUREFORMBUILDER = 'CaptureFormBuilder';
+	public const string CAPTUREFORMLIST = 'CaptureFormList';
 	public const string CLIRUNNER = 'CLIRunner';
 	public const string EMAILOUTBOX = 'EmailOutbox';
 	public const string EMAILQUEUESTATS = 'EmailQueueStats';
@@ -41,6 +44,9 @@ class WidgetList
 
 	protected static array $_widgetNames = [
 		'AdminMenu',
+		'CaptureForm',
+		'CaptureFormBuilder',
+		'CaptureFormList',
 		'CLIRunner',
 		'EmailOutbox',
 		'EmailQueueStats',
