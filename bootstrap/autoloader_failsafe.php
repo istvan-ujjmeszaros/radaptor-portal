@@ -59,6 +59,10 @@ class AutoloaderFailsafe
 			}
 
 			if ($pathEntry->isDir()) {
+				if (self::isPackageTestsDirectory($pathEntry)) {
+					continue;
+				}
+
 				// Recursively scan subdirectories
 				yield from self::scanDirectory($pathEntry->getPathname(), $excludedFolders);
 			} elseif ($pathEntry->isFile() && $pathEntry->getExtension() === 'php') {
@@ -88,6 +92,35 @@ class AutoloaderFailsafe
 		}
 
 		return $files;
+	}
+
+	private static function isPackageTestsDirectory(SplFileInfo $pathEntry): bool
+	{
+		if ($pathEntry->getFilename() !== 'tests') {
+			return false;
+		}
+
+		$path = self::normalizePath($pathEntry->getPathname());
+
+		foreach (PackagePathHelper::getActivePackageRoots() as $packageRoot) {
+			if ($path === self::normalizePath($packageRoot . '/tests')) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static function normalizePath(string $path): string
+	{
+		$path = str_replace('\\', '/', $path);
+		$realPath = realpath($path);
+
+		if ($realPath !== false) {
+			return rtrim(str_replace('\\', '/', $realPath), '/');
+		}
+
+		return rtrim($path, '/');
 	}
 
 	/**
