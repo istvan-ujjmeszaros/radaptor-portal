@@ -57,12 +57,16 @@ ensure_registry_state() {
 				fail "Registry package path must not be a symlink: $path"
 			fi
 
+			if [ ! -d "$path" ]; then
+				fail "Registry package path must be a directory: $path"
+			fi
+
 			if find "$path" -type l -print -quit | grep -q .; then
 				fail "Registry package path contains a symlink: $path"
 			fi
 
 			chown -R "$HOST_UID:$HOST_GID" "$path"
-		done < <(find "$parent" -mindepth 1 -maxdepth 1 -type d -print0)
+		done < <(find "$parent" -mindepth 1 -maxdepth 1 -print0)
 	done
 }
 
@@ -81,6 +85,10 @@ check_registry_state() {
 				fail "Registry package path must not be a symlink: $path"
 			fi
 
+			if [ ! -d "$path" ]; then
+				fail "Registry package path must be a directory: $path"
+			fi
+
 			if find "$path" -type l -print -quit | grep -q .; then
 				fail "Registry package path contains a symlink: $path"
 			fi
@@ -90,7 +98,7 @@ check_registry_state() {
 			if [ -n "$unexpected" ]; then
 				fail "Unexpected owner for registry package content: $unexpected"
 			fi
-		done < <(find "$parent" -mindepth 1 -maxdepth 1 -type d -print0)
+		done < <(find "$parent" -mindepth 1 -maxdepth 1 -print0)
 	done
 }
 
