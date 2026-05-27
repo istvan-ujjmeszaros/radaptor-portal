@@ -6,10 +6,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/docker/dev-wrapper-common.
 PROJECT_ROOT="$(radaptor_wrapper_project_root "${BASH_SOURCE[0]}")"
 cd "$PROJECT_ROOT"
 
-radaptor_wrapper_run_preflight
+radaptor_wrapper_export_host_identity
+radaptor_wrapper_compose_base_args compose_args
 
-if radaptor_wrapper_should_print_info "$@"; then
-	printf 'Using docker compose service: php\n' >&2
-fi
-
-radaptor_wrapper_exec_in_php_as_host_user php radaptor.php "$@"
+exec docker compose "${compose_args[@]}" "$@"

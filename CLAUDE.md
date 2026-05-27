@@ -39,7 +39,7 @@ the package-dev runtime:
 ## Supported Runtime Rule
 
 - All PHP/Composer/Radaptor CLI work runs inside the `php` container. No host PHP/Composer/CLI.
-- Default bring-up: `docker compose -f docker-compose-dev.yml up -d --build`. Do not bring the app
+- Default bring-up: `./docker-compose.sh up -d --build`. Do not bring the app
   up with a handpicked subset unless a task explicitly needs it.
 - Queue worker service: `swoole-queue-worker`. Swoole itself is built into the `php` image; there
   is no separate `swoole` service.
@@ -69,9 +69,9 @@ the package-dev runtime:
 ## Verification
 
 - `bin/check-repo-baseline.sh`
-- `docker compose -f docker-compose-dev.yml exec -T -e XDEBUG_MODE=off php phpunit`
-- `docker compose -f docker-compose-dev.yml exec -T -e XDEBUG_MODE=off php phpstan analyze`
-- `docker compose -f docker-compose-dev.yml exec -T php bash -lc 'cd /app && ./php-cs-fixer.sh --config=.php-cs-fixer.php'`
+- `./docker-compose.sh exec -T -e XDEBUG_MODE=off php phpunit`
+- `./docker-compose.sh exec -T -e XDEBUG_MODE=off php phpstan analyze`
+- `./docker-compose.sh exec -T php bash -lc 'cd /app && ./php-cs-fixer.sh --config=.php-cs-fixer.php'`
 - Browser smoke: `/`, `/comparison/`, `/request-access/`, `/roadmap/`, `/login.html`, `/admin/index.html`
 
 ## Commit & PR

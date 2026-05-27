@@ -41,13 +41,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "65bdf382e86c8adf503aef4a6234e4236ff072efe6057e26c66a578f1c24ab5a",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-framework/0.1.39/package.zip",
+                "dist_sha256": "5ba0d5f1fd46194517d34c8457975a9e91f0a86fe68ef8b8f080967f7c727549",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-framework/0.1.40/package.zip",
                 "path": "packages/registry/core/framework",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.39"
+                "version": "0.1.40"
             },
             "dependencies": [],
             "composer": {
