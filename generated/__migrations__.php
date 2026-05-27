@@ -313,4 +313,9 @@ return [
 		'module' => 'core:cms',
 		'name' => '20260526_150000_add_form_definition_version_author_note.php',
 	],
+	// core:cms / 20260527_121000_align_cms_mutation_audit_schema.php
+	'0a2f6ca0bdf6fdf503b5817cd697a897' => [
+		'module' => 'core:cms',
+		'name' => '20260527_121000_align_cms_mutation_audit_schema.php',
+	],
 ];
