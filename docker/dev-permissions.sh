@@ -58,6 +58,7 @@ ensure_registry_state() {
 			fi
 
 			if [ ! -d "$path" ]; then
+				[ "$(basename "$path")" = ".gitkeep" ] && continue
 				fail "Registry package path must be a directory: $path"
 			fi
 
@@ -86,6 +87,7 @@ check_registry_state() {
 			fi
 
 			if [ ! -d "$path" ]; then
+				[ "$(basename "$path")" = ".gitkeep" ] && continue
 				fail "Registry package path must be a directory: $path"
 			fi
 
