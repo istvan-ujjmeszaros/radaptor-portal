@@ -22,7 +22,7 @@ For maintainer-local package work, see the editable first-party package repo wor
 1. Build the local PHP platform image:
    - `./docker/build-php-platform.sh dev`
 2. Start the local stack:
-   - `docker compose -f docker-compose-dev.yml up -d --build`
+   - `./docker-compose.sh up -d --build`
 3. Run CLI commands in the `php` container:
    - Docker Desktop path: open a terminal for the `php` container and run `bash`
    - shell shortcut: `./php-shell.sh`
@@ -37,7 +37,7 @@ For maintainer-local package work, see the editable first-party package repo wor
    - admin: `http://localhost:8020/admin/index.html`
 
 If you are running multiple local stacks in parallel, use `.env` to override ports and the compose
-project name before `docker compose up`.
+project name before `./docker-compose.sh up`.
 
 All supported CLI work happens inside Docker. Host PHP and host Composer are not part of the
 supported workflow.
@@ -55,7 +55,7 @@ Anonymous access to protected pages keeps the requested URL and renders the logi
 instead of redirecting to a different URL. Direct access to `/login.html` itself returns `200`.
 
 What happens on first install:
-- `docker compose up` gives you the supported PHP runtime
+- `./docker-compose.sh up` gives you the supported PHP runtime
 - `./radaptor.sh install --json` bootstraps the pinned framework package if it is still missing
 - then the framework CLI continues the normal install/update/build/migrate/seed flow
 - the committed `radaptor.json` points at the default public package registry:
@@ -70,16 +70,18 @@ For a local registry and a second app instance, override the default registry in
 ```bash
 export RADAPTOR_REGISTRY_URL=http://host.docker.internal:8091/registry.json
 export COMPOSE_PROJECT_NAME=radaptor-portal-dev
+export RADAPTOR_DOCKER_VOLUME_PREFIX=radaptor-portal-dev
 export APP_HTTP_PORT=8085
 export APP_HTTPS_PORT=8445
 export APP_DB_PORT=3309
-docker compose -f docker-compose-dev.yml up -d --build
+./docker-compose.sh up -d --build
 ```
 
 ### Parallel clone / playground example
 
 If you want to validate a second copy without stopping an existing app instance, use a different
-folder and give that copy its own compose project name and host ports via shell env or `.env`.
+folder and give that copy its own compose project name, volume prefix, and host ports via shell env
+or `.env`.
 
 ## Current capabilities
 
@@ -242,8 +244,8 @@ mounted.
 
 Use one of these supported approaches:
 
-- Docker Desktop: open a terminal for the running `php` container, run `bash`, then use `composer`
-  and `php radaptor.php ...` directly
+- Preferred host wrappers: `./php-shell.sh`, `./composer.sh`, and `./radaptor.sh`.
+  Docker Desktop terminals are supported, but the wrappers also run the dev permission preflight.
 - `./php-shell.sh`: open a shell in the running `php` container
 - `./composer.sh <args>`: run Composer in the `php` container
 - `./radaptor.sh <args>`: run `php radaptor.php ...` in the `php` container
@@ -261,8 +263,8 @@ Examples:
 - `./radaptor.sh widget:list /login.html --json`
 - `./radaptor.sh webpage:export-spec /comparison/ --json`
 - `./radaptor.sh tree:check --tree all --json`
-- `docker compose -f docker-compose-dev.yml exec -T -e XDEBUG_MODE=off php phpunit`
-- `docker compose -f docker-compose-dev.yml exec -T -e XDEBUG_MODE=off php phpstan analyze`
+- `./docker-compose.sh exec -T -e XDEBUG_MODE=off php phpunit`
+- `./docker-compose.sh exec -T -e XDEBUG_MODE=off php phpstan analyze`
 
 ## Playwright E2E
 

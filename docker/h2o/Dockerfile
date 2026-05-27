@@ -34,7 +34,10 @@ COPY --from=builder /etc/h2o/certs/localhost.crt /h2o
 COPY --from=builder /h2o/h2o /h2o
 COPY --from=builder /usr/local/share/h2o /usr/local/share/h2o
 COPY ./h2o.conf /config/
+RUN chmod 0644 /h2o/localhost.key /h2o/localhost.crt
 EXPOSE 80
 EXPOSE 443
+EXPOSE 8080
+EXPOSE 8443
 
 CMD ["/h2o/h2o", "--conf", "/config/h2o.conf"]

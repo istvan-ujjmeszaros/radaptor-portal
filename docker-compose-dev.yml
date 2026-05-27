@@ -1,4 +1,27 @@
 services:
+  dev-permissions:
+    build:
+      context: ./docker
+      dockerfile: php8.5/Dockerfile-runtime
+      target: dev
+      args:
+        RADAPTOR_PHP_PLATFORM_DEV_IMAGE: ${RADAPTOR_PHP_PLATFORM_DEV_IMAGE:-radaptor-portal-php-platform:8.5-dev-local}
+    image: radaptor-portal-phpfpm:8.5-dev
+    user: "0:0"
+    working_dir: /app
+    env_file:
+      - path: ${RADAPTOR_DOCKER_ENV_FILE:-.env}
+        required: false
+    environment:
+      - HOST_UID=${RADAPTOR_HOST_UID:-1000}
+      - HOST_GID=${RADAPTOR_HOST_GID:-1000}
+      - WRAPPER_HOME=/tmp/radaptor-cli/${RADAPTOR_HOST_UID:-1000}
+    entrypoint: ["bash", "-lc", "cd /app && ./docker/dev-permissions.sh \"$@\"", "dev-permissions"]
+    command: ["repair"]
+    volumes:
+      - ./:/app
+      - ./docker/99-radaptor-dev.ini:/usr/local/etc/php/conf.d/99-radaptor-dev.ini:ro
+
   mariadb:
     image: mariadb:11.8
     restart: unless-stopped
@@ -27,13 +50,17 @@ services:
       - ALLOW_OVERRIDE=true
       - PUBLIC_FOLDER=/app/public/www
     ports:
-      - "${APP_HTTP_PORT:-8020}:80"
-      - "${APP_HTTPS_PORT:-8460}:443"
+      - "${APP_HTTP_PORT:-8020}:8080"
+      - "${APP_HTTPS_PORT:-8460}:8443"
     volumes:
       - ./:/app
       - ./docker/h2o-no-redis.conf:/config/h2o.conf:ro
+    user: "${RADAPTOR_HOST_UID:-1000}:${RADAPTOR_HOST_GID:-1000}"
     depends_on:
-      - php
+      dev-permissions:
+        condition: service_completed_successfully
+      php:
+        condition: service_started
 
   php:
     build:
@@ -44,8 +71,9 @@ services:
         RADAPTOR_PHP_PLATFORM_DEV_IMAGE: ${RADAPTOR_PHP_PLATFORM_DEV_IMAGE:-radaptor-portal-php-platform:8.5-dev-local}
     image: radaptor-portal-phpfpm:8.5-dev
     working_dir: /app
+    user: "${RADAPTOR_HOST_UID:-1000}:${RADAPTOR_HOST_GID:-1000}"
     env_file:
-      - path: .env
+      - path: ${RADAPTOR_DOCKER_ENV_FILE:-.env}
         required: false
     environment:
       - XDEBUG_FILE_LINK_FORMAT=javascript:var r = new XMLHttpRequest; r.open("get","http://localhost:63342/api/file/%f:%l".replace("/app/", "/"));r.send()
@@ -71,6 +99,8 @@ services:
     ports:
       - "${APP_SWOOLE_PORT:-9520}:9501"
     depends_on:
+      dev-permissions:
+        condition: service_completed_successfully
       mariadb:
         condition: service_healthy
     volumes:
@@ -80,8 +110,9 @@ services:
   swoole-queue-worker:
     image: radaptor-portal-phpfpm:8.5-dev
     working_dir: /app
+    user: "${RADAPTOR_HOST_UID:-1000}:${RADAPTOR_HOST_GID:-1000}"
     env_file:
-      - path: .env
+      - path: ${RADAPTOR_DOCKER_ENV_FILE:-.env}
         required: false
     environment:
       - ENVIRONMENT=development
@@ -104,6 +135,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
+      dev-permissions:
+        condition: service_completed_successfully
       mariadb:
         condition: service_healthy
     command: ["php", "/app/bin/swoole_queue_worker.php"]

@@ -87,7 +87,7 @@ packages/registry/themes/*
 .data/
 
 # Template engine caches
-var/cache/forms/
+var/cache/
 storage/framework/views/*
 storage/framework/twig/*
 storage/cli-home/*
