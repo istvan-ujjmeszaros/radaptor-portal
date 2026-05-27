@@ -13,9 +13,9 @@ services:
       - path: ${RADAPTOR_DOCKER_ENV_FILE:-.env}
         required: false
     environment:
-      - HOST_UID=${RADAPTOR_HOST_UID:-1000}
-      - HOST_GID=${RADAPTOR_HOST_GID:-1000}
-      - WRAPPER_HOME=/tmp/radaptor-cli/${RADAPTOR_HOST_UID:-1000}
+      - HOST_UID=${RADAPTOR_HOST_UID:?Set RADAPTOR_HOST_UID via ./docker-compose.sh}
+      - HOST_GID=${RADAPTOR_HOST_GID:?Set RADAPTOR_HOST_GID via ./docker-compose.sh}
+      - WRAPPER_HOME=/tmp/radaptor-cli/${RADAPTOR_HOST_UID:?Set RADAPTOR_HOST_UID via ./docker-compose.sh}
     entrypoint: ["bash", "-lc", "cd /app && ./docker/dev-permissions.sh \"$@\"", "dev-permissions"]
     command: ["repair"]
     volumes:
@@ -55,7 +55,7 @@ services:
     volumes:
       - ./:/app
       - ./docker/h2o-no-redis.conf:/config/h2o.conf:ro
-    user: "${RADAPTOR_HOST_UID:-1000}:${RADAPTOR_HOST_GID:-1000}"
+    user: "${RADAPTOR_HOST_UID:?Set RADAPTOR_HOST_UID via ./docker-compose.sh}:${RADAPTOR_HOST_GID:?Set RADAPTOR_HOST_GID via ./docker-compose.sh}"
     depends_on:
       dev-permissions:
         condition: service_completed_successfully
@@ -71,7 +71,7 @@ services:
         RADAPTOR_PHP_PLATFORM_DEV_IMAGE: ${RADAPTOR_PHP_PLATFORM_DEV_IMAGE:-radaptor-portal-php-platform:8.5-dev-local}
     image: radaptor-portal-phpfpm:8.5-dev
     working_dir: /app
-    user: "${RADAPTOR_HOST_UID:-1000}:${RADAPTOR_HOST_GID:-1000}"
+    user: "${RADAPTOR_HOST_UID:?Set RADAPTOR_HOST_UID via ./docker-compose.sh}:${RADAPTOR_HOST_GID:?Set RADAPTOR_HOST_GID via ./docker-compose.sh}"
     env_file:
       - path: ${RADAPTOR_DOCKER_ENV_FILE:-.env}
         required: false
@@ -110,7 +110,7 @@ services:
   swoole-queue-worker:
     image: radaptor-portal-phpfpm:8.5-dev
     working_dir: /app
-    user: "${RADAPTOR_HOST_UID:-1000}:${RADAPTOR_HOST_GID:-1000}"
+    user: "${RADAPTOR_HOST_UID:?Set RADAPTOR_HOST_UID via ./docker-compose.sh}:${RADAPTOR_HOST_GID:?Set RADAPTOR_HOST_GID via ./docker-compose.sh}"
     env_file:
       - path: ${RADAPTOR_DOCKER_ENV_FILE:-.env}
         required: false
