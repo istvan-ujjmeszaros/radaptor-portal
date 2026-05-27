@@ -308,4 +308,9 @@ return [
 		'module' => 'core:cms',
 		'name' => '20260525_171500_create_cms_mutation_audit.php',
 	],
+	// core:cms / 20260526_150000_add_form_definition_version_author_note.php
+	'a33ab09f58ed43ea3f98005950f27625' => [
+		'module' => 'core:cms',
+		'name' => '20260526_150000_add_form_definition_version_author_note.php',
+	],
 ];

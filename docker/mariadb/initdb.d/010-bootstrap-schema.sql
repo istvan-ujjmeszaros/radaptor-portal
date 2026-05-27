@@ -48,6 +48,45 @@ CREATE TABLE `blog` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cms_mutation_audit` (
+  `cms_mutation_audit_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `correlation_id` char(36) NOT NULL,
+  `parent_correlation_id` char(36) DEFAULT NULL,
+  `phase` varchar(64) NOT NULL,
+  `operation` varchar(190) NOT NULL,
+  `actor_type` varchar(32) NOT NULL,
+  `actor_user_id` bigint(20) unsigned DEFAULT NULL,
+  `cli_command` varchar(190) DEFAULT NULL,
+  `args_hash` char(64) DEFAULT NULL,
+  `args_redacted_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`args_redacted_json`)),
+  `resource_id` bigint(20) unsigned DEFAULT NULL,
+  `page_id` bigint(20) unsigned DEFAULT NULL,
+  `widget_connection_id` bigint(20) unsigned DEFAULT NULL,
+  `resource_path` varchar(1024) DEFAULT NULL,
+  `slot_name` varchar(190) DEFAULT NULL,
+  `widget_name` varchar(190) DEFAULT NULL,
+  `result_status` varchar(64) NOT NULL DEFAULT 'success',
+  `affected_count` int(11) NOT NULL DEFAULT 0,
+  `error_code` varchar(190) DEFAULT NULL,
+  `error_class` varchar(190) DEFAULT NULL,
+  `error_message` varchar(512) DEFAULT NULL,
+  `before_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`before_json`)),
+  `after_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`after_json`)),
+  `summary_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`summary_json`)),
+  `metadata_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`metadata_json`)),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`cms_mutation_audit_id`),
+  KEY `idx_cms_mutation_audit_correlation` (`correlation_id`),
+  KEY `idx_cms_mutation_audit_parent_correlation` (`parent_correlation_id`),
+  KEY `idx_cms_mutation_audit_operation_created` (`operation`,`created_at`),
+  KEY `idx_cms_mutation_audit_created` (`created_at`),
+  KEY `idx_cms_mutation_audit_resource` (`resource_id`),
+  KEY `idx_cms_mutation_audit_page` (`page_id`),
+  KEY `idx_cms_mutation_audit_widget_connection` (`widget_connection_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `subject_type` varchar(64) DEFAULT NULL,
@@ -115,7 +154,7 @@ CREATE TABLE `email_outbox` (
   KEY `idx_email_outbox_status_created` (`status`,`created_at`),
   KEY `fk_email_outbox_template_version` (`template_version_id`),
   KEY `idx_email_outbox_status_created_outbox` (`status`,`created_at`,`outbox_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -134,7 +173,7 @@ CREATE TABLE `email_outbox_recipients` (
   PRIMARY KEY (`recipient_id`),
   KEY `idx_email_outbox_recipients_outbox` (`outbox_id`,`status`),
   CONSTRAINT `fk_email_outbox_recipients_outbox` FOREIGN KEY (`outbox_id`) REFERENCES `email_outbox` (`outbox_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -155,7 +194,7 @@ CREATE TABLE `email_queue_archive` (
   KEY `idx_email_queue_archive_ttl` (`archived_at`),
   KEY `idx_email_queue_archive_job_type_archived` (`job_type`,`archived_at`),
   KEY `idx_email_queue_archive_source_archived` (`source_table`,`archived_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -177,7 +216,7 @@ CREATE TABLE `email_queue_dead_letter` (
   KEY `idx_email_queue_dead_letter_ttl` (`dead_lettered_at`),
   KEY `idx_email_queue_dead_job_type_dead_lettered` (`job_type`,`dead_lettered_at`),
   KEY `idx_email_queue_dead_source_dead_lettered` (`source_table`,`dead_lettered_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -195,16 +234,78 @@ CREATE TABLE `email_queue_transactional` (
   PRIMARY KEY (`job_id`),
   KEY `idx_email_queue_transactional_ready` (`status`,`run_after_utc`,`job_id`),
   KEY `idx_email_queue_transactional_reserved` (`status`,`reserved_at`,`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `form_definition_versions` (
+  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `definition_id` int(10) unsigned NOT NULL,
+  `version_number` int(10) unsigned NOT NULL,
+  `status` varchar(32) NOT NULL DEFAULT 'draft',
+  `descriptor_json` longtext NOT NULL,
+  `descriptor_hash` char(64) NOT NULL COMMENT 'Descriptor integrity hash for runtime skew detection and future publish cache checks',
+  `author_note` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `published_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`version_id`),
+  UNIQUE KEY `uq_form_definition_versions_number` (`definition_id`,`version_number`),
+  UNIQUE KEY `uq_form_definition_versions_hash` (`definition_id`,`descriptor_hash`),
+  KEY `idx_form_definition_versions_status` (`definition_id`,`status`),
+  CONSTRAINT `fk_form_definition_versions_definition` FOREIGN KEY (`definition_id`) REFERENCES `form_definitions` (`definition_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `form_definitions` (
+  `definition_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `definition_slug` varchar(128) NOT NULL,
+  `kind` varchar(32) NOT NULL DEFAULT 'capture',
+  `source` varchar(32) NOT NULL DEFAULT 'db' COMMENT 'shipped vs db origin for later form:sync/admin builder reconciliation',
+  `status` varchar(32) NOT NULL DEFAULT 'draft',
+  `owner_user_id` int(11) DEFAULT NULL,
+  `security_json` longtext NOT NULL,
+  `published_version_id` int(10) unsigned DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`definition_id`),
+  UNIQUE KEY `uq_form_definitions_definition_slug` (`definition_slug`),
+  KEY `idx_form_definitions_kind_status` (`kind`,`status`),
+  KEY `idx_form_definitions_published_version_id` (`published_version_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `form_submissions` (
+  `submission_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `definition_id` int(10) unsigned NOT NULL,
+  `version_id` int(10) unsigned NOT NULL,
+  `definition_slug` varchar(128) NOT NULL,
+  `payload_json` longtext NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `locale` varchar(20) DEFAULT NULL,
+  `ip_hash` char(64) DEFAULT NULL,
+  `user_agent_hash` char(64) DEFAULT NULL,
+  `host_page_id` int(11) DEFAULT NULL,
+  `widget_connection_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`submission_id`),
+  KEY `idx_form_submissions_definition_created` (`definition_id`,`created_at`),
+  KEY `idx_form_submissions_version` (`version_id`),
+  KEY `idx_form_submissions_rate_limit` (`definition_id`,`ip_hash`,`created_at`),
+  CONSTRAINT `fk_form_submissions_definition` FOREIGN KEY (`definition_id`) REFERENCES `form_definitions` (`definition_id`),
+  CONSTRAINT `fk_form_submissions_version` FOREIGN KEY (`version_id`) REFERENCES `form_definition_versions` (`version_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noexport:privacy';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_build_state` (
-  `locale` varchar(10) NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `catalog_hash` char(32) NOT NULL,
   `built_at` datetime NOT NULL,
-  PRIMARY KEY (`locale`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit';
+  PRIMARY KEY (`locale`),
+  CONSTRAINT `fk_i18n_build_state_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -222,8 +323,8 @@ CREATE TABLE `i18n_messages` (
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_tm_entries` (
   `tm_id` int(11) NOT NULL AUTO_INCREMENT,
-  `source_locale` varchar(10) NOT NULL,
-  `target_locale` varchar(10) NOT NULL,
+  `source_locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `target_locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `source_text_normalized` text NOT NULL,
   `source_text_raw` text NOT NULL,
   `target_text` text NOT NULL,
@@ -239,8 +340,11 @@ CREATE TABLE `i18n_tm_entries` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`tm_id`),
   KEY `idx_tm_lookup` (`source_locale`,`target_locale`,`source_hash`),
-  KEY `idx_tm_signature` (`source_locale`,`target_locale`,`source_hash`,`domain`,`source_key`,`context`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit';
+  KEY `idx_tm_signature` (`source_locale`,`target_locale`,`source_hash`,`domain`,`source_key`,`context`),
+  KEY `fk_i18n_tm_entries_target_locale` (`target_locale`),
+  CONSTRAINT `fk_i18n_tm_entries_source_locale` FOREIGN KEY (`source_locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_i18n_tm_entries_target_locale` FOREIGN KEY (`target_locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -248,13 +352,47 @@ CREATE TABLE `i18n_translations` (
   `domain` varchar(100) NOT NULL,
   `key` varchar(255) NOT NULL,
   `context` varchar(100) NOT NULL DEFAULT '',
-  `locale` varchar(10) NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `text` text NOT NULL DEFAULT '',
   `human_reviewed` tinyint(1) NOT NULL DEFAULT 0,
+  `allow_source_match` tinyint(1) NOT NULL DEFAULT 0,
   `source_hash_snapshot` char(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`domain`,`key`,`context`,`locale`),
+  KEY `fk_i18n_translations_locale` (`locale`),
+  CONSTRAINT `fk_i18n_translations_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE,
   CONSTRAINT `fk_i18n_translations_messages` FOREIGN KEY (`domain`, `key`, `context`) REFERENCES `i18n_messages` (`domain`, `key`, `context`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `locale_home_resources` (
+  `site_context` varchar(128) NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `computed_resource_id` int(10) unsigned DEFAULT NULL,
+  `manual_resource_id` int(10) unsigned DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`site_context`,`locale`),
+  KEY `idx_locale_home_computed_resource` (`computed_resource_id`),
+  KEY `idx_locale_home_manual_resource` (`manual_resource_id`),
+  KEY `fk_locale_home_resources_locale` (`locale`),
+  CONSTRAINT `fk_locale_home_resources_computed_resource` FOREIGN KEY (`computed_resource_id`) REFERENCES `resource_tree` (`node_id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_locale_home_resources_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_locale_home_resources_manual_resource` FOREIGN KEY (`manual_resource_id`) REFERENCES `resource_tree` (`node_id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `locales` (
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `label` varchar(255) NOT NULL DEFAULT '',
+  `native_label` varchar(255) NOT NULL DEFAULT '',
+  `is_enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `sort_order` int(11) NOT NULL DEFAULT 100,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`locale`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -271,6 +409,50 @@ CREATE TABLE `mainmenu_tree` (
   KEY `lft` (`lft`),
   KEY `rgt` (`rgt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mcp_audit` (
+  `mcp_audit_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `request_id` char(36) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `token_id` int(11) DEFAULT NULL,
+  `tool_name` varchar(190) DEFAULT NULL,
+  `args_hash` char(64) DEFAULT NULL,
+  `args_redacted_json` longtext DEFAULT NULL,
+  `result_status` varchar(32) NOT NULL,
+  `error_code` varchar(120) DEFAULT NULL,
+  `duration_ms` int(11) NOT NULL DEFAULT 0,
+  `ip_address` varchar(64) DEFAULT NULL,
+  `user_agent` varchar(512) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`mcp_audit_id`),
+  KEY `idx_mcp_audit_request` (`request_id`),
+  KEY `idx_mcp_audit_user_created` (`user_id`,`created_at`),
+  KEY `idx_mcp_audit_tool_created` (`tool_name`,`created_at`),
+  KEY `idx_mcp_audit_status_created` (`result_status`,`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mcp_tokens` (
+  `mcp_token_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(190) NOT NULL,
+  `prefix` varchar(16) NOT NULL,
+  `token_hash` char(64) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `revoked_at` datetime DEFAULT NULL,
+  `last_used_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`mcp_token_id`),
+  UNIQUE KEY `uniq_mcp_tokens_prefix` (`prefix`),
+  KEY `idx_mcp_tokens_user` (`user_id`),
+  KEY `idx_mcp_tokens_hash` (`token_hash`),
+  KEY `idx_mcp_tokens_expires` (`expires_at`),
+  KEY `idx_mcp_tokens_revoked` (`revoked_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -353,6 +535,7 @@ CREATE TABLE `resource_tree` (
   `rgt` int(10) unsigned NOT NULL COMMENT '__noaudit',
   `parent_id` int(10) unsigned NOT NULL,
   `node_type` enum('webpage','folder','file','domain','root') CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
   `resource_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `catcher_page` int(10) unsigned DEFAULT NULL,
   `is_inheriting_acl` tinyint(1) NOT NULL DEFAULT 1,
@@ -362,7 +545,9 @@ CREATE TABLE `resource_tree` (
   UNIQUE KEY `pathIndex` (`resource_name`,`path`),
   KEY `lft` (`lft`),
   KEY `node_type` (`node_type`),
-  KEY `rgt` (`rgt`)
+  KEY `rgt` (`rgt`),
+  KEY `fk_resource_tree_locale` (`locale`),
+  CONSTRAINT `fk_resource_tree_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -370,13 +555,15 @@ CREATE TABLE `resource_tree` (
 CREATE TABLE `richtext` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `content_type` enum('article','blog','info') CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `__content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `content_type` (`content_type`)
+  UNIQUE KEY `uq_richtext_locale_name` (`locale`,`name`),
+  KEY `content_type` (`content_type`),
+  CONSTRAINT `fk_richtext_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -394,6 +581,65 @@ CREATE TABLE `roles_tree` (
   KEY `lft` (`lft`),
   KEY `rgt` (`rgt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `runtime_site_locks` (
+  `lock_id` varchar(80) NOT NULL,
+  `lock_type` varchar(80) NOT NULL,
+  `status` enum('active','released') NOT NULL DEFAULT 'active',
+  `reason` varchar(128) NOT NULL,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `message` varchar(512) NOT NULL DEFAULT '',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by_user_id` int(10) unsigned DEFAULT NULL,
+  `released_at` datetime DEFAULT NULL,
+  `released_by_user_id` int(10) unsigned DEFAULT NULL,
+  `release_note` varchar(512) NOT NULL DEFAULT '',
+  `metadata_json` longtext DEFAULT NULL,
+  PRIMARY KEY (`lock_id`),
+  KEY `idx_runtime_site_locks_scope` (`lock_type`,`status`,`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `runtime_worker_instances` (
+  `worker_instance_id` varchar(80) NOT NULL,
+  `worker_type` varchar(64) NOT NULL,
+  `queue_name` varchar(128) NOT NULL,
+  `hostname` varchar(255) NOT NULL,
+  `process_id` int(10) unsigned DEFAULT NULL,
+  `state` enum('starting','idle','busy','paused','stopping') NOT NULL DEFAULT 'starting',
+  `current_job_id` varchar(128) DEFAULT NULL,
+  `current_job_type` varchar(128) DEFAULT NULL,
+  `confirmed_pause_request_id` varchar(80) DEFAULT NULL,
+  `confirmed_pause_at` datetime DEFAULT NULL,
+  `metadata_json` longtext DEFAULT NULL,
+  `started_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_seen_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `stopped_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`worker_instance_id`),
+  KEY `idx_runtime_worker_scope` (`worker_type`,`queue_name`,`state`,`last_seen_at`),
+  KEY `idx_runtime_worker_pause` (`worker_type`,`queue_name`,`confirmed_pause_request_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `runtime_worker_pause_requests` (
+  `pause_request_id` varchar(80) NOT NULL,
+  `worker_type` varchar(64) NOT NULL,
+  `queue_name` varchar(128) NOT NULL,
+  `status` enum('requested','confirmed','released','expired') NOT NULL DEFAULT 'requested',
+  `reason` varchar(128) NOT NULL,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `requested_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `requested_by_user_id` int(10) unsigned DEFAULT NULL,
+  `confirmed_at` datetime DEFAULT NULL,
+  `released_at` datetime DEFAULT NULL,
+  `metadata_json` longtext DEFAULT NULL,
+  PRIMARY KEY (`pause_request_id`),
+  KEY `idx_runtime_worker_pause_scope` (`worker_type`,`queue_name`,`status`,`requested_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -534,10 +780,12 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) NOT NULL DEFAULT 0,
   `last_seen` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '__noaudit',
   `timezone` varchar(64) DEFAULT NULL COMMENT 'IANA timezone identifier (for example Europe/Budapest, America/New_York)',
-  `locale` varchar(10) NOT NULL DEFAULT 'en_US' COMMENT 'Preferred locale for UI (e.g. en_US, hu_HU)',
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'en-US' COMMENT 'Preferred BCP 47 locale for UI (e.g. en-US, hu-HU)',
   `password` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  KEY `fk_users_locale` (`locale`),
+  CONSTRAINT `fk_users_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -660,6 +908,45 @@ CREATE TABLE `blog` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cms_mutation_audit` (
+  `cms_mutation_audit_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `correlation_id` char(36) NOT NULL,
+  `parent_correlation_id` char(36) DEFAULT NULL,
+  `phase` varchar(64) NOT NULL,
+  `operation` varchar(190) NOT NULL,
+  `actor_type` varchar(32) NOT NULL,
+  `actor_user_id` bigint(20) unsigned DEFAULT NULL,
+  `cli_command` varchar(190) DEFAULT NULL,
+  `args_hash` char(64) DEFAULT NULL,
+  `args_redacted_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`args_redacted_json`)),
+  `resource_id` bigint(20) unsigned DEFAULT NULL,
+  `page_id` bigint(20) unsigned DEFAULT NULL,
+  `widget_connection_id` bigint(20) unsigned DEFAULT NULL,
+  `resource_path` varchar(1024) DEFAULT NULL,
+  `slot_name` varchar(190) DEFAULT NULL,
+  `widget_name` varchar(190) DEFAULT NULL,
+  `result_status` varchar(64) NOT NULL DEFAULT 'success',
+  `affected_count` int(11) NOT NULL DEFAULT 0,
+  `error_code` varchar(190) DEFAULT NULL,
+  `error_class` varchar(190) DEFAULT NULL,
+  `error_message` varchar(512) DEFAULT NULL,
+  `before_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`before_json`)),
+  `after_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`after_json`)),
+  `summary_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`summary_json`)),
+  `metadata_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`metadata_json`)),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`cms_mutation_audit_id`),
+  KEY `idx_cms_mutation_audit_correlation` (`correlation_id`),
+  KEY `idx_cms_mutation_audit_parent_correlation` (`parent_correlation_id`),
+  KEY `idx_cms_mutation_audit_operation_created` (`operation`,`created_at`),
+  KEY `idx_cms_mutation_audit_created` (`created_at`),
+  KEY `idx_cms_mutation_audit_resource` (`resource_id`),
+  KEY `idx_cms_mutation_audit_page` (`page_id`),
+  KEY `idx_cms_mutation_audit_widget_connection` (`widget_connection_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `subject_type` varchar(64) DEFAULT NULL,
@@ -727,7 +1014,7 @@ CREATE TABLE `email_outbox` (
   KEY `idx_email_outbox_status_created` (`status`,`created_at`),
   KEY `fk_email_outbox_template_version` (`template_version_id`),
   KEY `idx_email_outbox_status_created_outbox` (`status`,`created_at`,`outbox_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -746,7 +1033,7 @@ CREATE TABLE `email_outbox_recipients` (
   PRIMARY KEY (`recipient_id`),
   KEY `idx_email_outbox_recipients_outbox` (`outbox_id`,`status`),
   CONSTRAINT `fk_email_outbox_recipients_outbox` FOREIGN KEY (`outbox_id`) REFERENCES `email_outbox` (`outbox_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -767,7 +1054,7 @@ CREATE TABLE `email_queue_archive` (
   KEY `idx_email_queue_archive_ttl` (`archived_at`),
   KEY `idx_email_queue_archive_job_type_archived` (`job_type`,`archived_at`),
   KEY `idx_email_queue_archive_source_archived` (`source_table`,`archived_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -789,7 +1076,7 @@ CREATE TABLE `email_queue_dead_letter` (
   KEY `idx_email_queue_dead_letter_ttl` (`dead_lettered_at`),
   KEY `idx_email_queue_dead_job_type_dead_lettered` (`job_type`,`dead_lettered_at`),
   KEY `idx_email_queue_dead_source_dead_lettered` (`source_table`,`dead_lettered_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -807,16 +1094,78 @@ CREATE TABLE `email_queue_transactional` (
   PRIMARY KEY (`job_id`),
   KEY `idx_email_queue_transactional_ready` (`status`,`run_after_utc`,`job_id`),
   KEY `idx_email_queue_transactional_reserved` (`status`,`reserved_at`,`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport:disaster_recovery';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `form_definition_versions` (
+  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `definition_id` int(10) unsigned NOT NULL,
+  `version_number` int(10) unsigned NOT NULL,
+  `status` varchar(32) NOT NULL DEFAULT 'draft',
+  `descriptor_json` longtext NOT NULL,
+  `descriptor_hash` char(64) NOT NULL COMMENT 'Descriptor integrity hash for runtime skew detection and future publish cache checks',
+  `author_note` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `published_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`version_id`),
+  UNIQUE KEY `uq_form_definition_versions_number` (`definition_id`,`version_number`),
+  UNIQUE KEY `uq_form_definition_versions_hash` (`definition_id`,`descriptor_hash`),
+  KEY `idx_form_definition_versions_status` (`definition_id`,`status`),
+  CONSTRAINT `fk_form_definition_versions_definition` FOREIGN KEY (`definition_id`) REFERENCES `form_definitions` (`definition_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `form_definitions` (
+  `definition_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `definition_slug` varchar(128) NOT NULL,
+  `kind` varchar(32) NOT NULL DEFAULT 'capture',
+  `source` varchar(32) NOT NULL DEFAULT 'db' COMMENT 'shipped vs db origin for later form:sync/admin builder reconciliation',
+  `status` varchar(32) NOT NULL DEFAULT 'draft',
+  `owner_user_id` int(11) DEFAULT NULL,
+  `security_json` longtext NOT NULL,
+  `published_version_id` int(10) unsigned DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`definition_id`),
+  UNIQUE KEY `uq_form_definitions_definition_slug` (`definition_slug`),
+  KEY `idx_form_definitions_kind_status` (`kind`,`status`),
+  KEY `idx_form_definitions_published_version_id` (`published_version_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `form_submissions` (
+  `submission_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `definition_id` int(10) unsigned NOT NULL,
+  `version_id` int(10) unsigned NOT NULL,
+  `definition_slug` varchar(128) NOT NULL,
+  `payload_json` longtext NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `locale` varchar(20) DEFAULT NULL,
+  `ip_hash` char(64) DEFAULT NULL,
+  `user_agent_hash` char(64) DEFAULT NULL,
+  `host_page_id` int(11) DEFAULT NULL,
+  `widget_connection_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`submission_id`),
+  KEY `idx_form_submissions_definition_created` (`definition_id`,`created_at`),
+  KEY `idx_form_submissions_version` (`version_id`),
+  KEY `idx_form_submissions_rate_limit` (`definition_id`,`ip_hash`,`created_at`),
+  CONSTRAINT `fk_form_submissions_definition` FOREIGN KEY (`definition_id`) REFERENCES `form_definitions` (`definition_id`),
+  CONSTRAINT `fk_form_submissions_version` FOREIGN KEY (`version_id`) REFERENCES `form_definition_versions` (`version_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noexport:privacy';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_build_state` (
-  `locale` varchar(10) NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `catalog_hash` char(32) NOT NULL,
   `built_at` datetime NOT NULL,
-  PRIMARY KEY (`locale`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit';
+  PRIMARY KEY (`locale`),
+  CONSTRAINT `fk_i18n_build_state_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -834,8 +1183,8 @@ CREATE TABLE `i18n_messages` (
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `i18n_tm_entries` (
   `tm_id` int(11) NOT NULL AUTO_INCREMENT,
-  `source_locale` varchar(10) NOT NULL,
-  `target_locale` varchar(10) NOT NULL,
+  `source_locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `target_locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `source_text_normalized` text NOT NULL,
   `source_text_raw` text NOT NULL,
   `target_text` text NOT NULL,
@@ -851,8 +1200,11 @@ CREATE TABLE `i18n_tm_entries` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`tm_id`),
   KEY `idx_tm_lookup` (`source_locale`,`target_locale`,`source_hash`),
-  KEY `idx_tm_signature` (`source_locale`,`target_locale`,`source_hash`,`domain`,`source_key`,`context`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit';
+  KEY `idx_tm_signature` (`source_locale`,`target_locale`,`source_hash`,`domain`,`source_key`,`context`),
+  KEY `fk_i18n_tm_entries_target_locale` (`target_locale`),
+  CONSTRAINT `fk_i18n_tm_entries_source_locale` FOREIGN KEY (`source_locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_i18n_tm_entries_target_locale` FOREIGN KEY (`target_locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -860,13 +1212,47 @@ CREATE TABLE `i18n_translations` (
   `domain` varchar(100) NOT NULL,
   `key` varchar(255) NOT NULL,
   `context` varchar(100) NOT NULL DEFAULT '',
-  `locale` varchar(10) NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `text` text NOT NULL DEFAULT '',
   `human_reviewed` tinyint(1) NOT NULL DEFAULT 0,
+  `allow_source_match` tinyint(1) NOT NULL DEFAULT 0,
   `source_hash_snapshot` char(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`domain`,`key`,`context`,`locale`),
+  KEY `fk_i18n_translations_locale` (`locale`),
+  CONSTRAINT `fk_i18n_translations_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE,
   CONSTRAINT `fk_i18n_translations_messages` FOREIGN KEY (`domain`, `key`, `context`) REFERENCES `i18n_messages` (`domain`, `key`, `context`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='__noaudit';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `locale_home_resources` (
+  `site_context` varchar(128) NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `computed_resource_id` int(10) unsigned DEFAULT NULL,
+  `manual_resource_id` int(10) unsigned DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`site_context`,`locale`),
+  KEY `idx_locale_home_computed_resource` (`computed_resource_id`),
+  KEY `idx_locale_home_manual_resource` (`manual_resource_id`),
+  KEY `fk_locale_home_resources_locale` (`locale`),
+  CONSTRAINT `fk_locale_home_resources_computed_resource` FOREIGN KEY (`computed_resource_id`) REFERENCES `resource_tree` (`node_id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_locale_home_resources_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_locale_home_resources_manual_resource` FOREIGN KEY (`manual_resource_id`) REFERENCES `resource_tree` (`node_id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `locales` (
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `label` varchar(255) NOT NULL DEFAULT '',
+  `native_label` varchar(255) NOT NULL DEFAULT '',
+  `is_enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `sort_order` int(11) NOT NULL DEFAULT 100,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`locale`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -883,6 +1269,50 @@ CREATE TABLE `mainmenu_tree` (
   KEY `lft` (`lft`),
   KEY `rgt` (`rgt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mcp_audit` (
+  `mcp_audit_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `request_id` char(36) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `token_id` int(11) DEFAULT NULL,
+  `tool_name` varchar(190) DEFAULT NULL,
+  `args_hash` char(64) DEFAULT NULL,
+  `args_redacted_json` longtext DEFAULT NULL,
+  `result_status` varchar(32) NOT NULL,
+  `error_code` varchar(120) DEFAULT NULL,
+  `duration_ms` int(11) NOT NULL DEFAULT 0,
+  `ip_address` varchar(64) DEFAULT NULL,
+  `user_agent` varchar(512) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`mcp_audit_id`),
+  KEY `idx_mcp_audit_request` (`request_id`),
+  KEY `idx_mcp_audit_user_created` (`user_id`,`created_at`),
+  KEY `idx_mcp_audit_tool_created` (`tool_name`,`created_at`),
+  KEY `idx_mcp_audit_status_created` (`result_status`,`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mcp_tokens` (
+  `mcp_token_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(190) NOT NULL,
+  `prefix` varchar(16) NOT NULL,
+  `token_hash` char(64) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `revoked_at` datetime DEFAULT NULL,
+  `last_used_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`mcp_token_id`),
+  UNIQUE KEY `uniq_mcp_tokens_prefix` (`prefix`),
+  KEY `idx_mcp_tokens_user` (`user_id`),
+  KEY `idx_mcp_tokens_hash` (`token_hash`),
+  KEY `idx_mcp_tokens_expires` (`expires_at`),
+  KEY `idx_mcp_tokens_revoked` (`revoked_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -965,6 +1395,7 @@ CREATE TABLE `resource_tree` (
   `rgt` int(10) unsigned NOT NULL COMMENT '__noaudit',
   `parent_id` int(10) unsigned NOT NULL,
   `node_type` enum('webpage','folder','file','domain','root') CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
   `resource_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `catcher_page` int(10) unsigned DEFAULT NULL,
   `is_inheriting_acl` tinyint(1) NOT NULL DEFAULT 1,
@@ -974,7 +1405,9 @@ CREATE TABLE `resource_tree` (
   UNIQUE KEY `pathIndex` (`resource_name`,`path`),
   KEY `lft` (`lft`),
   KEY `node_type` (`node_type`),
-  KEY `rgt` (`rgt`)
+  KEY `rgt` (`rgt`),
+  KEY `fk_resource_tree_locale` (`locale`),
+  CONSTRAINT `fk_resource_tree_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -982,13 +1415,15 @@ CREATE TABLE `resource_tree` (
 CREATE TABLE `richtext` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `content_type` enum('article','blog','info') CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci NOT NULL,
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   `__content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `content_type` (`content_type`)
+  UNIQUE KEY `uq_richtext_locale_name` (`locale`,`name`),
+  KEY `content_type` (`content_type`),
+  CONSTRAINT `fk_richtext_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1006,6 +1441,65 @@ CREATE TABLE `roles_tree` (
   KEY `lft` (`lft`),
   KEY `rgt` (`rgt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `runtime_site_locks` (
+  `lock_id` varchar(80) NOT NULL,
+  `lock_type` varchar(80) NOT NULL,
+  `status` enum('active','released') NOT NULL DEFAULT 'active',
+  `reason` varchar(128) NOT NULL,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `message` varchar(512) NOT NULL DEFAULT '',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_by_user_id` int(10) unsigned DEFAULT NULL,
+  `released_at` datetime DEFAULT NULL,
+  `released_by_user_id` int(10) unsigned DEFAULT NULL,
+  `release_note` varchar(512) NOT NULL DEFAULT '',
+  `metadata_json` longtext DEFAULT NULL,
+  PRIMARY KEY (`lock_id`),
+  KEY `idx_runtime_site_locks_scope` (`lock_type`,`status`,`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `runtime_worker_instances` (
+  `worker_instance_id` varchar(80) NOT NULL,
+  `worker_type` varchar(64) NOT NULL,
+  `queue_name` varchar(128) NOT NULL,
+  `hostname` varchar(255) NOT NULL,
+  `process_id` int(10) unsigned DEFAULT NULL,
+  `state` enum('starting','idle','busy','paused','stopping') NOT NULL DEFAULT 'starting',
+  `current_job_id` varchar(128) DEFAULT NULL,
+  `current_job_type` varchar(128) DEFAULT NULL,
+  `confirmed_pause_request_id` varchar(80) DEFAULT NULL,
+  `confirmed_pause_at` datetime DEFAULT NULL,
+  `metadata_json` longtext DEFAULT NULL,
+  `started_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_seen_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `stopped_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`worker_instance_id`),
+  KEY `idx_runtime_worker_scope` (`worker_type`,`queue_name`,`state`,`last_seen_at`),
+  KEY `idx_runtime_worker_pause` (`worker_type`,`queue_name`,`confirmed_pause_request_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `runtime_worker_pause_requests` (
+  `pause_request_id` varchar(80) NOT NULL,
+  `worker_type` varchar(64) NOT NULL,
+  `queue_name` varchar(128) NOT NULL,
+  `status` enum('requested','confirmed','released','expired') NOT NULL DEFAULT 'requested',
+  `reason` varchar(128) NOT NULL,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `requested_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `requested_by_user_id` int(10) unsigned DEFAULT NULL,
+  `confirmed_at` datetime DEFAULT NULL,
+  `released_at` datetime DEFAULT NULL,
+  `metadata_json` longtext DEFAULT NULL,
+  PRIMARY KEY (`pause_request_id`),
+  KEY `idx_runtime_worker_pause_scope` (`worker_type`,`queue_name`,`status`,`requested_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='__noaudit, __noexport';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
@@ -1146,10 +1640,12 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) NOT NULL DEFAULT 0,
   `last_seen` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '__noaudit',
   `timezone` varchar(64) DEFAULT NULL COMMENT 'IANA timezone identifier (for example Europe/Budapest, America/New_York)',
-  `locale` varchar(10) NOT NULL DEFAULT 'en_US' COMMENT 'Preferred locale for UI (e.g. en_US, hu_HU)',
+  `locale` varchar(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'en-US' COMMENT 'Preferred BCP 47 locale for UI (e.g. en-US, hu-HU)',
   `password` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  KEY `fk_users_locale` (`locale`),
+  CONSTRAINT `fk_users_locale` FOREIGN KEY (`locale`) REFERENCES `locales` (`locale`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

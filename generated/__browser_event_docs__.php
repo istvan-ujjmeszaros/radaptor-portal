@@ -385,6 +385,63 @@ return [
 			'notes' => [
 			],
 		],
+		'form_builder:load_draft_version' => [
+			'event_name' => 'form_builder.load_draft_version',
+			'group' => 'CMS Authoring',
+			'name' => 'Load capture form draft version',
+			'summary' => 'Loads one existing DB-authored capture form version into the builder without mutating stored state.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'version_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Version id to load into the editor.',
+					],
+					2 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventFormBuilderLoadDraftVersion',
+			'slug' => 'form_builder:load_draft_version',
+			'route' => [
+				'event_name' => 'form_builder.load_draft_version',
+				'context' => 'form_builder',
+				'event' => 'load_draft_version',
+				'query' => '?context=form_builder&event=load_draft_version',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.load_draft_version\')',
+				'template_helper' => 'event_url(\'form_builder.load_draft_version\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.load_draft_version\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.load_draft_version\')',
+			],
+			'notes' => [
+			],
+		],
 		'form_builder:preview_render' => [
 			'event_name' => 'form_builder.preview_render',
 			'group' => 'CMS Authoring',
@@ -568,6 +625,71 @@ return [
 				'template_helper' => 'event_url(\'form_builder.save_draft\')',
 				'ajax_helper' => 'ajax_url(\'form_builder.save_draft\')',
 				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.save_draft\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_builder:update_draft_note' => [
+			'event_name' => 'form_builder.update_draft_note',
+			'group' => 'CMS Authoring',
+			'name' => 'Update capture form draft note',
+			'summary' => 'Updates the optional maintainer note attached to a capture form version.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'version_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Version id to annotate.',
+					],
+					2 => [
+						'name' => 'author_note',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Optional maintainer note, truncated to 1000 characters.',
+					],
+					3 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Updates form_definition_versions.author_note for the selected version row.',
+			],
+			'class' => 'EventFormBuilderUpdateDraftNote',
+			'slug' => 'form_builder:update_draft_note',
+			'route' => [
+				'event_name' => 'form_builder.update_draft_note',
+				'context' => 'form_builder',
+				'event' => 'update_draft_note',
+				'query' => '?context=form_builder&event=update_draft_note',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_builder.update_draft_note\')',
+				'template_helper' => 'event_url(\'form_builder.update_draft_note\')',
+				'ajax_helper' => 'ajax_url(\'form_builder.update_draft_note\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.update_draft_note\')',
 			],
 			'notes' => [
 			],
