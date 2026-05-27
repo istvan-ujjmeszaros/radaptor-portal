@@ -1930,6 +1930,18 @@ class DbSchemaData
 						'is_auto_increment' => false,
 					],
 					6 => [
+						'column_name' => 'author_note',
+						'type_sql' => 'text',
+						'type_php' => 'string',
+						'comment' => '',
+						'default' => null,
+						'extra' => '',
+						'is_optional' => true,
+						'is_processable' => false,
+						'is_primary_key' => false,
+						'is_auto_increment' => false,
+					],
+					7 => [
 						'column_name' => 'created_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -1941,7 +1953,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					7 => [
+					8 => [
 						'column_name' => 'published_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -1961,8 +1973,9 @@ class DbSchemaData
 					3 => 'status',
 					4 => 'descriptor_json',
 					5 => 'descriptor_hash',
-					6 => 'created_at',
-					7 => 'published_at',
+					6 => 'author_note',
+					7 => 'created_at',
+					8 => 'published_at',
 				],
 				'pkeys' => [
 					0 => 'version_id',
@@ -8188,6 +8201,18 @@ class DbSchemaData
 						'is_auto_increment' => false,
 					],
 					6 => [
+						'column_name' => 'author_note',
+						'type_sql' => 'text',
+						'type_php' => 'string',
+						'comment' => '',
+						'default' => null,
+						'extra' => '',
+						'is_optional' => true,
+						'is_processable' => false,
+						'is_primary_key' => false,
+						'is_auto_increment' => false,
+					],
+					7 => [
 						'column_name' => 'created_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -8199,7 +8224,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					7 => [
+					8 => [
 						'column_name' => 'published_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -8219,8 +8244,9 @@ class DbSchemaData
 					3 => 'status',
 					4 => 'descriptor_json',
 					5 => 'descriptor_hash',
-					6 => 'created_at',
-					7 => 'published_at',
+					6 => 'author_note',
+					7 => 'created_at',
+					8 => 'published_at',
 				],
 				'pkeys' => [
 					0 => 'version_id',

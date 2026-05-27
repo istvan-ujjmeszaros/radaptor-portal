@@ -12,13 +12,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "ec5568f6aa119ca442e14e11153fb7b99bf1483a20fe8cbfb0eadfcef2a882ce",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-cms/0.1.43/package.zip",
+                "dist_sha256": "dc0d9e64f89c7f403c26f7ba8f73ddbb6cc142a0ab9a083dd501f22326527331",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-cms/0.1.47/package.zip",
                 "path": "packages/registry/core/cms",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.43"
+                "version": "0.1.47"
             },
             "dependencies": {
                 "radaptor/core/framework": "^0.1.36"
@@ -41,13 +41,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "ba93c7dfcb48cd9f3d9e482855192c61af0f6bba81bc1dc0ce544683d4179ea5",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-framework/0.1.38/package.zip",
+                "dist_sha256": "65bdf382e86c8adf503aef4a6234e4236ff072efe6057e26c66a578f1c24ab5a",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-framework/0.1.39/package.zip",
                 "path": "packages/registry/core/framework",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.38"
+                "version": "0.1.39"
             },
             "dependencies": [],
             "composer": {
@@ -69,13 +69,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "a0903c89d31e97a192f38e2673751a85e5f390dc1a5de7e185b37c0bb8cdb372",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-themes-portal-admin/0.1.19/package.zip",
+                "dist_sha256": "4f023d9ce41760a963cbed80846f4af6d132391dd489e0e96349bfb0cb7afdfe",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-themes-portal-admin/0.1.21/package.zip",
                 "path": "packages/registry/themes/portal-admin",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.19"
+                "version": "0.1.21"
             },
             "dependencies": {
                 "radaptor/core/cms": "^0.1.31"
