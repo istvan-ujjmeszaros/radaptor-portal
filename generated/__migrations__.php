@@ -318,4 +318,14 @@ return [
 		'module' => 'core:cms',
 		'name' => '20260527_121000_align_cms_mutation_audit_schema.php',
 	],
+	// framework / 20260529_090000_add_outbound_delivery_queue.php
+	'705c84a4986cd4117f0073a2cea77612' => [
+		'module' => 'framework',
+		'name' => '20260529_090000_add_outbound_delivery_queue.php',
+	],
+	// core:cms / 20260529_101000_capture_form_hooks.php
+	'e4cdfd856ab9b1e9229713d8605d4afd' => [
+		'module' => 'core:cms',
+		'name' => '20260529_101000_capture_form_hooks.php',
+	],
 ];

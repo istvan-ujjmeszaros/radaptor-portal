@@ -694,6 +694,452 @@ return [
 			'notes' => [
 			],
 		],
+		'form_hook:delete' => [
+			'event_name' => 'form_hook.delete',
+			'group' => 'CMS Authoring',
+			'name' => 'Delete capture form hook',
+			'summary' => 'Deletes one capture form hook target configuration.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'hook_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Hook id.',
+					],
+					2 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer',
+			],
+			'side_effects' => [
+				0 => 'Deletes a form_hook_targets row; delivery logs are retained with hook_id set null.',
+			],
+			'class' => 'EventFormHookDelete',
+			'slug' => 'form_hook:delete',
+			'route' => [
+				'event_name' => 'form_hook.delete',
+				'context' => 'form_hook',
+				'event' => 'delete',
+				'query' => '?context=form_hook&event=delete',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hook.delete\')',
+				'template_helper' => 'event_url(\'form_hook.delete\')',
+				'ajax_helper' => 'ajax_url(\'form_hook.delete\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hook.delete\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_hook:deliveries' => [
+			'event_name' => 'form_hook.deliveries',
+			'group' => 'CMS Authoring',
+			'name' => 'List capture form hook deliveries',
+			'summary' => 'Reads recent capture form hook delivery and suppression logs for one form.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'limit',
+						'source' => 'query',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Maximum rows, capped at 100.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer',
+			],
+			'class' => 'EventFormHookDeliveries',
+			'slug' => 'form_hook:deliveries',
+			'route' => [
+				'event_name' => 'form_hook.deliveries',
+				'context' => 'form_hook',
+				'event' => 'deliveries',
+				'query' => '?context=form_hook&event=deliveries',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hook.deliveries\')',
+				'template_helper' => 'event_url(\'form_hook.deliveries\')',
+				'ajax_helper' => 'ajax_url(\'form_hook.deliveries\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hook.deliveries\')',
+			],
+			'notes' => [
+			],
+			'side_effects' => [
+			],
+		],
+		'form_hook:save' => [
+			'event_name' => 'form_hook.save',
+			'group' => 'CMS Authoring',
+			'name' => 'Save capture form hook',
+			'summary' => 'Creates or updates one capture form hook target configuration.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'target_kind',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Hook target kind.',
+					],
+					2 => [
+						'name' => 'metadata_json',
+						'source' => 'body',
+						'type' => 'json-object',
+						'required' => false,
+						'description' => 'Target metadata.',
+					],
+					3 => [
+						'name' => 'excluded_field_keys_json',
+						'source' => 'body',
+						'type' => 'json-list',
+						'required' => false,
+						'description' => 'Stable field keys to omit from hook payloads.',
+					],
+					4 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer; system_developer required for custom URL, secret, and non-production override.',
+			],
+			'side_effects' => [
+				0 => 'Creates or updates a form_hook_targets row.',
+			],
+			'class' => 'EventFormHookSave',
+			'slug' => 'form_hook:save',
+			'route' => [
+				'event_name' => 'form_hook.save',
+				'context' => 'form_hook',
+				'event' => 'save',
+				'query' => '?context=form_hook&event=save',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hook.save\')',
+				'template_helper' => 'event_url(\'form_hook.save\')',
+				'ajax_helper' => 'ajax_url(\'form_hook.save\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hook.save\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_hook:targets' => [
+			'event_name' => 'form_hook.targets',
+			'group' => 'CMS Authoring',
+			'name' => 'List capture form hooks',
+			'summary' => 'Lists built-in capture form hook target definitions and configured hooks for one capture form.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer',
+			],
+			'class' => 'EventFormHookTargets',
+			'slug' => 'form_hook:targets',
+			'route' => [
+				'event_name' => 'form_hook.targets',
+				'context' => 'form_hook',
+				'event' => 'targets',
+				'query' => '?context=form_hook&event=targets',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hook.targets\')',
+				'template_helper' => 'event_url(\'form_hook.targets\')',
+				'ajax_helper' => 'ajax_url(\'form_hook.targets\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hook.targets\')',
+			],
+			'notes' => [
+			],
+			'side_effects' => [
+			],
+		],
+		'form_hooks:delete' => [
+			'event_name' => 'form_hooks.delete',
+			'group' => 'CMS Authoring',
+			'name' => 'Delete capture form hook',
+			'summary' => 'Deletes one capture form hook target configuration.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'hook_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Hook id.',
+					],
+					2 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer',
+			],
+			'side_effects' => [
+				0 => 'Deletes a form_hook_targets row; delivery logs are retained with hook_id set null.',
+			],
+			'class' => 'EventFormHooksDelete',
+			'slug' => 'form_hooks:delete',
+			'route' => [
+				'event_name' => 'form_hooks.delete',
+				'context' => 'form_hooks',
+				'event' => 'delete',
+				'query' => '?context=form_hooks&event=delete',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hooks.delete\')',
+				'template_helper' => 'event_url(\'form_hooks.delete\')',
+				'ajax_helper' => 'ajax_url(\'form_hooks.delete\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hooks.delete\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_hooks:deliveries' => [
+			'event_name' => 'form_hooks.deliveries',
+			'group' => 'CMS Authoring',
+			'name' => 'List capture form hook deliveries',
+			'summary' => 'Reads recent capture form hook delivery and suppression logs for one form.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'limit',
+						'source' => 'query',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Maximum rows, capped at 100.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer',
+			],
+			'class' => 'EventFormHooksDeliveries',
+			'slug' => 'form_hooks:deliveries',
+			'route' => [
+				'event_name' => 'form_hooks.deliveries',
+				'context' => 'form_hooks',
+				'event' => 'deliveries',
+				'query' => '?context=form_hooks&event=deliveries',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hooks.deliveries\')',
+				'template_helper' => 'event_url(\'form_hooks.deliveries\')',
+				'ajax_helper' => 'ajax_url(\'form_hooks.deliveries\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hooks.deliveries\')',
+			],
+			'notes' => [
+			],
+			'side_effects' => [
+			],
+		],
+		'form_hooks:list' => [
+			'event_name' => 'form_hooks.list',
+			'group' => 'CMS Authoring',
+			'name' => 'List capture form hooks',
+			'summary' => 'Lists built-in capture form hook target definitions and configured hooks for one capture form.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer',
+			],
+			'class' => 'EventFormHooksList',
+			'slug' => 'form_hooks:list',
+			'route' => [
+				'event_name' => 'form_hooks.list',
+				'context' => 'form_hooks',
+				'event' => 'list',
+				'query' => '?context=form_hooks&event=list',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hooks.list\')',
+				'template_helper' => 'event_url(\'form_hooks.list\')',
+				'ajax_helper' => 'ajax_url(\'form_hooks.list\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hooks.list\')',
+			],
+			'notes' => [
+			],
+			'side_effects' => [
+			],
+		],
+		'form_hooks:save' => [
+			'event_name' => 'form_hooks.save',
+			'group' => 'CMS Authoring',
+			'name' => 'Save capture form hook',
+			'summary' => 'Creates or updates one capture form hook target configuration.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'target_kind',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Hook target kind.',
+					],
+					2 => [
+						'name' => 'metadata_json',
+						'source' => 'body',
+						'type' => 'json-object',
+						'required' => false,
+						'description' => 'Target metadata.',
+					],
+					3 => [
+						'name' => 'excluded_field_keys_json',
+						'source' => 'body',
+						'type' => 'json-list',
+						'required' => false,
+						'description' => 'Stable field keys to omit from hook payloads.',
+					],
+					4 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound builder CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin|system_developer; system_developer required for custom URL, secret, and non-production override.',
+			],
+			'side_effects' => [
+				0 => 'Creates or updates a form_hook_targets row.',
+			],
+			'class' => 'EventFormHooksSave',
+			'slug' => 'form_hooks:save',
+			'route' => [
+				'event_name' => 'form_hooks.save',
+				'context' => 'form_hooks',
+				'event' => 'save',
+				'query' => '?context=form_hooks&event=save',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_hooks.save\')',
+				'template_helper' => 'event_url(\'form_hooks.save\')',
+				'ajax_helper' => 'ajax_url(\'form_hooks.save\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_hooks.save\')',
+			],
+			'notes' => [
+			],
+		],
 		'fragment:render' => [
 			'event_name' => 'fragment.render',
 			'group' => 'Runtime',
