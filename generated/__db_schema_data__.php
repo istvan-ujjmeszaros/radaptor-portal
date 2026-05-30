@@ -2521,18 +2521,6 @@ class DbSchemaData
 						'is_auto_increment' => false,
 					],
 					13 => [
-						'column_name' => 'secret_mask',
-						'type_sql' => 'varchar(128)',
-						'type_php' => 'string',
-						'comment' => '',
-						'default' => null,
-						'extra' => '',
-						'is_optional' => true,
-						'is_processable' => false,
-						'is_primary_key' => false,
-						'is_auto_increment' => false,
-					],
-					14 => [
 						'column_name' => 'created_by_user_id',
 						'type_sql' => 'int(11)',
 						'type_php' => 'int',
@@ -2544,7 +2532,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					15 => [
+					14 => [
 						'column_name' => 'updated_by_user_id',
 						'type_sql' => 'int(11)',
 						'type_php' => 'int',
@@ -2556,7 +2544,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					16 => [
+					15 => [
 						'column_name' => 'created_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -2568,7 +2556,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					17 => [
+					16 => [
 						'column_name' => 'updated_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -2595,11 +2583,10 @@ class DbSchemaData
 					10 => 'secret_ciphertext',
 					11 => 'secret_nonce',
 					12 => 'secret_tag',
-					13 => 'secret_mask',
-					14 => 'created_by_user_id',
-					15 => 'updated_by_user_id',
-					16 => 'created_at',
-					17 => 'updated_at',
+					13 => 'created_by_user_id',
+					14 => 'updated_by_user_id',
+					15 => 'created_at',
+					16 => 'updated_at',
 				],
 				'pkeys' => [
 					0 => 'hook_id',
@@ -9910,18 +9897,6 @@ class DbSchemaData
 						'is_auto_increment' => false,
 					],
 					13 => [
-						'column_name' => 'secret_mask',
-						'type_sql' => 'varchar(128)',
-						'type_php' => 'string',
-						'comment' => '',
-						'default' => null,
-						'extra' => '',
-						'is_optional' => true,
-						'is_processable' => false,
-						'is_primary_key' => false,
-						'is_auto_increment' => false,
-					],
-					14 => [
 						'column_name' => 'created_by_user_id',
 						'type_sql' => 'int(11)',
 						'type_php' => 'int',
@@ -9933,7 +9908,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					15 => [
+					14 => [
 						'column_name' => 'updated_by_user_id',
 						'type_sql' => 'int(11)',
 						'type_php' => 'int',
@@ -9945,7 +9920,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					16 => [
+					15 => [
 						'column_name' => 'created_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -9957,7 +9932,7 @@ class DbSchemaData
 						'is_primary_key' => false,
 						'is_auto_increment' => false,
 					],
-					17 => [
+					16 => [
 						'column_name' => 'updated_at',
 						'type_sql' => 'datetime',
 						'type_php' => 'string',
@@ -9984,11 +9959,10 @@ class DbSchemaData
 					10 => 'secret_ciphertext',
 					11 => 'secret_nonce',
 					12 => 'secret_tag',
-					13 => 'secret_mask',
-					14 => 'created_by_user_id',
-					15 => 'updated_by_user_id',
-					16 => 'created_at',
-					17 => 'updated_at',
+					13 => 'created_by_user_id',
+					14 => 'updated_by_user_id',
+					15 => 'created_at',
+					16 => 'updated_at',
 				],
 				'pkeys' => [
 					0 => 'hook_id',

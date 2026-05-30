@@ -590,6 +590,7 @@ return array (
   'form.builder.hooks.remove_metadata' => 'Remove metadata',
   'form.builder.hooks.save' => 'Save hook',
   'form.builder.hooks.secret' => 'Secret',
+  'form.builder.hooks.secret_configured' => 'A secret is already configured.',
   'form.builder.hooks.secret_placeholder' => 'Leave blank to keep existing secret',
   'form.builder.hooks.select_hook' => 'Select a hook to edit.',
   'form.builder.hooks.status.deleted' => 'Hook deleted.',

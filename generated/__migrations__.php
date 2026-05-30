@@ -328,4 +328,9 @@ return [
 		'module' => 'core:cms',
 		'name' => '20260529_101000_capture_form_hooks.php',
 	],
+	// core:cms / 20260530_143000_harden_capture_form_hooks.php
+	'9cc1defcd06870c785382cb92fae7401' => [
+		'module' => 'core:cms',
+		'name' => '20260530_143000_harden_capture_form_hooks.php',
+	],
 ];

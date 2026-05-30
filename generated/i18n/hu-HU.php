@@ -590,6 +590,7 @@ return array (
   'form.builder.hooks.remove_metadata' => 'Metaadat eltávolítása',
   'form.builder.hooks.save' => 'Hook mentése',
   'form.builder.hooks.secret' => 'Titok',
+  'form.builder.hooks.secret_configured' => 'Már van titok beállítva.',
   'form.builder.hooks.secret_placeholder' => 'Hagyd üresen a meglévő titok megtartásához',
   'form.builder.hooks.select_hook' => 'Válassz hookot a szerkesztéshez.',
   'form.builder.hooks.status.deleted' => 'Hook törölve.',
