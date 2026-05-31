@@ -77,7 +77,11 @@ the package-dev runtime:
 ## Commit & PR
 
 - Do not commit without explicit maintainer approval.
-- After opening or updating a GitHub PR, add a PR comment containing exactly `@codex review`.
-- Thread-aware review reads; resolve threads that pushed commits address; never resolve to clear
-  the list. Re-check unresolved count before requesting another review, merging, or publishing.
+- After opening or updating a GitHub PR, start a local Codex CLI review agent for the exact PR URL
+  and current HEAD. The review agent must post findings or an explicit no-findings result on the PR.
+- If the review agent posts actionable findings, fix them, validate, push, re-read thread-aware
+  review state, resolve only addressed threads, and request another fresh local Codex CLI review
+  agent pass. Repeat until the current HEAD has an explicit no-findings result.
+- Never resolve review threads just to clear the list. Re-check unresolved count before merging or
+  publishing.
 - After publishing a first-party package, update dependent consumer lockfiles in separate commits.
