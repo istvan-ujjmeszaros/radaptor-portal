@@ -235,10 +235,11 @@ Useful maintainer package commands:
 ```
 
 For package work that must be published, use the same review/release sequence as `radaptor-app`:
-package PR, `@codex review`, clean repo checks, squash merge, `package:release`, package metadata
-commit, registry commit/deploy, then consumer `update`. Run release commands from the
-package-dev runtime so `/workspace/packages-dev/...` and `/workspace/radaptor_package_registry` are
-mounted.
+package PR, local Codex CLI review agent result posted on the PR, fix/review loop repeated until
+the current HEAD has an explicit no-findings result, clean repo checks, squash merge,
+`package:release`, package metadata commit, registry commit/deploy, then consumer `update`. Run
+release commands from the package-dev runtime so `/workspace/packages-dev/...` and
+`/workspace/radaptor_package_registry` are mounted.
 
 ## Docker CLI options
 
