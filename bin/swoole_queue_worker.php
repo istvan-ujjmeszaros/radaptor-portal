@@ -24,29 +24,63 @@ if (!class_exists(Swoole\Coroutine::class)) {
 	exit(1);
 }
 
-$scope_list = getenv('RADAPTOR_WORKER_SCOPES');
-$handlers = RuntimeWorkerHandlerRegistry::getHandlersForScopeList(is_string($scope_list) ? $scope_list : null);
-$stop_requested = false;
+if (class_exists(RuntimeSwooleQueueWorkerRunner::class)) {
+	RuntimeSwooleQueueWorkerRunner::runFromEnvironment();
 
-\Swoole\Coroutine\run(static function () use ($handlers, &$stop_requested): void {
-	\Swoole\Process::signal(SIGTERM, static function () use (&$stop_requested): void {
-		$stop_requested = true;
+	exit(0);
+}
+
+// Legacy fallback for older framework packages that do not provide the shared multi-scope runner yet.
+$workerSleepSeconds = max(0.001, (int) Config::EMAIL_QUEUE_WORKER_SLEEP_MS->value() / 1000);
+$purgeIntervalSeconds = max(1, (int) Config::EMAIL_QUEUE_PURGE_INTERVAL_SECONDS->value());
+
+/**
+ * Legacy queue execution model:
+ *
+ * This worker intentionally processes jobs sequentially (one job at a time per process),
+ * even though Swoole can run jobs concurrently via coroutines.
+ *
+ * Why sequential now:
+ * 1) Safety and determinism:
+ *    - Email/queue status updates (recipient/outbox rollups, retries, dead-letter transitions)
+ *      are easier to reason about and test when only one job mutates state at a time.
+ * 2) Cache/context isolation:
+ *    - We flush in-memory cache at the start of each job to emulate request-like isolation
+ *      in a long-running process. This approach is straightforward and safe in sequential mode.
+ * 3) Reduced race complexity:
+ *    - Parallel in-process execution would require stricter per-coroutine cache strategy and
+ *      stronger guarantees around shared mutable state to avoid cross-job contamination.
+ *
+ * Throughput strategy:
+ * - Scale horizontally by running multiple worker processes/containers, each sequential.
+ *
+ * Future upgrade path:
+ * - If coroutine parallelism is introduced, revisit:
+ *   - cache lifecycle (per-coroutine, not process-wide flush assumptions),
+ *   - authorization/data access isolation guarantees,
+ *   - idempotency and transactional boundaries for status recomputation.
+ */
+\Swoole\Coroutine\run(function () use ($workerSleepSeconds, $purgeIntervalSeconds) {
+	$stopRequested = false;
+	$nextPurgeAt = time() + $purgeIntervalSeconds;
+
+	\Swoole\Process::signal(SIGTERM, static function () use (&$stopRequested) {
+		$stopRequested = true;
 	});
-	\Swoole\Process::signal(SIGINT, static function () use (&$stop_requested): void {
-		$stop_requested = true;
+	\Swoole\Process::signal(SIGINT, static function () use (&$stopRequested) {
+		$stopRequested = true;
 	});
 
-	$should_stop = static function () use (&$stop_requested): bool {
-		return $stop_requested;
-	};
+	while (!$stopRequested) {
+		$processed = EmailQueueWorker::runOnce();
 
-	RuntimeWorkerLoop::runForever(
-		$handlers,
-		$should_stop,
-		static fn (float $seconds): mixed => \Swoole\Coroutine::sleep($seconds),
-		[
-			'command' => 'bin/swoole_queue_worker.php',
-			'runtime' => 'swoole',
-		]
-	);
+		if (time() >= $nextPurgeAt) {
+			EmailQueueStorage::purgeArchives();
+			$nextPurgeAt = time() + $purgeIntervalSeconds;
+		}
+
+		if (!$processed) {
+			\Swoole\Coroutine::sleep($workerSleepSeconds);
+		}
+	}
 });

@@ -40,13 +40,13 @@ class RuntimeWiringTest extends TestCase
 		$this->assertIsString($workerEntrypoint);
 		$this->assertStringContainsString('putenv(\'RADAPTOR_RUNTIME=swoole\');', $workerEntrypoint);
 		$this->assertStringContainsString('RequestContextHolder::setStorage(new SwooleRequestContextStorage());', $workerEntrypoint);
-		$this->assertStringContainsString('RuntimeWorkerHandlerRegistry::getHandlersForScopeList', $workerEntrypoint);
+		$this->assertStringContainsString('class_exists(RuntimeSwooleQueueWorkerRunner::class)', $workerEntrypoint);
+		$this->assertStringContainsString('RuntimeSwooleQueueWorkerRunner::runFromEnvironment();', $workerEntrypoint);
 		$this->assertStringContainsString('\\Swoole\\Process::signal(SIGTERM', $workerEntrypoint);
 		$this->assertStringContainsString('\\Swoole\\Process::signal(SIGINT', $workerEntrypoint);
-		$this->assertStringContainsString('RuntimeWorkerLoop::runForever(', $workerEntrypoint);
-		$this->assertStringContainsString('use (&$stop_requested): bool', $workerEntrypoint);
-		$this->assertStringNotContainsString('RuntimeSwooleQueueWorkerRunner::runFromEnvironment();', $workerEntrypoint);
-		$this->assertStringNotContainsString('EmailQueueWorker::runOnce(', $workerEntrypoint);
+		$this->assertStringContainsString('EmailQueueWorker::runOnce(', $workerEntrypoint);
+		$this->assertStringNotContainsString('RuntimeWorkerHandlerRegistry::getHandlersForScopeList', $workerEntrypoint);
+		$this->assertStringNotContainsString('RuntimeWorkerLoop::runForever(', $workerEntrypoint);
 	}
 
 	public function testSwooleQueueWorkerComposeDefaultsCoverRuntimeWorkerScopes(): void
