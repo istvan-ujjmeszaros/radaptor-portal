@@ -24,11 +24,18 @@ if (!class_exists(Swoole\Coroutine::class)) {
 	exit(1);
 }
 
+if (class_exists(RuntimeSwooleQueueWorkerRunner::class)) {
+	RuntimeSwooleQueueWorkerRunner::runFromEnvironment();
+
+	exit(0);
+}
+
+// Legacy fallback for older framework packages that do not provide the shared multi-scope runner yet.
 $workerSleepSeconds = max(0.001, (int) Config::EMAIL_QUEUE_WORKER_SLEEP_MS->value() / 1000);
 $purgeIntervalSeconds = max(1, (int) Config::EMAIL_QUEUE_PURGE_INTERVAL_SECONDS->value());
 
 /**
- * Queue execution model (Phase 1):
+ * Legacy queue execution model:
  *
  * This worker intentionally processes jobs sequentially (one job at a time per process),
  * even though Swoole can run jobs concurrently via coroutines.

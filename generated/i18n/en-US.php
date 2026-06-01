@@ -765,6 +765,8 @@ return array (
   'import_export.error.invalid_mode' => 'Invalid import mode.',
   'import_export.error.locale_required' => 'Locale is required for export.',
   'import_export.error.source_cutover_required' => 'Source site cutover lock was not active before site migration export.',
+  'import_export.error.source_workers_pause_required' => 'Source workers did not confirm pause before site migration export.',
+  'import_export.error.target_workers_pause_required' => 'Target workers did not confirm pause before site migration restore.',
   'import_export.error.upload_backup_required' => 'Confirm the uploaded files backup before exporting the site snapshot.',
   'import_export.error.wide_no_locale_columns' => 'Wide CSV must contain at least one text:<locale> column.',
   'import_export.export.title' => 'Export CSV',
