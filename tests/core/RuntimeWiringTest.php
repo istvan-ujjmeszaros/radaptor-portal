@@ -38,10 +38,23 @@ class RuntimeWiringTest extends TestCase
 		$workerEntrypoint = file_get_contents(DEPLOY_ROOT . 'bin/swoole_queue_worker.php');
 
 		$this->assertIsString($workerEntrypoint);
-		$this->assertStringContainsString('\\Swoole\\Coroutine\\run(', $workerEntrypoint);
+		$this->assertStringContainsString('putenv(\'RADAPTOR_RUNTIME=swoole\');', $workerEntrypoint);
+		$this->assertStringContainsString('RequestContextHolder::setStorage(new SwooleRequestContextStorage());', $workerEntrypoint);
+		$this->assertStringContainsString('RuntimeWorkerHandlerRegistry::getHandlersForScopeList', $workerEntrypoint);
 		$this->assertStringContainsString('\\Swoole\\Process::signal(SIGTERM', $workerEntrypoint);
 		$this->assertStringContainsString('\\Swoole\\Process::signal(SIGINT', $workerEntrypoint);
-		$this->assertStringContainsString('$stopRequested = true', $workerEntrypoint);
-		$this->assertStringNotContainsString('runForever(', $workerEntrypoint);
+		$this->assertStringContainsString('RuntimeWorkerLoop::runForever(', $workerEntrypoint);
+		$this->assertStringContainsString('use (&$stop_requested): bool', $workerEntrypoint);
+		$this->assertStringNotContainsString('RuntimeSwooleQueueWorkerRunner::runFromEnvironment();', $workerEntrypoint);
+		$this->assertStringNotContainsString('EmailQueueWorker::runOnce(', $workerEntrypoint);
+	}
+
+	public function testSwooleQueueWorkerComposeDefaultsCoverRuntimeWorkerScopes(): void
+	{
+		$compose = file_get_contents(DEPLOY_ROOT . 'docker-compose-dev.yml');
+
+		$this->assertIsString($compose);
+		$this->assertMatchesRegularExpression('/swoole-queue-worker:\n(?:.*\n){1,6}\s+restart: unless-stopped/', $compose);
+		$this->assertStringContainsString('RADAPTOR_WORKER_SCOPES=${RADAPTOR_WORKER_SCOPES:-email_queue:transactional_email,outbound_delivery:http_webhook}', $compose);
 	}
 }

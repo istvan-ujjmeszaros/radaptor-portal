@@ -79,6 +79,7 @@ services:
       - XDEBUG_FILE_LINK_FORMAT=javascript:var r = new XMLHttpRequest; r.open("get","http://localhost:63342/api/file/%f:%l".replace("/app/", "/"));r.send()
       - ENVIRONMENT=development
       - TZ=UTC
+      - HOME=${RADAPTOR_CLI_HOME:-/app/tmp/radaptor-cli-home}
       - RADAPTOR_REGISTRY_URL=${RADAPTOR_REGISTRY_URL:-}
       - DB_DEFAULT_DSN=${DB_DEFAULT_DSN:-mysql:host=mariadb;port=3306;user=root;password=radaptor_portal;dbname=radaptor_portal}
       - SESSION_REDIS_HOST=${SESSION_REDIS_HOST:-redis-session}
@@ -109,6 +110,7 @@ services:
 
   swoole-queue-worker:
     image: radaptor-portal-phpfpm:8.5-dev
+    restart: unless-stopped
     working_dir: /app
     user: "${RADAPTOR_HOST_UID:?Set RADAPTOR_HOST_UID via ./docker-compose.sh}:${RADAPTOR_HOST_GID:?Set RADAPTOR_HOST_GID via ./docker-compose.sh}"
     env_file:
@@ -117,6 +119,7 @@ services:
     environment:
       - ENVIRONMENT=development
       - TZ=UTC
+      - HOME=${RADAPTOR_WORKER_HOME:-/app/tmp/radaptor-worker-home}
       - RADAPTOR_REGISTRY_URL=${RADAPTOR_REGISTRY_URL:-}
       - DB_DEFAULT_DSN=${DB_DEFAULT_DSN:-mysql:host=mariadb;port=3306;user=root;password=radaptor_portal;dbname=radaptor_portal}
       - SESSION_REDIS_HOST=${SESSION_REDIS_HOST:-redis-session}
@@ -132,6 +135,7 @@ services:
       - APP_BOOTSTRAP_ADMIN_PASSWORD=${APP_BOOTSTRAP_ADMIN_PASSWORD:-admin123456}
       - APP_BOOTSTRAP_ADMIN_LOCALE=${APP_BOOTSTRAP_ADMIN_LOCALE:-en_US}
       - APP_BOOTSTRAP_ADMIN_TIMEZONE=${APP_BOOTSTRAP_ADMIN_TIMEZONE:-UTC}
+      - RADAPTOR_WORKER_SCOPES=${RADAPTOR_WORKER_SCOPES:-email_queue:transactional_email,outbound_delivery:http_webhook}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

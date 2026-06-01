@@ -765,6 +765,8 @@ return array (
   'import_export.error.invalid_mode' => 'Ungültiger Importmodus.',
   'import_export.error.locale_required' => 'Für den Export ist ein Locale erforderlich.',
   'import_export.error.source_cutover_required' => 'Die Quellwebsite-Cutover-Sperre war vor dem Site-Migration-Export nicht aktiv.',
+  'import_export.error.source_workers_pause_required' => 'Source workers did not confirm pause before site migration export.',
+  'import_export.error.target_workers_pause_required' => 'Target workers did not confirm pause before site migration restore.',
   'import_export.error.upload_backup_required' => 'Bestätigen Sie die Sicherung der hochgeladenen Dateien, bevor Sie den Site-Snapshot exportieren.',
   'import_export.error.wide_no_locale_columns' => 'Die Wide-CSV muss mindestens eine text:<locale>-Spalte enthalten.',
   'import_export.export.title' => 'CSV exportieren',

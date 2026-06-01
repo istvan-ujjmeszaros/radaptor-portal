@@ -765,6 +765,8 @@ return array (
   'import_export.error.invalid_mode' => 'Érvénytelen import mód.',
   'import_export.error.locale_required' => 'Az exporthoz locale megadása kötelező.',
   'import_export.error.source_cutover_required' => 'A forrásoldal átállási zára nem volt aktív a site migration export előtt.',
+  'import_export.error.source_workers_pause_required' => 'A forrás feldolgozók nem igazolták vissza a szüneteltetést a site migration export előtt.',
+  'import_export.error.target_workers_pause_required' => 'A cél feldolgozók nem igazolták vissza a szüneteltetést a site migration restore előtt.',
   'import_export.error.upload_backup_required' => 'Erősítsd meg a feltöltött fájlok mentését a weboldal snapshot exportálása előtt.',
   'import_export.error.wide_no_locale_columns' => 'A wide CSV-nek legalább egy text:<locale> oszlopot tartalmaznia kell.',
   'import_export.export.title' => 'CSV export',
