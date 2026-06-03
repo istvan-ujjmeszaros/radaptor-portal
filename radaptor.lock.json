@@ -12,13 +12,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "8cc772646a8a05c360539c24725b1599979824c4931cbb3df4c6c1e3c6f8f046",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-cms/0.1.58/package.zip",
+                "dist_sha256": "8bb020983d17db2d347d2215cf874cc28c4a17a49b6031ea7910e74729ec9c01",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-core-cms/0.1.59/package.zip",
                 "path": "packages/registry/core/cms",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.58"
+                "version": "0.1.59"
             },
             "dependencies": {
                 "radaptor/core/framework": "^0.1.36"
@@ -69,16 +69,16 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "d29c4046170c1d2a46b3afb999f354482645d155d93cbc8552d5b35b96e63f69",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-themes-portal-admin/0.1.27/package.zip",
+                "dist_sha256": "dd2b9cf07607c3963df77fcb8d4cbd6c3dc7b07c0cf9adaba70885339570e44e",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-themes-portal-admin/0.1.28/package.zip",
                 "path": "packages/registry/themes/portal-admin",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.27"
+                "version": "0.1.28"
             },
             "dependencies": {
-                "radaptor/core/cms": "^0.1.57"
+                "radaptor/core/cms": "^0.1.59"
             },
             "composer": {
                 "require": {

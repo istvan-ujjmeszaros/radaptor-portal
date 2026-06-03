@@ -694,6 +694,366 @@ return [
 			'notes' => [
 			],
 		],
+		'form_editor:insert_field' => [
+			'event_name' => 'form_editor.insert_field',
+			'group' => 'CMS Authoring',
+			'name' => 'Insert capture form field',
+			'summary' => 'Inserts one palette-backed field into a DB-authored capture form draft from page edit mode.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'form_edit_insert',
+						'source' => 'body',
+						'type' => 'base64-json',
+						'required' => true,
+						'description' => 'Insert action payload.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Creates or replaces the active draft version without publishing it.',
+			],
+			'class' => 'EventFormEditorInsertField',
+			'slug' => 'form_editor:insert_field',
+			'route' => [
+				'event_name' => 'form_editor.insert_field',
+				'context' => 'form_editor',
+				'event' => 'insert_field',
+				'query' => '?context=form_editor&event=insert_field',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.insert_field\')',
+				'template_helper' => 'event_url(\'form_editor.insert_field\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.insert_field\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.insert_field\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:move_field' => [
+			'event_name' => 'form_editor.move_field',
+			'group' => 'CMS Authoring',
+			'name' => 'Move capture form field',
+			'summary' => 'Moves one DB-authored capture form field in page edit mode.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'field_uid',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Immutable editor field uid.',
+					],
+					2 => [
+						'name' => 'field_key',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Current field key fallback.',
+					],
+					3 => [
+						'name' => 'field_index',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Current visible field index fallback.',
+					],
+					4 => [
+						'name' => 'direction',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Move direction: up or down.',
+					],
+					5 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound inline field command CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Creates or replaces the active draft version without publishing it.',
+			],
+			'class' => 'EventFormEditorMoveField',
+			'slug' => 'form_editor:move_field',
+			'route' => [
+				'event_name' => 'form_editor.move_field',
+				'context' => 'form_editor',
+				'event' => 'move_field',
+				'query' => '?context=form_editor&event=move_field',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.move_field\')',
+				'template_helper' => 'event_url(\'form_editor.move_field\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.move_field\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.move_field\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:publish' => [
+			'event_name' => 'form_editor.publish',
+			'group' => 'CMS Authoring',
+			'name' => 'Publish capture form draft from edit mode',
+			'summary' => 'Promotes the active DB-authored capture form draft from page edit mode.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'host_page_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Webpage id that hosts the edited capture form widget.',
+					],
+					2 => [
+						'name' => 'widget_connection_id',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Capture form widget connection id.',
+					],
+					3 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound inline form command CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Publishes the active draft version and refreshes the rendered capture form in edit mode.',
+			],
+			'class' => 'EventFormEditorPublish',
+			'slug' => 'form_editor:publish',
+			'route' => [
+				'event_name' => 'form_editor.publish',
+				'context' => 'form_editor',
+				'event' => 'publish',
+				'query' => '?context=form_editor&event=publish',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.publish\')',
+				'template_helper' => 'event_url(\'form_editor.publish\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.publish\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.publish\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:remove_field' => [
+			'event_name' => 'form_editor.remove_field',
+			'group' => 'CMS Authoring',
+			'name' => 'Remove capture form field',
+			'summary' => 'Removes one DB-authored capture form field from page edit mode.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'field_uid',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Immutable editor field uid.',
+					],
+					2 => [
+						'name' => 'field_key',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Current field key fallback.',
+					],
+					3 => [
+						'name' => 'field_index',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Current visible field index fallback.',
+					],
+					4 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound inline field command CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Creates or replaces the active draft version without publishing it.',
+			],
+			'class' => 'EventFormEditorRemoveField',
+			'slug' => 'form_editor:remove_field',
+			'route' => [
+				'event_name' => 'form_editor.remove_field',
+				'context' => 'form_editor',
+				'event' => 'remove_field',
+				'query' => '?context=form_editor&event=remove_field',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.remove_field\')',
+				'template_helper' => 'event_url(\'form_editor.remove_field\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.remove_field\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.remove_field\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:update_field' => [
+			'event_name' => 'form_editor.update_field',
+			'group' => 'CMS Authoring',
+			'name' => 'Update capture form field',
+			'summary' => 'Updates one DB-authored capture form field property set from page edit mode.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'field_key',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Current field key or name.',
+					],
+					2 => [
+						'name' => 'field_index',
+						'source' => 'body',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Current field index fallback.',
+					],
+					3 => [
+						'name' => 'field_label',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Field label text.',
+					],
+					4 => [
+						'name' => 'field_name',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Field internal name.',
+					],
+					5 => [
+						'name' => 'field_key_new',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Field payload key.',
+					],
+					6 => [
+						'name' => 'field_required',
+						'source' => 'body',
+						'type' => 'bool',
+						'required' => false,
+						'description' => 'Required validator toggle.',
+					],
+					7 => [
+						'name' => 'field_options',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Newline-separated value=label options for option fields.',
+					],
+					8 => [
+						'name' => 'csrf_token',
+						'source' => 'body',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Session-bound inline field editor CSRF token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Creates or replaces the active draft version without publishing it.',
+			],
+			'class' => 'EventFormEditorUpdateField',
+			'slug' => 'form_editor:update_field',
+			'route' => [
+				'event_name' => 'form_editor.update_field',
+				'context' => 'form_editor',
+				'event' => 'update_field',
+				'query' => '?context=form_editor&event=update_field',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.update_field\')',
+				'template_helper' => 'event_url(\'form_editor.update_field\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.update_field\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.update_field\')',
+			],
+			'notes' => [
+			],
+		],
 		'form_hook:delete' => [
 			'event_name' => 'form_hook.delete',
 			'group' => 'CMS Authoring',
