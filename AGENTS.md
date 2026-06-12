@@ -39,19 +39,20 @@ Maintainer-local first-party package overrides are gitignored:
 - `radaptor.local.json` without the package-dev compose override is an invalid runtime state and must fail hard.
 - Host-side workflow is Git-only. Hooks and helper scripts must dispatch every non-Git check into the supported container; never require host PHP, Composer, Python, php-cs-fixer, or Radaptor CLI.
 - App-local transient QA outputs belong under `tmp/`. Do not leave `playwright-report/`, `test-results/`, proof clones, restore sandboxes, or scratch verification directories at repo root.
-- After opening or updating a GitHub PR, start a local Codex CLI review agent for the exact PR URL and current HEAD before merging, publishing, releasing, or treating the PR as approved dependency input. The review task is review-only: no edits, commits, pushes, or merges.
-- The review agent must post its result on the PR, using inline comments for line-tied findings when possible and a top-level PR comment otherwise. A no-findings result must also be posted for the reviewed HEAD.
-- If the maintainer asks for Claude review, use `claudee` from the CLI for one PR at a time. If `claudee` is unavailable or fails, report that and fall back to a local Codex review worker.
-- A bare `@codex review` PR comment is not the primary gate. Use it only when explicitly requested as a fallback/extra signal; it does not replace the local Codex CLI review agent result.
+- After opening or updating a GitHub PR, request the primary review gate by posting `@codex review` on the PR before merging, publishing, releasing, or treating the PR as approved dependency input. Treat the gate as complete only after GitHub-hosted Codex posts findings or an explicit no-findings result for the current HEAD.
+- Claude-driven sessions should run Claude's internal review agents (for example `/code-review`) on the branch before requesting `@codex review`, so obvious findings are fixed before the primary gate runs.
+- Review results must be visible on the PR, using inline comments for line-tied findings when possible and a top-level PR comment otherwise. A no-findings result must also be posted for the reviewed HEAD.
+- Use a local Codex CLI review worker only as a fallback when the GitHub `@codex review` path is quota-limited, rate-limited, unavailable, or fails to produce a usable result. Document the fallback reason, keep the worker review-only (no edits, commits, pushes, or merges), and re-try GitHub review on later passes because its reset window is opaque.
+- If the maintainer asks for Claude review, use `claudee` from the CLI for one PR at a time. If `claudee` is unavailable or fails, report that and fall back through GitHub `@codex review` first; use a local Codex review worker only if the GitHub path is unavailable.
 
 ## GitHub PR Review Workflow
 
 - When addressing review feedback, use a thread-aware read of GitHub review threads; flat comment lists are not enough because they lose resolved/outdated state.
 - After implementing, validating, committing, and pushing a fix, always mark every review thread resolved that the pushed commit actually addresses.
-- If the fresh Codex review agent posts any actionable finding, fix it, validate, push, re-read thread-aware state, resolve only addressed threads, and request another fresh local Codex CLI review agent pass. Repeat until the current HEAD has an explicit no-findings result from the review agent.
+- If the fresh review pass posts any actionable finding, fix it, validate, push, re-read thread-aware state, resolve only addressed threads, and request another fresh `@codex review` pass. Repeat until the current HEAD has an explicit no-findings result.
 - Never resolve a thread just to clear the list. If a thread remains unresolved intentionally, say why and include the next concrete fix.
-- Before requesting a fresh local Codex CLI review agent, merging, or publishing, re-check unresolved review threads and report the count. Before merging or publishing, also verify that the latest local Codex CLI review agent result was posted for the current HEAD.
-- Merge and publish only after the relevant PR has a completed local Codex CLI review agent result for the current HEAD, no unresolved review threads, required checks are green or explicitly accepted, any dependent lockfile/runtime update plan is clear, and the maintainer explicitly approves the merge/publish step.
+- Before requesting a fresh review pass, merging, or publishing, re-check unresolved review threads and report the count. Before merging or publishing, also verify that the latest review result was posted for the current HEAD.
+- Merge and publish only after the relevant PR has a completed Codex review result for the current HEAD, no unresolved review threads, required checks are green or explicitly accepted, any dependent lockfile/runtime update plan is clear, and the maintainer explicitly approves the merge/publish step.
 - After publishing a first-party package, update every dependent consumer lockfile/runtime that should consume the new immutable version, then commit those dependency updates separately.
 
 ## Runtime Response, I18n, And HTMX Rules
@@ -89,6 +90,7 @@ Maintainer-local first-party package overrides are gitignored:
 - Clean proof/tmp app worktrees, PR-sync clones, and other app checkouts are separate Docker Compose projects because Docker labels include the worktree path. A running `php` container from another checkout does not satisfy this worktree's hooks.
 - Bring up this worktree's own stack with `./docker-compose.sh up -d --build` before relying on its hooks or tests. Set non-conflicting ports in `.env` when multiple app stacks run at once.
 - Do not bypass Git hooks only because the expected Docker Compose project is not running. Start the relevant stack first; if a hook still cannot run, state the reason and the equivalent checks that were run before committing.
+- If the Docker daemon / Docker Desktop is not running, do not work around it: ask the user to start Docker Desktop, wait until the daemon is up, and only then continue.
 - After a reboot and before general verification, start the full dev stack with `./docker-compose.sh up -d --build`.
 - Do not bring this app up with a handpicked service subset unless the task explicitly needs a narrower diagnostic setup.
 - The queue worker service name is `swoole-queue-worker`; Swoole itself is built into the `php` image.

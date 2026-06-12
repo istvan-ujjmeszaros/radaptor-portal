@@ -88,7 +88,7 @@ echo -e "${YELLOW}Running pre-commit checks inside Docker container: $DOCKER_CON
 
 if [ -x "$PROJECT_ROOT/bin/check-local-override-state.sh" ]; then
 	echo -e "${YELLOW}Checking local override guardrails...${NC}"
-	docker exec "$DOCKER_CONTAINER" bash -lc "cd /app && ./bin/check-local-override-state.sh"
+	docker exec -e HOME=/tmp "$DOCKER_CONTAINER" bash -lc "cd /app && ./bin/check-local-override-state.sh"
 fi
 
 STAGED_FILES=()
@@ -102,7 +102,9 @@ fi
 
 echo -e "${YELLOW}Regenerating autoloader map...${NC}"
 
-if ! docker exec "$DOCKER_CONTAINER" bash -lc "cd /app && radaptor build:autoloader"; then
+# HOME must be a writable scratch dir: the container exec user has no passwd entry, and an unset
+# HOME makes radaptor CLIStorage spray warnings while trying to write //.radaptor/.
+if ! docker exec -e HOME=/tmp "$DOCKER_CONTAINER" bash -lc "cd /app && radaptor build:autoloader"; then
 	echo -e "${RED}Failed to regenerate autoloader map.${NC}"
 	echo -e "${YELLOW}Run manually: radaptor build:autoloader${NC}"
 	exit 1
@@ -110,7 +112,7 @@ fi
 
 echo -e "${YELLOW}Running PHP-CS-Fixer on staged files...${NC}"
 
-if ! docker exec "$DOCKER_CONTAINER" bash -lc \
+if ! docker exec -e HOME=/tmp "$DOCKER_CONTAINER" bash -lc \
 	"cd /app && ./php-cs-fixer.sh --config=.php-cs-fixer.php --quiet --path-mode=intersection -- \"\$@\"" \
 	bash "${STAGED_FILES[@]}"; then
 	echo -e "${RED}PHP-CS-Fixer encountered errors. Please fix them and try again.${NC}"

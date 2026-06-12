@@ -39,6 +39,9 @@ the package-dev runtime:
 ## Supported Runtime Rule
 
 - All PHP/Composer/Radaptor CLI work runs inside the `php` container. No host PHP/Composer/CLI.
+- Before any implementation, hooks, CLI, test, or browser work, start every Docker Compose stack
+  relevant to the repos/worktrees you will touch. If the Docker daemon / Docker Desktop is not
+  running, ask the user to start it and wait until it is up before moving forward.
 - Default bring-up: `./docker-compose.sh up -d --build`. Do not bring the app
   up with a handpicked subset unless a task explicitly needs it.
 - Queue worker service: `swoole-queue-worker`. Swoole itself is built into the `php` image; there
@@ -77,11 +80,15 @@ the package-dev runtime:
 ## Commit & PR
 
 - Do not commit without explicit maintainer approval.
-- After opening or updating a GitHub PR, start a local Codex CLI review agent for the exact PR URL
-  and current HEAD. The review agent must post findings or an explicit no-findings result on the PR.
-- If the review agent posts actionable findings, fix them, validate, push, re-read thread-aware
-  review state, resolve only addressed threads, and request another fresh local Codex CLI review
-  agent pass. Repeat until the current HEAD has an explicit no-findings result.
+- Run Claude's internal review agents (e.g. `/code-review`) on the branch before requesting the
+  primary gate.
+- After opening or updating a GitHub PR, request the primary review gate by posting `@codex review`
+  on the PR. The gate is complete only after GitHub-hosted Codex posts findings or an explicit
+  no-findings result for the current HEAD. Use a local Codex CLI review worker only as a documented
+  fallback when the GitHub path is unavailable; `claudee` only on maintainer request.
+- If a review pass posts actionable findings, fix them, validate, push, re-read thread-aware
+  review state, resolve only addressed threads, and request another fresh `@codex review` pass.
+  Repeat until the current HEAD has an explicit no-findings result.
 - Never resolve review threads just to clear the list. Re-check unresolved count before merging or
   publishing.
 - After publishing a first-party package, update dependent consumer lockfiles in separate commits.
