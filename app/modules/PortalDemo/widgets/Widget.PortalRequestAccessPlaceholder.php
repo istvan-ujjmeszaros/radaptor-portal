@@ -3,6 +3,13 @@
 class WidgetPortalRequestAccessPlaceholder extends AbstractWidget
 {
 	public const string ID = 'portal_request_access_placeholder';
+	public const array AUTHORING = [
+		'insert_mode' => 'system',
+		'reuse' => 'repeatable',
+		'surfaces' => ['public'],
+		'group' => 'content',
+		'sort' => 30,
+	];
 
 	public static function getName(): string
 	{

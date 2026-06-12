@@ -34,12 +34,16 @@ ENV PATH="/app/tools:/app/vendor/bin:${PATH}"
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# php-cs-fixer is installed to a world-readable COMPOSER_HOME so the symlink also works for
+# non-root container users (hooks/CI exec as the host uid). /root is mode 0700 and must not
+# be the install target.
 RUN wget -O phive.phar https://phar.io/releases/phive.phar \
     && chmod +x phive.phar \
     && mv phive.phar /usr/local/bin/phive \
-    && composer global require --no-interaction --no-progress friendsofphp/php-cs-fixer:^3.94 \
+    && COMPOSER_HOME=/opt/composer composer global require --no-interaction --no-progress friendsofphp/php-cs-fixer:^3.94 \
+    && chmod -R a+rX /opt/composer \
     && git config --global --add safe.directory /app \
-    && ln -sf "$(composer global config home --absolute)/vendor/bin/php-cs-fixer" /usr/local/bin/php-cs-fixer \
+    && ln -sf /opt/composer/vendor/bin/php-cs-fixer /usr/local/bin/php-cs-fixer \
     && php-cs-fixer --version >/dev/null
 
 WORKDIR /app

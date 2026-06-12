@@ -126,14 +126,15 @@ final class AdminDropdownSmokeTest extends TransactionedTestCase
 			$output,
 			"Widget edit chrome not found for theme {$theme_name}",
 		);
-		$this->assertStringContainsString(
-			'class="widget-insert',
+		$widget_insert_class_pattern = '/class="[^"]*(?<![\w-])widget-insert(?![\w-])/';
+		$this->assertMatchesRegularExpression(
+			$widget_insert_class_pattern,
 			$output,
 			"Widget inserter not found for theme {$theme_name}",
 		);
 		$this->assertGreaterThanOrEqual(
 			2,
-			substr_count($output, 'class="widget-insert'),
+			(int) preg_match_all($widget_insert_class_pattern, $output),
 			"Expected at least 2 widget inserters for theme {$theme_name}",
 		);
 	}

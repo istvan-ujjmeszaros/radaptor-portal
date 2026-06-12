@@ -3,7 +3,7 @@
         _create: function() {
             var self = this,
             select = this.element.hide(),
-            selected = select.children( ":selected" ),
+            selected = select.find( ":selected" ),
             value = selected.text();
             self._parentElement = self.element.parent();
             var input = this.input = $( "<input>" )
@@ -21,7 +21,7 @@
                 minLength: 0,
                 source: function( request, response ) {
                     var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-                    response( select.children( "option" ).map(function() {
+                    response( select.find( "option" ).map(function() {
                         var text = $( this ).text();
                         if ( this.value && ( !request.term || matcher.test(text) ) )
                             return {
@@ -48,7 +48,7 @@
                     if ( !ui.item ) {
                         var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),
                         valid = false;
-                        select.children( "option" ).each(function() {
+                        select.find( "option" ).each(function() {
                             if ( $( this ).text().match( matcher ) ) {
                                 this.selected = valid = true;
                                 return false;

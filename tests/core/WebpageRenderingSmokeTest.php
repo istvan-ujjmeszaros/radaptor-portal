@@ -86,8 +86,9 @@ final class WebpageRenderingSmokeTest extends TransactionedTestCase
 		$this->assertStringContainsString('<section id="edit-tree-marker">Edit tree smoke</section>', $output);
 		$this->assertStringContainsString('id="edit-widget-' . $connection_id . '"', $output);
 		$this->assertStringContainsString('class="widget-edit"', $output);
-		$this->assertStringContainsString('class="widget-insert', $output);
-		$this->assertGreaterThanOrEqual(2, substr_count($output, 'class="widget-insert'));
+		$widget_insert_class_pattern = '/class="[^"]*(?<![\w-])widget-insert(?![\w-])/';
+		$this->assertMatchesRegularExpression($widget_insert_class_pattern, $output);
+		$this->assertGreaterThanOrEqual(2, (int) preg_match_all($widget_insert_class_pattern, $output));
 	}
 
 	public function testMultipleWidgetsInSameSlotRenderInSeqOrder(): void

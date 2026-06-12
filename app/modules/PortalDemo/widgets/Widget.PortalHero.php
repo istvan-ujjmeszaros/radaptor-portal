@@ -3,6 +3,13 @@
 class WidgetPortalHero extends AbstractWidget
 {
 	public const string ID = 'portal_hero';
+	public const array AUTHORING = [
+		'insert_mode' => 'manual',
+		'reuse' => 'repeatable',
+		'surfaces' => ['public'],
+		'group' => 'content',
+		'sort' => 10,
+	];
 
 	public static function getName(): string
 	{
