@@ -513,13 +513,14 @@ final class TreeRenderingContractTest extends TestCase
 		$composer = new TreeRenderingTestComposer('RadaptorPortalAdmin', 'admin_default');
 
 		$tree = $composer->buildWidgetInserterTree('content');
+		$addFromListTree = $tree['slots']['add_widget_from_list'][0] ?? [];
 
-		$this->assertSame('editorInsert', $tree['component']);
-		$this->assertSame(EditorInsertSurfaceBuilder::SCOPE_WIDGET, $tree['props']['scope'] ?? null);
+		$this->assertSame('widgetInsert', $tree['component']);
+		$this->assertSame('addWidgetFromList', $addFromListTree['component'] ?? null);
 		// @phpstan-ignore-next-line
 		$this->assertSame(t('cms.widget.insert_from_clipboard'), $tree['strings']['cms.widget.insert_from_clipboard'] ?? null);
 		// @phpstan-ignore-next-line
-		$this->assertSame(t('cms.widget.insert.button'), $tree['strings']['cms.widget.insert.button'] ?? null);
+		$this->assertSame(t('cms.widget.insert.button'), $addFromListTree['strings']['cms.widget.insert.button'] ?? null);
 	}
 
 	public function testUserMenuBuildTreeProvidesResolvedStrings(): void

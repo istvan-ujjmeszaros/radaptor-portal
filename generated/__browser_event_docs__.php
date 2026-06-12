@@ -154,6 +154,70 @@ return [
 				'ajax_helper_raw' => 'ajax_url_raw(\'email.send\')',
 			],
 		],
+		'form:editor_fragment' => [
+			'event_name' => 'form.editor_fragment',
+			'group' => 'CMS Authoring',
+			'name' => 'Render form editor fragment',
+			'summary' => 'Renders a single form fragment for page-editor properties panels without composing a full webpage.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'form_id',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Form type id to render.',
+					],
+					1 => [
+						'name' => 'item_id',
+						'source' => 'query',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Optional edited item id.',
+					],
+					2 => [
+						'name' => 'host_page_id',
+						'source' => 'query',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Page that hosts the form widget.',
+					],
+					3 => [
+						'name' => 'form_widget_connection_id',
+						'source' => 'query',
+						'type' => 'int',
+						'required' => false,
+						'description' => 'Widget connection id of the form widget.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'html-fragment',
+				'content_type' => 'text/html; charset=UTF-8',
+			],
+			'authorization' => [
+				'visibility' => 'logged-in users + form policy',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventFormEditorFragment',
+			'slug' => 'form:editor_fragment',
+			'route' => [
+				'event_name' => 'form.editor_fragment',
+				'context' => 'form',
+				'event' => 'editor_fragment',
+				'query' => '?context=form&event=editor_fragment',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form.editor_fragment\')',
+				'template_helper' => 'event_url(\'form.editor_fragment\')',
+				'ajax_helper' => 'ajax_url(\'form.editor_fragment\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form.editor_fragment\')',
+			],
+			'notes' => [
+			],
+		],
 		'form:status' => [
 			'event_name' => 'form.status',
 			'group' => 'CMS Consistency',
@@ -2694,6 +2758,49 @@ return [
 				'template_helper' => 'event_url(\'page_editmode.switch\')',
 				'ajax_helper' => 'ajax_url(\'page_editmode.switch\')',
 				'ajax_helper_raw' => 'ajax_url_raw(\'page_editmode.switch\')',
+			],
+		],
+		'page_editor:editor_fragment' => [
+			'event_name' => 'page_editor.editor_fragment',
+			'group' => 'CMS Authoring',
+			'name' => 'Render webpage editor fragment',
+			'summary' => 'Renders the iframe-based webpage editor chrome for insertion into the resource browser modal.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'page_id',
+						'source' => 'query',
+						'type' => 'int',
+						'required' => true,
+						'description' => 'Resource tree webpage id.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'html',
+				'content_type' => 'text/html; charset=UTF-8',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventPageEditorEditorFragment',
+			'slug' => 'page_editor:editor_fragment',
+			'route' => [
+				'event_name' => 'page_editor.editor_fragment',
+				'context' => 'page_editor',
+				'event' => 'editor_fragment',
+				'query' => '?context=page_editor&event=editor_fragment',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'page_editor.editor_fragment\')',
+				'template_helper' => 'event_url(\'page_editor.editor_fragment\')',
+				'ajax_helper' => 'ajax_url(\'page_editor.editor_fragment\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'page_editor.editor_fragment\')',
+			],
+			'notes' => [
 			],
 		],
 		'resource:acl_sync' => [
