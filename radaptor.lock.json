@@ -69,13 +69,13 @@
                 "version": "^0.1.0"
             },
             "resolved": {
-                "dist_sha256": "8a2b958f8b4a9b9baf572f3dd79aea14a1127b49a0b3d7e94fdbff9d498faeb8",
-                "dist_url": "https://packages.radaptor.com/packages/radaptor-themes-portal-admin/0.1.29/package.zip",
+                "dist_sha256": "178e9e87a5bcef69690a306f057451445fface9434c60327b18b09d27f9d2561",
+                "dist_url": "https://packages.radaptor.com/packages/radaptor-themes-portal-admin/0.1.30/package.zip",
                 "path": "packages/registry/themes/portal-admin",
                 "registry": "default",
                 "registry_url": "https://packages.radaptor.com/registry.json",
                 "type": "registry",
-                "version": "0.1.29"
+                "version": "0.1.30"
             },
             "dependencies": {
                 "radaptor/core/cms": "^0.1.59"
