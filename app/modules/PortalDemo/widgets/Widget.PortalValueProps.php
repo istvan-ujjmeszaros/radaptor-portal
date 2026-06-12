@@ -3,6 +3,13 @@
 class WidgetPortalValueProps extends AbstractWidget
 {
 	public const string ID = 'portal_value_props';
+	public const array AUTHORING = [
+		'insert_mode' => 'manual',
+		'reuse' => 'repeatable',
+		'surfaces' => ['public'],
+		'group' => 'content',
+		'sort' => 20,
+	];
 
 	public static function getName(): string
 	{
