@@ -449,120 +449,6 @@ return [
 			'notes' => [
 			],
 		],
-		'form_builder:load_draft_version' => [
-			'event_name' => 'form_builder.load_draft_version',
-			'group' => 'CMS Authoring',
-			'name' => 'Load capture form draft version',
-			'summary' => 'Loads one existing DB-authored capture form version into the builder without mutating stored state.',
-			'request' => [
-				'method' => 'POST',
-				'params' => [
-					0 => [
-						'name' => 'definition_slug',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => true,
-						'description' => 'Capture definition slug.',
-					],
-					1 => [
-						'name' => 'version_id',
-						'source' => 'body',
-						'type' => 'int',
-						'required' => true,
-						'description' => 'Version id to load into the editor.',
-					],
-					2 => [
-						'name' => 'csrf_token',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => true,
-						'description' => 'Session-bound builder CSRF token.',
-					],
-				],
-			],
-			'response' => [
-				'kind' => 'json',
-				'content_type' => 'application/json',
-			],
-			'authorization' => [
-				'visibility' => 'role:content_admin',
-			],
-			'side_effects' => [
-			],
-			'class' => 'EventFormBuilderLoadDraftVersion',
-			'slug' => 'form_builder:load_draft_version',
-			'route' => [
-				'event_name' => 'form_builder.load_draft_version',
-				'context' => 'form_builder',
-				'event' => 'load_draft_version',
-				'query' => '?context=form_builder&event=load_draft_version',
-			],
-			'invocation' => [
-				'url_php' => 'Url::getUrl(\'form_builder.load_draft_version\')',
-				'template_helper' => 'event_url(\'form_builder.load_draft_version\')',
-				'ajax_helper' => 'ajax_url(\'form_builder.load_draft_version\')',
-				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.load_draft_version\')',
-			],
-			'notes' => [
-			],
-		],
-		'form_builder:preview_render' => [
-			'event_name' => 'form_builder.preview_render',
-			'group' => 'CMS Authoring',
-			'name' => 'Render capture form builder preview',
-			'summary' => 'Validates a capture descriptor and renders a non-persistent preview fragment for the builder iframe.',
-			'request' => [
-				'method' => 'POST',
-				'params' => [
-					0 => [
-						'name' => 'definition_slug',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => true,
-						'description' => 'Capture definition slug.',
-					],
-					1 => [
-						'name' => 'descriptor_json',
-						'source' => 'body',
-						'type' => 'json-object',
-						'required' => true,
-						'description' => 'Capture descriptor JSON.',
-					],
-					2 => [
-						'name' => 'csrf_token',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => true,
-						'description' => 'Session-bound builder CSRF token.',
-					],
-				],
-			],
-			'response' => [
-				'kind' => 'json',
-				'content_type' => 'application/json',
-			],
-			'authorization' => [
-				'visibility' => 'role:content_admin',
-			],
-			'side_effects' => [
-			],
-			'class' => 'EventFormBuilderPreviewRender',
-			'slug' => 'form_builder:preview_render',
-			'route' => [
-				'event_name' => 'form_builder.preview_render',
-				'context' => 'form_builder',
-				'event' => 'preview_render',
-				'query' => '?context=form_builder&event=preview_render',
-			],
-			'invocation' => [
-				'url_php' => 'Url::getUrl(\'form_builder.preview_render\')',
-				'template_helper' => 'event_url(\'form_builder.preview_render\')',
-				'ajax_helper' => 'ajax_url(\'form_builder.preview_render\')',
-				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.preview_render\')',
-			],
-			'notes' => [
-			],
-		],
 		'form_builder:publish' => [
 			'event_name' => 'form_builder.publish',
 			'group' => 'CMS Authoring',
@@ -617,78 +503,6 @@ return [
 				'template_helper' => 'event_url(\'form_builder.publish\')',
 				'ajax_helper' => 'ajax_url(\'form_builder.publish\')',
 				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.publish\')',
-			],
-			'notes' => [
-			],
-		],
-		'form_builder:save_draft' => [
-			'event_name' => 'form_builder.save_draft',
-			'group' => 'CMS Authoring',
-			'name' => 'Save capture form draft',
-			'summary' => 'Validates and saves one active DB-authored capture form draft version.',
-			'request' => [
-				'method' => 'POST',
-				'params' => [
-					0 => [
-						'name' => 'definition_slug',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => true,
-						'description' => 'Capture definition slug.',
-					],
-					1 => [
-						'name' => 'descriptor_json',
-						'source' => 'body',
-						'type' => 'json-object',
-						'required' => true,
-						'description' => 'Capture descriptor JSON.',
-					],
-					2 => [
-						'name' => 'base_server_hash',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => false,
-						'description' => 'Hash of the server state the editor loaded.',
-					],
-					3 => [
-						'name' => 'overwrite',
-						'source' => 'body',
-						'type' => 'bool',
-						'required' => false,
-						'description' => 'Explicit conflict override flag.',
-					],
-					4 => [
-						'name' => 'csrf_token',
-						'source' => 'body',
-						'type' => 'string',
-						'required' => true,
-						'description' => 'Session-bound builder CSRF token.',
-					],
-				],
-			],
-			'response' => [
-				'kind' => 'json',
-				'content_type' => 'application/json',
-			],
-			'authorization' => [
-				'visibility' => 'role:content_admin',
-			],
-			'side_effects' => [
-				0 => 'Abandons previous active draft rows and saves one active draft row.',
-			],
-			'class' => 'EventFormBuilderSaveDraft',
-			'slug' => 'form_builder:save_draft',
-			'route' => [
-				'event_name' => 'form_builder.save_draft',
-				'context' => 'form_builder',
-				'event' => 'save_draft',
-				'query' => '?context=form_builder&event=save_draft',
-			],
-			'invocation' => [
-				'url_php' => 'Url::getUrl(\'form_builder.save_draft\')',
-				'template_helper' => 'event_url(\'form_builder.save_draft\')',
-				'ajax_helper' => 'ajax_url(\'form_builder.save_draft\')',
-				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.save_draft\')',
 			],
 			'notes' => [
 			],
@@ -754,6 +568,63 @@ return [
 				'template_helper' => 'event_url(\'form_builder.update_draft_note\')',
 				'ajax_helper' => 'ajax_url(\'form_builder.update_draft_note\')',
 				'ajax_helper_raw' => 'ajax_url_raw(\'form_builder.update_draft_note\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:canvas' => [
+			'event_name' => 'form_editor.canvas',
+			'group' => 'CMS Authoring',
+			'name' => 'Form editor canvas document',
+			'summary' => 'Renders the standalone editing canvas containing only the target capture form.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'radaptor_editor_iframe',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Editor iframe marker.',
+					],
+					2 => [
+						'name' => 'radaptor_editor_session',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Editing-session token.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'html',
+				'content_type' => 'text/html; charset=UTF-8',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventFormEditorCanvas',
+			'slug' => 'form_editor:canvas',
+			'route' => [
+				'event_name' => 'form_editor.canvas',
+				'context' => 'form_editor',
+				'event' => 'canvas',
+				'query' => '?context=form_editor&event=canvas',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.canvas\')',
+				'template_helper' => 'event_url(\'form_editor.canvas\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.canvas\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.canvas\')',
 			],
 			'notes' => [
 			],
@@ -946,6 +817,50 @@ return [
 			'notes' => [
 			],
 		],
+		'form_editor:redo' => [
+			'event_name' => 'form_editor.redo',
+			'group' => 'CMS Authoring',
+			'name' => 'Redo capture form edit',
+			'summary' => 'Advances the working capture form draft to the next server-side edit-history state.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'form_edit_history',
+						'source' => 'body',
+						'type' => 'base64-json',
+						'required' => true,
+						'description' => 'History action payload.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Replaces the active draft version with the next edit-history descriptor.',
+			],
+			'class' => 'EventFormEditorRedo',
+			'slug' => 'form_editor:redo',
+			'route' => [
+				'event_name' => 'form_editor.redo',
+				'context' => 'form_editor',
+				'event' => 'redo',
+				'query' => '?context=form_editor&event=redo',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.redo\')',
+				'template_helper' => 'event_url(\'form_editor.redo\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.redo\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.redo\')',
+			],
+			'notes' => [
+			],
+		],
 		'form_editor:remove_field' => [
 			'event_name' => 'form_editor.remove_field',
 			'group' => 'CMS Authoring',
@@ -1014,6 +929,145 @@ return [
 				'template_helper' => 'event_url(\'form_editor.remove_field\')',
 				'ajax_helper' => 'ajax_url(\'form_editor.remove_field\')',
 				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.remove_field\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:restore_version' => [
+			'event_name' => 'form_editor.restore_version',
+			'group' => 'CMS Authoring',
+			'name' => 'Restore capture form version',
+			'summary' => 'Replaces the working capture form draft with a stored version descriptor.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'form_edit_restore',
+						'source' => 'body',
+						'type' => 'base64-json',
+						'required' => true,
+						'description' => 'Restore payload with the target version id.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Replaces the active draft version with the stored version descriptor.',
+				1 => 'Records the restore in the editing session history, so it is undoable.',
+			],
+			'class' => 'EventFormEditorRestoreVersion',
+			'slug' => 'form_editor:restore_version',
+			'route' => [
+				'event_name' => 'form_editor.restore_version',
+				'context' => 'form_editor',
+				'event' => 'restore_version',
+				'query' => '?context=form_editor&event=restore_version',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.restore_version\')',
+				'template_helper' => 'event_url(\'form_editor.restore_version\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.restore_version\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.restore_version\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:state' => [
+			'event_name' => 'form_editor.state',
+			'group' => 'CMS Authoring',
+			'name' => 'Capture form editor panel state',
+			'summary' => 'Returns the recent versions, page usage, and session undo reach for the unified form editor panel.',
+			'request' => [
+				'method' => 'GET',
+				'params' => [
+					0 => [
+						'name' => 'definition_slug',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => true,
+						'description' => 'Capture definition slug.',
+					],
+					1 => [
+						'name' => 'radaptor_editor_session',
+						'source' => 'query',
+						'type' => 'string',
+						'required' => false,
+						'description' => 'Editing-session token for undo/redo reach.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'api-json',
+				'content_type' => 'application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+			],
+			'class' => 'EventFormEditorState',
+			'slug' => 'form_editor:state',
+			'route' => [
+				'event_name' => 'form_editor.state',
+				'context' => 'form_editor',
+				'event' => 'state',
+				'query' => '?context=form_editor&event=state',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.state\')',
+				'template_helper' => 'event_url(\'form_editor.state\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.state\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.state\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:undo' => [
+			'event_name' => 'form_editor.undo',
+			'group' => 'CMS Authoring',
+			'name' => 'Undo capture form edit',
+			'summary' => 'Reverts the working capture form draft to the previous server-side edit-history state.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'form_edit_history',
+						'source' => 'body',
+						'type' => 'base64-json',
+						'required' => true,
+						'description' => 'History action payload.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Replaces the active draft version with the previous edit-history descriptor.',
+			],
+			'class' => 'EventFormEditorUndo',
+			'slug' => 'form_editor:undo',
+			'route' => [
+				'event_name' => 'form_editor.undo',
+				'context' => 'form_editor',
+				'event' => 'undo',
+				'query' => '?context=form_editor&event=undo',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.undo\')',
+				'template_helper' => 'event_url(\'form_editor.undo\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.undo\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.undo\')',
 			],
 			'notes' => [
 			],
@@ -1114,6 +1168,50 @@ return [
 				'template_helper' => 'event_url(\'form_editor.update_field\')',
 				'ajax_helper' => 'ajax_url(\'form_editor.update_field\')',
 				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.update_field\')',
+			],
+			'notes' => [
+			],
+		],
+		'form_editor:update_form' => [
+			'event_name' => 'form_editor.update_form',
+			'group' => 'CMS Authoring',
+			'name' => 'Update capture form properties',
+			'summary' => 'Updates the capture form draft title, description, or submit label from the unified form editor.',
+			'request' => [
+				'method' => 'POST',
+				'params' => [
+					0 => [
+						'name' => 'form_edit_update_form',
+						'source' => 'body',
+						'type' => 'base64-json',
+						'required' => true,
+						'description' => 'Form property payload.',
+					],
+				],
+			],
+			'response' => [
+				'kind' => 'redirect|api-json',
+				'content_type' => 'text/html or application/json',
+			],
+			'authorization' => [
+				'visibility' => 'role:content_admin',
+			],
+			'side_effects' => [
+				0 => 'Creates or replaces the active draft version without publishing it.',
+			],
+			'class' => 'EventFormEditorUpdateForm',
+			'slug' => 'form_editor:update_form',
+			'route' => [
+				'event_name' => 'form_editor.update_form',
+				'context' => 'form_editor',
+				'event' => 'update_form',
+				'query' => '?context=form_editor&event=update_form',
+			],
+			'invocation' => [
+				'url_php' => 'Url::getUrl(\'form_editor.update_form\')',
+				'template_helper' => 'event_url(\'form_editor.update_form\')',
+				'ajax_helper' => 'ajax_url(\'form_editor.update_form\')',
+				'ajax_helper_raw' => 'ajax_url_raw(\'form_editor.update_form\')',
 			],
 			'notes' => [
 			],

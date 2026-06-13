@@ -333,4 +333,19 @@ return [
 		'module' => 'core:cms',
 		'name' => '20260530_143000_harden_capture_form_hooks.php',
 	],
+	// core:cms / 20260612_210000_form_editor_undo_history.php
+	'b2c9f38ed6fca778e705668d9f9c2e09' => [
+		'module' => 'core:cms',
+		'name' => '20260612_210000_form_editor_undo_history.php',
+	],
+	// core:cms / 20260613_080000_form_editor_session_history.php
+	'7adbe402a3a4038e079549ae51d22239' => [
+		'module' => 'core:cms',
+		'name' => '20260613_080000_form_editor_session_history.php',
+	],
+	// core:cms / 20260613_120000_form_editor_history_version_link.php
+	'86bfeebe2ce42132e117dd5f063fe6c2' => [
+		'module' => 'core:cms',
+		'name' => '20260613_120000_form_editor_history_version_link.php',
+	],
 ];
