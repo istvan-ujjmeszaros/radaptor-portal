@@ -85,9 +85,14 @@ the package-dev runtime:
   origin/main` on the PR branch and post findings or an explicit no-findings result on the PR for
   the current HEAD. The worker streams no output until it finishes and can take 20–40+ minutes, so run it with a long timeout and never kill it early; the `--dangerously-bypass-approvals-and-sandbox` flag is required or it blocks on an approval prompt and produces nothing. A GitHub `@codex review` comment is an optional extra signal when quota
   allows; `claudee` only on maintainer request.
+- One reused Codex session per review cycle: the first pass is the `exec review` above; for re-reviews
+  after fixing findings, resume that same session instead of a fresh review —
+  `codex --dangerously-bypass-approvals-and-sandbox exec resume --last "<new commits address findings X/Y; re-review HEAD>"`
+  (or `exec resume <session_id> "…"`). Resume is cwd-filtered, so run it from the same repo; reusing
+  the session keeps the reviewer's prior context cached (faster, cheaper, remembers what it flagged).
 - If a review pass posts actionable findings, fix them, validate, push, re-read thread-aware
-  review state, resolve only addressed threads, and run another fresh local Codex review pass.
-  Repeat until the current HEAD has an explicit no-findings result posted on the PR.
+  review state, resolve only addressed threads, and resume the same Codex session (`exec resume`) for
+  the next pass. Repeat until the current HEAD has an explicit no-findings result posted on the PR.
 - Never resolve review threads just to clear the list. Re-check unresolved count before merging or
   publishing.
 - After publishing a first-party package, update dependent consumer lockfiles in separate commits.
